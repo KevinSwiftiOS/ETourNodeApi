@@ -1,0 +1,15 @@
+[2019-01-25T10:30:57.745][ERROR  12500  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：TypeError: num_region_res.push is not a function
+[2019-01-25T10:31:01.133][ERROR  12500  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：TypeError: num_region_res.push is not a function
+[2019-01-25T10:31:01.150][ERROR  12500  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：TypeError: num_region_res.push is not a function
+[2019-01-25T10:34:55.302][ERROR  10640  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：ReferenceError: hotel is not defined
+[2019-01-25T20:58:53.992][ERROR  21056  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: FieldPath 'shop_rate' doesn't start with $
+[2019-01-25T20:59:38.071][ERROR  21056  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: FieldPath 'shop_rate' doesn't start with $
+[2019-01-25T20:59:56.585][ERROR  21056  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: FieldPath 'shop_rate' doesn't start with $
+[2019-01-25T21:00:46.805][ERROR  21056  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: FieldPath 'shop_rate' doesn't start with $
+[2019-01-25T21:03:34.201][ERROR  21056  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: FieldPath 'shop_rate' doesn't start with $
+[2019-01-25T21:03:56.336][ERROR  21056  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: FieldPath 'shop_rate' doesn't start with $
+[2019-01-25T21:04:29.292][ERROR  21056  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: FieldPath 'shop_rate' doesn't start with $
+[2019-01-25T21:15:08.364][ERROR  22392  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: the operator must be the only field in a pipeline object (at '$name'
+[2019-01-25T21:15:37.009][ERROR  22392  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: the operator must be the only field in a pipeline object (at '$name'
+[2019-01-25T21:18:18.177][ERROR  22392  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: the operator must be the only field in a pipeline object (at '$name'
+[2019-01-25T21:27:46.975][ERROR  22392  index] 酒店详情接口：spotdetailcompared 错误：MongoError: exception: the operator must be the only field in a pipeline object (at '$name'

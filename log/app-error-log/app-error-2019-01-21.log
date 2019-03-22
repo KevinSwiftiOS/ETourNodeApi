@@ -1,0 +1,3 @@
+[2019-01-21T13:50:48.407][ERROR  7796  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：ReferenceError: Comment is not defined
+[2019-01-21T13:57:27.214][ERROR  10340  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：ReferenceError: Comment is not defined
+[2019-01-21T13:58:30.855][ERROR  6900  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：ReferenceError: hotel_dic is not defined

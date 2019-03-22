@@ -1,0 +1,37 @@
+[2019-03-14T09:43:21.227][ERROR  8480  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-03-14T10:54:07.307][ERROR  820  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:54:07.331][ERROR  820  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:54:07.342][ERROR  820  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:54:07.344][ERROR  820  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:54:07.345][ERROR  820  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:55:50.324][ERROR  2976  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:55:50.340][ERROR  2976  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:55:50.350][ERROR  2976  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:55:50.353][ERROR  2976  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:55:50.356][ERROR  2976  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:57:30.520][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:57:30.534][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:57:30.537][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:57:30.538][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:57:30.540][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:58:32.254][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:58:32.259][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:58:32.260][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:58:32.261][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:58:32.271][ERROR  10216  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:53.404][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:53.430][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:53.458][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:53.469][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:53.489][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:58.837][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:58.844][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:58.846][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:58.847][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T10:59:58.848][ERROR  6844  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T11:00:15.546][ERROR  5616  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T11:00:15.564][ERROR  5616  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T11:00:15.616][ERROR  5616  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T11:00:15.659][ERROR  5616  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T11:00:15.695][ERROR  5616  index] 评论分析  接口：comment_analyze 错误：ReferenceError: HotelComment is not defined
+[2019-03-14T18:55:52.784][ERROR  9836  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: not authorized on dspider2 to execute command { aggregate: "hotel_comment", pipeline: [ { $match: { shop_show_name: "千岛湖绿城度假酒店" } }, { $group: { _id: "$data_website", comment_num: { $sum: 1 } } }, { $project: { data_website: "$_id", _id: 0, comment_num: 1 } } ], cursor: {} }

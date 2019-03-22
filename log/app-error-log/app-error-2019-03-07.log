@@ -1,0 +1,7 @@
+[2019-03-07T09:10:55.454][ERROR  9088  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-03-07T09:13:20.364][ERROR  5344  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-03-07T09:15:13.679][ERROR  6132  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-03-07T09:15:32.865][ERROR  8700  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-03-07T09:17:13.600][ERROR  6300  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-03-07T09:18:03.915][ERROR  2888  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-03-07T09:43:50.992][ERROR  10272  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative

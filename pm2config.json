@@ -1,0 +1,30 @@
+{
+  apps: [
+    {
+      //general
+      "name": "node-web",
+      "script": "bin/www",
+      //启动执行的初始脚本
+
+      //advanced
+      "watch": [
+        "routes"
+      ],
+      //监听文件变化
+      "ignore_watch": [
+        "node_modules",
+        "public"
+      ],
+      //忽略监听的文件夹
+      "max_memory_restart": "800M",
+      //内存达到多少会自动restart
+      "env": {
+        "COMMON_VARIABLE": "true"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+
+    }
+  ]
+}

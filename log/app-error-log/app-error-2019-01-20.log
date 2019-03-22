@@ -1,0 +1,15 @@
+[2019-01-20T14:10:29.418][ERROR  10816  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：TypeError: Cannot read property 'name' of undefined
+[2019-01-20T16:19:23.185][ERROR  9380  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-01-20T16:30:36.661][ERROR  14584  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative
+[2019-01-20T17:07:03.750][ERROR  3412  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：ReferenceError: num_axis is not defined
+[2019-01-20T17:16:07.125][ERROR  6268  index] 千岛湖酒店单周或单月查询出错：hoteldetail 错误：ReferenceError: num_axis is not defined
+[2019-01-20T17:27:26.765][ERROR  6156  index] 千岛湖酒店单周或单月查询出错：hoteldetail 错误：ReferenceError: num_axis is not defined
+[2019-01-20T17:27:29.745][ERROR  6156  index] 千岛湖酒店单周或单月查询出错：hoteldetail 错误：ReferenceError: num_axis is not defined
+[2019-01-20T19:01:06.787][ERROR  6156  index] 千岛湖酒店单周或单月查询出错：hoteldetail 错误：ReferenceError: num_axis is not defined
+[2019-01-20T20:14:18.389][ERROR  5200  index] 千岛湖酒店单周或单月查询出错：hoteldetail 错误：ReferenceError: Comment is not defined
+[2019-01-20T20:17:54.800][ERROR  13332  index] 千岛湖酒店单周或单月查询出错：hoteldetail 错误：ReferenceError: Comment is not defined
+[2019-01-20T20:20:20.672][ERROR  13656  index] 千岛湖酒店单周或单月查询出错：hoteldetail 错误：ReferenceError: Comment is not defined
+[2019-01-20T20:21:27.557][ERROR  5308  index] 千岛湖酒店单周或单月查询出错：hoteldetail 错误：ReferenceError: Comment is not defined
+[2019-01-20T21:27:26.735][ERROR  9492  index] 千岛湖景点单周或单月查询出错 接口：spotdetail 错误：ReferenceError: consoel is not defined
+[2019-01-20T21:28:27.473][ERROR  14616  index] 千岛湖酒店单周或单月查询出错 接口：spotdetail 错误：ReferenceError: consoel is not defined
+[2019-01-20T21:48:00.773][ERROR  19772  index] 千岛湖酒店单周或单月查询出错 最外层 接口：hoteldetail 错误：ReferenceError: result is not defined

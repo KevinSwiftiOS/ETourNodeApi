@@ -1,0 +1,2 @@
+[2019-03-12T11:47:21.946][ERROR  11232  index] 查询有特征词的评论失败MongoError: exception: $where is not allowed inside of a $match aggregation expression
+[2019-03-12T13:20:27.076][ERROR  9820  index] 查询有特征词的评论失败CastError: Cast to string failed for value "{ reg1: /位置/, reg2: /.{70}/ }" at path "comment_content" for model "HotelComment"

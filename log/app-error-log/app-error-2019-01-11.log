@@ -1,0 +1,1 @@
+[2019-01-11T10:59:04.477][ERROR  16764  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: FieldPath 'commentScore' doesn't start with $

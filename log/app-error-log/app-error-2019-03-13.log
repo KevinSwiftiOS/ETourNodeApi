@@ -1,0 +1,6 @@
+[2019-03-13T16:01:54.725][ERROR  2228  index] 查询有特征词的评论失败MongoError: exception: the match filter must be an expression in an object
+[2019-03-13T16:01:56.288][ERROR  2228  index] 查询有特征词的评论失败MongoError: exception: the match filter must be an expression in an object
+[2019-03-13T16:01:56.917][ERROR  2228  index] 查询有特征词的评论失败MongoError: exception: the match filter must be an expression in an object
+[2019-03-13T16:02:11.518][ERROR  676  index] 查询有特征词的评论失败MongoError: exception: the match filter must be an expression in an object
+[2019-03-13T22:44:04.856][ERROR  2460  index] 查询有特征词的评论失败MongoError: exception: the match filter must be an expression in an object
+[2019-03-13T22:44:04.862][ERROR  2460  index] 查询有特征词的评论失败MongoError: exception: the match filter must be an expression in an object

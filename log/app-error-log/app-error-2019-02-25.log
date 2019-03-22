@@ -1,0 +1,2 @@
+[2019-02-25T22:44:12.130][ERROR  1044  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: FieldPath 'commentScore' doesn't start with $
+[2019-02-25T22:46:13.712][ERROR  12172  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: FieldPath 'commentScore' doesn't start with $

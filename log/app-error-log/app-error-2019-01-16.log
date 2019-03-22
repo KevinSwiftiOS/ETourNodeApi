@@ -1,0 +1,1 @@
+[2019-01-16T15:16:43.500][ERROR  10172  index] 千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：MongoError: exception: $skip:  the number to skip cannot be negative

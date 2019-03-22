@@ -1,0 +1,7 @@
+[2018-11-08T21:14:23.379][ERROR  422112  index] 景区比较发生错误 接口：spotcompared 错误：MongoError: Topology was destroyed
+[2018-11-08T21:14:23.547][ERROR  422112  index] 景区比较发生错误 接口：spotcompared 错误：MongoError: Topology was destroyed
+[2018-11-08T21:14:23.568][ERROR  422112  index] 景区比较发生错误 接口：spotcompared 错误：MongoError: Topology was destroyed
+[2018-11-08T21:14:23.570][ERROR  422112  index] 景区比较发生错误 接口：spotcompared 错误：MongoError: Topology was destroyed
+[2018-11-08T21:19:37.985][ERROR  422112  index] 用户信息查询失败 接口为LoginMongoError: Topology was destroyed
+[2018-11-08T21:19:55.618][ERROR  422112  index] 用户信息查询失败 接口为LoginMongoError: Topology was destroyed
+[2018-11-08T21:20:01.058][ERROR  422112  index] 用户信息查询失败 接口为LoginMongoError: Topology was destroyed

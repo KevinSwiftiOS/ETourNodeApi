@@ -1,0 +1,8 @@
+[2019-02-23T19:57:11.929][ERROR  22148  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：TypeError: Cannot read property 'length' of undefined
+[2019-02-23T19:57:11.959][ERROR  22148  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：TypeError: Cannot read property 'length' of undefined
+[2019-02-23T20:02:19.488][ERROR  21416  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：TypeError: Cannot read property 'length' of undefined
+[2019-02-23T20:02:19.509][ERROR  21416  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：TypeError: Cannot read property 'length' of undefined
+[2019-02-23T20:02:32.587][ERROR  21416  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：TypeError: Cannot read property 'length' of undefined
+[2019-02-23T20:02:32.639][ERROR  21416  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：TypeError: Cannot read property 'length' of undefined
+[2019-02-23T20:03:30.129][ERROR  21416  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：TypeError: Cannot read property 'length' of undefined
+[2019-02-23T20:03:30.154][ERROR  21416  index] 景区详情比较发生错误 接口：spotdetailcompared 错误：TypeError: Cannot read property 'length' of undefined
