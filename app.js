@@ -55,6 +55,7 @@ var spotRank = require('./routes/HomePage/SpotRank'); //景区排行
 var QdhSpotComNumChangeRouter = require('./routes/HomePage/QdhSpotComNumChange'); // 景点
 var QdhHotelComScorePieRouter = require('./routes/HomePage/QdhHotelComScorePie');	// 酒店 评分分布饼图
 var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/QdhHotelComScoreLimitTen');	// 酒店评分前十名
+var spotRank1 = require('./routes/HomePage/SpotRank'); //景区排行
 //qdhhoteltmapnumshow
 //日志文件的配置
 var log4js = require('log4js');
