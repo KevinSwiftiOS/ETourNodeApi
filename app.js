@@ -52,16 +52,16 @@ var AreaScore = require("./routes/shoparea/AreaScore");
 var RestaurantList = require('./routes/restaurant/RestaurantList');
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
 
-var myShowRouter = require('./routes/myShow')   // 万能路由
-var QdhCommentTotalRouter = require('./routes/HomePage/QdhCommentTotal');//千岛湖评论变化路由
-var SpotRankRouter = require('./routes/HomePage/SpotRank'); //千岛湖景点季度变化和景区季度变化条数
-
+var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
+
+var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排行
+
 //qdhhoteltmapnumshow
 //日志文件的配置
 var log4js = require('log4js');
 log4js.configure('log4j.json');
-
+console.log(12345);
 app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'trace' }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -128,10 +128,10 @@ app.use('/api/restaurants', RestaurantList);
 app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
-app.use("/api/qdhcommenttotal",QdhCommentTotalRouter);
-app.use("/api/spotrank",SpotRankRouter);
 
-
+app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
+// app.use('/api/homepage/restaurantColum', restaurantRank);  // 餐饮柱状图
+// app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
