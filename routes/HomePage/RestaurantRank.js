@@ -93,27 +93,15 @@ router.post('/badColum', async (req, res) => {
             }
         }
     ])
-    // var xAxis = await comments.aggregate([
-    //     {
-    //         $match: {
-    //             "comment_month": {
-    //                 $gte: start_time,
-    //                 $lte: end_time
-    //             }
-    //         }
-    //     },
-    //     {
-    //         $project: {
-    //             "_id": 0,
-    //             "comment_month": 1
-    //         }
-    //     }
-    // ])
+    var xAxis = [];
+    for (var i = 0; i < 13; i++) {
+        xAxis.push(restaurantBadCommentNumber[i]._id);
+    }
     res.send({
         code: 0,
         message: "",
         data: restaurantBadCommentNumber,
-        // Xtime: xAxis
+        Xtime: xAxis
     })
 })
 
