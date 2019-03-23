@@ -56,6 +56,10 @@ var shoplocation = require('./routes/shoplocation'); //餐饮地图
 
 var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
+<<<<<<< HEAD
+=======
+console.log(2233);
+>>>>>>> ckq
 var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排行
 var qdhSpotCommentTotal = require('./routes/HomePage/QdhCommentTotal'); //千岛湖同环比
 var spotRank = require('./routes/HomePage/SpotRank'); //景区排行
