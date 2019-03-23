@@ -14,7 +14,6 @@ var fs = require('fs');
 process.env.TZ = 'Asia/Shanghai';
 //加载路由
 var loginRouter = require('./routes/Login'); //登录
-
 var spotListRouter = require('./routes/SpotList'); //景区列表
 var spotComparedRouter = require('./routes/SpotCompared');//景区之间比较
 var getUserRouter = require('./routes/GetUser');//获取用户信息
@@ -28,7 +27,6 @@ var spotStateRouter = require('./routes/SpotSdate'); //景区详情 排名情况
 var qdhSpotStateRouter = require('./routes/QdhSpotState'); //千岛湖景点详情 排名情况等
 var qdhSpotDetailRouter = require('./routes/QdhSpotDetail');//千岛湖景点详情 图表使用
 var qdhSpotDetailComparedRouter = require('./routes/QdhSpotDetailCompared'); //千岛湖景点详情下的平台比较
-
 var qdhHotelListRouter = require('./routes/QdhHotelList')// 千岛湖酒店信息获取
 var qdhHotelCommentNumSortRouter = require('./routes/QdhHotelCommentNumSort')// 千岛湖酒店评论数量排序
 var qdhHotelGradeSortRouter = require('./routes/QdhHotelGradeSort')// 千岛湖酒店评分排序
@@ -134,10 +132,10 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
 module.exports = app;
 console.log(1);
+console.log(2);
