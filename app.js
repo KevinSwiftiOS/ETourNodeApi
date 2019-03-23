@@ -44,22 +44,13 @@ var QdhHotelTMapCNumRouter = require('./routes/QdhHotelTMapCNumShow') // 千岛�
 var QdhHotelTagWordRouter = require('./routes/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
 var QdhHotelTagSumRouter = require('./routes/QdhHotelComTagSum');
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
-
-
 var RestaurantStatistic = require('./routes/restaurant/RestaurantStatistic');
-
-
 var AreaComment = require('./routes/shoparea/AreaComment');
 var AreaScore = require("./routes/shoparea/AreaScore");
 var RestaurantList = require('./routes/restaurant/RestaurantList');
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
-
 var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
-<<<<<<< HEAD
-=======
-console.log(2233);
->>>>>>> ckq
 var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排行
 var qdhSpotCommentTotal = require('./routes/HomePage/QdhCommentTotal'); //千岛湖同环比
 var spotRank = require('./routes/HomePage/SpotRank'); //景区排行
@@ -74,7 +65,6 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //设置跨域访问
@@ -124,28 +114,22 @@ app.use('/api/spotstate',spotStateRouter);
 app.use('/api/qdhspotstate',qdhSpotStateRouter);
 app.use('/api/qdhspotdetail',qdhSpotDetailRouter);
 app.use('/api/qdhspotdetailcompard',qdhSpotDetailComparedRouter);
-
 app.use('/api/testapi',testApiRouter);
 app.use('/api/myshow', myShowRouter);
-
 app.use('/api/restaurant/statistic', RestaurantStatistic);
 app.use('/api/restaurants', RestaurantList);
 app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
-
 app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
 app.use('/api/homepage/spotrank', spotRank);  // 景区排行
 app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 景区排行
-
 // app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 // error handler0
-
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -156,3 +140,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 module.exports = app;
+console.log(1);
