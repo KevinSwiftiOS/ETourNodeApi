@@ -52,6 +52,7 @@ var app = express();
 var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排行
 var qdhSpotCommentTotal = require('./routes/HomePage/QdhCommentTotal'); //千岛湖同环比
 var spotRank = require('./routes/HomePage/SpotRank'); //景区排行
+var spotRank1 = require('./routes/HomePage/SpotRank'); //景区排行
 //qdhhoteltmapnumshow
 //日志文件的配置
 var log4js = require('log4js');
