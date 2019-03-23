@@ -55,6 +55,7 @@ var RestaurantList = require('./routes/restaurant/RestaurantList');
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
 
 var myShowRouter = require('./routes/myShow');   // 万能路由
+var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
 
 var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排行
