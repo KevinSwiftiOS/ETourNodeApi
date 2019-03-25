@@ -106,6 +106,7 @@ router.post('/', function (req, res, next) {
                 data['isHuanScoreRise'] = 0;
             }
             data['huanChangeScore'] = (Math.abs(res_1['commentScore'] - res_2['commentScore'])).toFixed(2);
+            data['huanChangeScorePercent'] = (((Math.abs(res_1['commentScore'] - res_2['commentScore'])) /  res_2['commentScore'] * 100).toFixed(2)).toString() + "%" ;
 
 
             if(res_1['commentScore'] > res_3['commentScore']){
@@ -114,6 +115,7 @@ router.post('/', function (req, res, next) {
                 data['isTongScoreRise'] = 0;
             }
             data['tongChangeScore'] = (Math.abs(res_1['commentScore'] - res_3['commentScore'])).toFixed(2);
+            data['tongChangeScorePercent'] = (((Math.abs(res_1['commentScore'] - res_3['commentScore'])) /  res_3['commentScore'] * 100).toFixed(2)).toString() + "%" ;
           res.send({
               "code":0,
                "data":data,
