@@ -79,9 +79,9 @@ router.post('/', function (req, res, next) {
             data['nowMonthCommentNumber'] = res_1['commentNumber'];
             //环比分析
             if(res_1['commentNumber'] > res_2['commentNumber']){
-                data['isHuanNumberRise'] = true;
+                data['isHuanNumberRise'] = 1;
             }else{
-                data['isHuanNumberRise'] = false;
+                data['isHuanNumberRise'] = 0;
             }
             data['huanChangeNumber'] = Math.abs(res_1['commentNumber'] - res_2['commentNumber']);
             data['huanChangeNumberPercent'] = (((Math.abs(res_1['commentNumber'] - res_2['commentNumber'])) /  res_2['commentNumber'] * 100).toFixed(2)).toString() + "%" ;
@@ -90,9 +90,9 @@ router.post('/', function (req, res, next) {
 
 
             if(res_1['commentNumber'] > res_3['commentNumber']){
-                data['isTongNumberRise'] = true;
+                data['isTongNumberRise'] = 1;
             }else{
-                data['isTongNumberRise'] = false;
+                data['isTongNumberRise'] = 0;
             }
             data['tongChangeNumber'] = Math.abs(res_1['commentNumber'] - res_3['commentNumber']);
             data['tongChangeNumberPercent'] = (((Math.abs(res_1['commentNumber'] - res_3['commentNumber'])) /  res_3['commentNumber'] * 100).toFixed(2)).toString() + "%" ;
@@ -101,17 +101,17 @@ router.post('/', function (req, res, next) {
             data['nowMonthCommentScore'] = (res_1['commentScore']).toFixed(2);
 
             if(res_1['commentScore'] > res_2['commentScore']){
-                data['isHuanScoreRise'] = true;
+                data['isHuanScoreRise'] = 1;
             }else{
-                data['isHuanScoreRise'] = false;
+                data['isHuanScoreRise'] = 0;
             }
             data['huanChangeScore'] = (Math.abs(res_1['commentScore'] - res_2['commentScore'])).toFixed(2);
 
 
             if(res_1['commentScore'] > res_3['commentScore']){
-                data['isTongScoreRise'] = true;
+                data['isTongScoreRise'] = 1;
             }else{
-                data['isTongScoreRise'] = false;
+                data['isTongScoreRise'] = 0;
             }
             data['tongChangeScore'] = (Math.abs(res_1['commentScore'] - res_3['commentScore'])).toFixed(2);
           res.send({
