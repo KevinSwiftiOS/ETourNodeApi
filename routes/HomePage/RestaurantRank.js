@@ -28,12 +28,10 @@ if (nowMonth < 4) {
 router.post('/rank', async (req, res) => {
     // 查询数据库，返回前TOP10的评论数最多的餐饮
 
-<<<<<<< HEAD
-    var restaurantRankList = await comments.aggregate([{
-=======
+
     var restaurantRankList = await comments.aggregate([
         {
->>>>>>> 13f534fb04e654a142a6f3f3c7697783c18540a8
+
             $match: {
                 "comment_season": selectSeason
             }
@@ -107,11 +105,10 @@ router.post('/badColum', async (req, res) => {
     ])
     var xAxis = [];
     console.log(restaurantBadCommentNumber);
-<<<<<<< HEAD
-    for (var i = 0; i < 13; i++) {
-=======
+
+
     for(var i = 0; i < 13; i++){
->>>>>>> 13f534fb04e654a142a6f3f3c7697783c18540a8
+
         xAxis.push(restaurantBadCommentNumber[i]._id);
     }
     console.log(xAxis);
@@ -124,24 +121,7 @@ router.post('/badColum', async (req, res) => {
 })
 
 router.post('/piechart', async (req, res) => {
-<<<<<<< HEAD
-    var badScore = await ourScore.aggregate([{
-            $match: {
-                "our_score": {
-                    $gt: '0',
-                    $lte: '3'
-                }
-            }
-        },
-        {
-            $group: {
-                _id: 'null',
-                count: {
-                    $sum: 1
-                }
-            }
-        }
-=======
+
     var badScore = await ourScore.aggregate([
         {$match: {
                 "our_score":{
@@ -155,7 +135,7 @@ router.post('/piechart', async (req, res) => {
                     $sum: 1
                 }
             }}
->>>>>>> 13f534fb04e654a142a6f3f3c7697783c18540a8
+
     ]);
     var middleScore = await ourScore.aggregate([{
         $match: {
@@ -208,12 +188,7 @@ router.post('/piechart', async (req, res) => {
             }
         }
     ]);
-<<<<<<< HEAD
-    res.send({
-        code: 0,
-        message: "",
-        data: [{
-=======
+
 
     // var total = badScore[0].count + middleScore[0].count + goodScore[0].count + preScore[0].count;
 
@@ -227,7 +202,7 @@ router.post('/piechart', async (req, res) => {
         message: "",
         data: [
             {
->>>>>>> 13f534fb04e654a142a6f3f3c7697783c18540a8
+
                 name: "bad",
                 count: badScore[0].count
             },
