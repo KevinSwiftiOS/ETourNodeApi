@@ -121,8 +121,8 @@ app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
 app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
-app.use('/api/homepage/spotrank', spotRank);  // 景区排行
-app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 景区排行
+app.use('/api/homepage/spotrank', spotRank);  // 景区排行和千岛湖景点排行
+app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 千岛湖同环比分析
 // app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

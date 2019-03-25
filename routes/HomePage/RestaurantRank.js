@@ -27,8 +27,8 @@ if (nowMonth < 4) {
 
 router.post('/rank', async (req, res) => {
     // 查询数据库，返回前TOP10的评论数最多的餐饮
-                
-var restaurantRankList = await comments.aggregate([
+
+    var restaurantRankList = await comments.aggregate([
         {
             $match: {
                 "comment_season": selectSeason
@@ -82,9 +82,9 @@ router.post('/badColum', async (req, res) => {
         {
             $group:{
                 _id: "$comment_month",
-            totalNumber: {
-                $sum: 1
-            }
+                totalNumber: {
+                    $sum: 1
+                }
             }
         },
         {
@@ -93,53 +93,43 @@ router.post('/badColum', async (req, res) => {
             }
         }
     ])
-    // var xAxis = await comments.aggregate([
-    //     {
-    //         $match: {
-    //             "comment_month": {
-    //                 $gte: start_time,
-    //                 $lte: end_time
-    //             }
-    //         }
-    //     },
-    //     {
-    //         $project: {
-    //             "_id": 0,
-    //             "comment_month": 1
-    //         }
-    //     }
-    // ])
+    var xAxis = [];
+    console.log(restaurantBadCommentNumber);
+    for(var i = 0; i < 13; i++){
+        xAxis.push(restaurantBadCommentNumber[i]._id);
+    }
+    console.log(xAxis);
     res.send({
         code: 0,
         message: "",
         data: restaurantBadCommentNumber,
-        // Xtime: xAxis
+        Xtime: xAxis
     })
 })
 
 router.post('/piechart', async (req, res) => {
     var badScore = await ourScore.aggregate([
         {$match: {
-            "our_score":{
-                $gt: '0',
-                $lte: '3'
-            }
-        }},
+                "our_score":{
+                    $gt: '0',
+                    $lte: '3'
+                }
+            }},
         {$group:{
-            _id: 'null',
-            count:{
-                $sum: 1
-            }
-        }}
+                _id: 'null',
+                count:{
+                    $sum: 1
+                }
+            }}
     ]);
     var middleScore = await ourScore.aggregate([{
-            $match: {
-                "our_score": {
-                    $gt: '3',
-                    $lte: '4'
-                }
+        $match: {
+            "our_score": {
+                $gt: '3',
+                $lte: '4'
             }
-        },
+        }
+    },
         {
             $group: {
                 _id: 'null',
@@ -150,13 +140,13 @@ router.post('/piechart', async (req, res) => {
         }
     ]);
     var goodScore = await ourScore.aggregate([{
-            $match: {
-                "our_score": {
-                    $gt: '4',
-                    $lte: '4.5'
-                }
+        $match: {
+            "our_score": {
+                $gt: '4',
+                $lte: '4.5'
             }
-        },
+        }
+    },
         {
             $group: {
                 _id: 'null',
@@ -167,13 +157,13 @@ router.post('/piechart', async (req, res) => {
         }
     ]);
     var preScore = await ourScore.aggregate([{
-            $match: {
-                "our_score": {
-                    $gte: '4.5',
-                    $lte: '5'
-                }
+        $match: {
+            "our_score": {
+                $gte: '4.5',
+                $lte: '5'
             }
-        },
+        }
+    },
         {
             $group: {
                 _id: 'null',
@@ -184,17 +174,34 @@ router.post('/piechart', async (req, res) => {
         }
     ]);
 
-    var total = badScore[0].count + middleScore[0].count + goodScore[0].count + preScore[0].count;
+    // var total = badScore[0].count + middleScore[0].count + goodScore[0].count + preScore[0].count;
 
-    var bad = (badScore[0].count / total * 100).toFixed(2).toString() + '%';
-    var middle = (middleScore[0].count / total * 100).toFixed(2).toString() + "%";
-    var good = (goodScore[0].count / total * 100).toFixed(2).toString() + "%";
-    var perfect = (preScore[0].count / total * 100).toFixed(2).toString() + "%"
-    
+    // var bad = (badScore[0].count / total * 100).toFixed(2).toString() + '%';
+    // var middle = (middleScore[0].count / total * 100).toFixed(2).toString() + "%";
+    // var good = (goodScore[0].count / total * 100).toFixed(2).toString() + "%";
+    // var perfect = (preScore[0].count / total * 100).toFixed(2).toString() + "%"
+
     res.send({
         code: 0,
         message: "",
-        data: [bad,middle,good,perfect]
+        data: [
+            {
+                name: "bad",
+                count: badScore[0].count
+            },
+            {
+                name: "middle",
+                count: middleScore[0].count
+            },
+            {
+                name: "good",
+                count: goodScore[0].count
+            },
+            {
+                name: "perfect",
+                count: preScore[0].count
+            }
+        ]
     })
 })
 module.exports = router;
