@@ -35,7 +35,7 @@ router.post('/', function (req, res, next) {
             }
         },
         {$project: {"_id": 1, "commentNumber": "$comment_num", "commentScore": "$comment_weighted_grade"}},
-        {$sort: {commentScore: -1}},
+        {$sort: {commentNumber: -1}},
         {$limit: 10}
     ]).exec(function (err, result) {
         var data = {}
