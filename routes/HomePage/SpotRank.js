@@ -12,6 +12,7 @@ router.post('/', function (req, res, next) {
     var nowYear = date.getFullYear();
     var nowMonth = date.getMonth() + 1;
     var season = funcs.get_curr_season(nowMonth);
+    console.log(112233);
     var nowSeason = (nowYear).toString() + "-" + (funcs.PrefixInteger(season, 2)).toString();
    var promise_1 = new Promise(function (resolve, reject) {
 
