@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var fs = require('fs');
+const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
 //设置时区
 process.env.TZ = 'Asia/Shanghai';
 //加载路由
@@ -68,15 +69,17 @@ app.use(express.json());
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/static', express.static('public'));
 //设置跨域访问
 app.use(cors());
 //设置除了login接口 其余接口都需进行校验
 app.use(expressJwt({
     secret: "secret"//加密密钥，可换
 }).unless({
-    path: ["/api/login"]//添加不需要token的接口
+    path: ["/api/login","/static/"]//添加不需要token的接口
 }));
+app.use(express.static(pathToSwaggerUi));
 // 未携带token请求接口会出错，触发这个
 app.use(function(err, req, res, next) {
     if (err.name === "UnauthorizedError") {
@@ -87,6 +90,7 @@ app.use(function(err, req, res, next) {
        })
     }
 });
+app.use('/static/', express.static('public'));
 //注册路由
 app.use('/api/login',loginRouter);
 app.use('/api/spotlist',spotListRouter);

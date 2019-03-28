@@ -1,0 +1,74 @@
+"/api/login": {
+"post": {
+"tags": [
+"login"
+],
+"summary": "登录",
+"description": "",
+"operationId": "",
+"consumes": [
+"application/json"
+],
+"produces": [
+"application/json"
+],
+"parameters": [
+{
+"in": "body",
+"name": "body",
+"description": "",
+"required": true,
+"schema": {
+"type": "object",
+"properties": {
+"username": {
+"type": "string",
+"description": "用户姓名"
+},
+"password": {
+"type": "string",
+"description": "密码"
+}
+}
+}
+}
+],
+"responses": {
+"200": {
+"description": "返回成功",
+"schema": {
+"type": "object",
+"properties": {
+"data": {
+"type": "object",
+"properties": {
+"token": {
+"type": "string",
+"description": "返回的token"
+}
+}
+}
+}
+}
+}
+}
+}
+},
+"userStatus": {
+"type": "array",
+"items": {
+"properties": {
+"firstName": {
+"type": "string"
+},
+"lastName": {
+"type": "string",
+"description": "最后一个名字"
+},
+"username": {
+"type": "string"
+}
+}
+
+}
+}
