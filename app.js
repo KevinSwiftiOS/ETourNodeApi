@@ -57,7 +57,7 @@ var spotRank1 = require('./routes/HomePage/spot/SpotRank'); //景区排行
 var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
 var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关键指标
-
+var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景区热度变化图
 
 //qdhhoteltmapnumshow
 //日志文件的配置
@@ -135,6 +135,7 @@ app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 千岛湖
 app.use("/api/getdate",getDate);//获取当前是第几天
 app.use("/api/homepage/heatmap",heatMap);//千岛湖热力图
 app.use("/api/homepage/keyindicator",keyIndicator); //千岛湖关键指标
+app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变化图
 
 // app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
