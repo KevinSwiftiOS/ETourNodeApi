@@ -54,8 +54,8 @@ var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排�
 var qdhSpotCommentTotal = require('./routes/HomePage/QdhCommentTotal'); //千岛湖同环比
 
 var QdhSpotComNumChangeRouter = require('./routes/HomePage/QdhSpotComNumChange'); // 景点
-var QdhHotelComScorePieRouter = require('./routes/HomePage/QdhHotelComScorePie');	// 酒店 评分分布饼图
-var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/QdhHotelComScoreLimitTen');	// 酒店评分前十名
+var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/QdhHotelComScorePie');	// 酒店 评分分布饼图
+var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/hotel/QdhHotelComScoreLimitTen');	// 酒店评分前十名
 var spotRank = require('./routes/HomePage/spot/SpotRank'); //景区排行
 var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
@@ -130,8 +130,8 @@ app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
 app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
-app.use('/api/homepage/qdhhotelcomscorepie', QdhHotelComScorePieRouter);    //  获得一个方面好评差评的的个数,
-app.use('/api/homepage/qdhhotelscorelimit', QdhHotelComScoreLimitTenRouter);    //  获得一个方面好评差评的的个数,
+app.use('/api/homepage/piecharts/hotel', QdhHotelComScorePieRouter);    //  获得一个方面好评差评的的个数,
+app.use('/api/homepage/hotelrank', QdhHotelComScoreLimitTenRouter);    //  获得一个方面好评差评的的个数,
 app.use('/api/homepage/qdhspotcomnumchange',QdhSpotComNumChangeRouter);  // 折线图， 一整年的评论数量变化折线图
 app.use('/api/homepage/spotrank', spotRank);  // 景区排行和千岛湖景点排行
 app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 千岛湖同环比分析
