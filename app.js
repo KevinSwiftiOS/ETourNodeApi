@@ -52,8 +52,12 @@ var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
 var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排行
 var qdhSpotCommentTotal = require('./routes/HomePage/QdhCommentTotal'); //千岛湖同环比
-var spotRank = require('./routes/HomePage/SpotRank'); //景区排行
-var spotRank1 = require('./routes/HomePage/SpotRank'); //景区排行
+var spotRank = require('./routes/HomePage/spot/SpotRank'); //景区排行
+var spotRank1 = require('./routes/HomePage/spot/SpotRank'); //景区排行
+var getDate = require('./routes/GetDate'); //获取当前是第几天
+var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
+
+
 //qdhhoteltmapnumshow
 //日志文件的配置
 var log4js = require('log4js');
@@ -127,6 +131,9 @@ app.use('/api/shoplocation', shoplocation);
 app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
 app.use('/api/homepage/spotrank', spotRank);  // 景区排行和千岛湖景点排行
 app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 千岛湖同环比分析
+app.use("/api/getdate",getDate);//获取当前是第几天
+app.use("/api/homepage/heatmap",heatMap);//千岛湖热力图
+
 // app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
