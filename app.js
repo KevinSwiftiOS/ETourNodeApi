@@ -52,14 +52,30 @@ var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
 var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排行
 var qdhSpotCommentTotal = require('./routes/HomePage/QdhCommentTotal'); //千岛湖同环比
+<<<<<<< HEAD
 
 var QdhSpotComNumChangeRouter = require('./routes/HomePage/QdhSpotComNumChange'); // 景点
 var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/QdhHotelComScorePie');	// 酒店 评分分布饼图
 var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/hotel/QdhHotelComScoreLimitTen');	// 酒店评分前十名
+=======
+<<<<<<< HEAD
+var spotRank = require('./routes/HomePage/SpotRank'); //景区排行
+var QdhSpotComNumChangeRouter = require('./routes/HomePage/QdhSpotComNumChange'); // 景点
+var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/QdhHotelComScorePie');	// 酒店 评分分布饼图
+var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/hotel/QdhHotelComScoreLimitTen');	// 酒店评分前十名
+var spotRank1 = require('./routes/HomePage/SpotRank'); //景区排行
+=======
+>>>>>>> cxb
 var spotRank = require('./routes/HomePage/spot/SpotRank'); //景区排行
 var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
 var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关键指标
+<<<<<<< HEAD
+=======
+var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景区热度变化图
+
+>>>>>>> 2d9b4d43684b4b832ebc7057eed29c7f8152f440
+>>>>>>> cxb
 //qdhhoteltmapnumshow
 //日志文件的配置
 var log4js = require('log4js');
@@ -131,6 +147,8 @@ app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
 app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
+app.use('/api/homepage/spotrank', spotRank);  // 景区排行
+app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 景区排行
 app.use('/api/homepage/piecharts/hotel', QdhHotelComScorePieRouter);    //  获得一个方面好评差评的的个数,
 app.use('/api/homepage/hotelrank', QdhHotelComScoreLimitTenRouter);    //  获得一个方面好评差评的的个数,
 app.use('/api/homepage/qdhspotcomnumchange',QdhSpotComNumChangeRouter);  // 折线图， 一整年的评论数量变化折线图
@@ -139,7 +157,7 @@ app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 千岛湖
 app.use("/api/getdate",getDate);//获取当前是第几天
 app.use("/api/homepage/heatmap",heatMap);//千岛湖热力图
 app.use("/api/homepage/keyindicator",keyIndicator); //千岛湖关键指标
-
+app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变化图
 // app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
