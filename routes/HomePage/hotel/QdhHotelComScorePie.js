@@ -13,13 +13,10 @@ router.post('/', async function (req, res, next) {
     var Year = currDate.getFullYear();
     var Month = currDate.getMonth(); // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
     var triDate = currDate.getDate() - 3; // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
-    var endDate = Year + '' + Month.toString().padStart(2, '0') + '' + triDate.toString().padStart(2, 0);
+    var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
-
     var commentScoreSection = ['(0.0, 3.0]', '(3.0, 4.0]', '(4.0, 4.3]', '(4.3, 4.7]', '(4.7, 5.0]']
     var commentNumType = ['(0, 5]', '(5, 15]', '(15, 30]', '(30, 70]', '(70, 1000]']
-
-
     var badScore = await HotelComment.aggregate([
         {$match: {comment_time: {$gte: startDate, $lte: endDate}}},
         {$group: {_id: "$shop_show_name", commentScore: {$avg: "$comment_weighted_grade"}, 'commentNum': {$sum: 1}}},
@@ -50,8 +47,6 @@ router.post('/', async function (req, res, next) {
         {$match: {commentNum: {$gte: 10}, commentScore: {$gt: 4.7, $lte: 5.0}}},
         {$project: {value: "$commentScore", _id: 0}}
     ]);
-
-
     var badComNum = await HotelComment.aggregate([
         {$match: {comment_time: {$gte: startDate, $lte: endDate}}},
         {$group: {_id: "$shop_show_name", 'commentNum': {$sum: 1}}},
