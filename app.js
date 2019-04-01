@@ -50,18 +50,12 @@ var RestaurantList = require('./routes/restaurant/RestaurantList');
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
 var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
-var restaurantRank = require('./routes/HomePage/RestaurantRank');  // 餐饮排行
+var restaurantRank = require('./routes/HomePage/restaurant/RestaurantRank');  // 餐饮排行
 var qdhSpotCommentTotal = require('./routes/HomePage/QdhCommentTotal'); //千岛湖同环比
 
 var QdhSpotComNumChangeRouter = require('./routes/HomePage/QdhSpotComNumChange'); // 景点
 var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/QdhHotelComScorePie');	// 酒店 评分分布饼图
 var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/hotel/QdhHotelComScoreLimitTen');	// 酒店评分前十名
-
-var spotRank = require('./routes/HomePage/SpotRank'); //景区排行
-var QdhSpotComNumChangeRouter = require('./routes/HomePage/QdhSpotComNumChange'); // 景点
-var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/QdhHotelComScorePie');	// 酒店 评分分布饼图
-var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/hotel/QdhHotelComScoreLimitTen');	// 酒店评分前十名
-var spotRank1 = require('./routes/HomePage/SpotRank'); //景区排行
 var spotRank = require('./routes/HomePage/spot/SpotRank'); //景区排行
 var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
