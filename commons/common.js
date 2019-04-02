@@ -7,7 +7,6 @@ var funcs = {
         return newDate.getFullYear()+ "-" + this.PrefixInteger(newDate.getMonth() + 1,2) + "-"
         + this.PrefixInteger(newDate.getDate(),2);
     },
-
     //获取当前第几周
     get_curr_week: function () {
         var time, week, checkDate = new Date(new Date());
