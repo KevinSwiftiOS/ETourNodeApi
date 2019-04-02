@@ -262,5 +262,6 @@ router.post('/num', async function (req, res, next) {
             }
         })
     })
+    console.log(111);
 })
 module.exports = router;
