@@ -1,0 +1,12 @@
+[2019-03-28T11:41:43.654][ INFO  8606  index] 1698
+[2019-03-28T15:06:19.826][ INFO  8606  index] 1698
+[2019-03-28T15:08:11.970][ INFO  8606  index] 1698
+[2019-03-28T15:08:17.943][ INFO  8606  index] 1698
+[2019-03-28T15:08:19.625][ INFO  8606  index] req { startTime: '2018-01',
+  endTime: '2019-01',
+  time: '季度',
+  selectBusinessCirle: '全部' }
+[2019-03-28T15:08:19.626][ INFO  8606  index] req { startTime: '2018-01',
+  endTime: '2019-01',
+  time: '季度',
+  selectBusinessCirle: '全部' }
