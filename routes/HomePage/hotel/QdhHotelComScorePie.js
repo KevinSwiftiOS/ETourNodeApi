@@ -35,7 +35,7 @@ function find_in_db(Grade, startDate, endDate) {
                     'commentNum': {$sum: 1}
                 }
             },
-            {$match: {commentNum: {$gte: 10}, commentScore: section['match']}},
+            {$match: {commentNum: {$gte: 20}, commentScore: section['match']}},
         ]).exec(function (err, result) {
             if (err)
                 reject(err);
