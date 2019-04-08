@@ -1,0 +1,135 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "客户端通过URL获取数据，返回格式为json/text,utf-8编码格式\n返回数据结构如下：\ncode:0说明成功 非0说明错误\ndata:数据 code为0时返回\nmessage:错误信息 code非0时返回\n用户认证\n在拿到令牌token后，可存储起来，之后在header中以如下方式传递\n'Authorization':'Bearer '+token\ncode错误信息汇总:\n500 请求错误\ncode 8 登录令牌失效\n9 用户不存在\n10 用户密码错误\n11 获取用户信息失败\n12 查询发生错误",
+    "version": "1.0.0",
+    "title": "旅游接口文档"
+  },
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/login": {
+      "post": {
+        "tags": [
+          "login"
+        ],
+        "summary": "登录",
+        "description": "",
+        "operationId": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "description": "用户姓名"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "密码"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "返回成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "返回的token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/homepage/spotrank": {
+      "post": {
+        "tags": [
+          "homepage"
+        ],
+        "summary": "景区排行，近3个月统计",
+        "description": "",
+        "operationId": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "返回成功",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "list": {
+                      "type": "array",
+                      "items": {
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "description": "景区名字"
+                          },
+                          "commentScore": {
+                            "type": "integer",
+                            "description": "景区评分"
+                          },
+                          "commentNumber": {
+                            "type": "integer",
+                            "description": "景区评论数量"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer": {
+              "type": "apiKey",
+              "name": "Authorization",
+              "in": "header"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

@@ -214,7 +214,7 @@ router.post('/num', async function (req, res, next) {
     var triDate = currDate.getDate() - 3; // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
-    var commentNumType = ['(0, 20]', '(20, 50]', '(50, 0]', '(90, 1000]']
+    var commentNumType = ['(0, 20]', '(20, 50]', '(50, 90]', '(90, 1000]']
     var commentGrades = ['差评', '中评', '好评', '较好'];
     var restaurant_promise = new Promise(function (resolve, reject) {
         var numberList = [{

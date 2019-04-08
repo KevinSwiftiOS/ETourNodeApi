@@ -10,11 +10,11 @@ var bodyParser = require('body-parser');
 var expressJwt = require('express-jwt');
 var jwt = require('jsonwebtoken');
 var fs = require('fs');
+const pathToSwaggerUi = require('swagger-ui-dist').absolutePath();
 //设置时区
 process.env.TZ = 'Asia/Shanghai';
 //加载路由
 var loginRouter = require('./routes/Login'); //登录
-
 var spotListRouter = require('./routes/SpotList'); //景区列表
 var spotComparedRouter = require('./routes/SpotCompared');//景区之间比较
 var getUserRouter = require('./routes/GetUser');//获取用户信息
@@ -28,7 +28,6 @@ var spotStateRouter = require('./routes/SpotSdate'); //景区详情 排名情况
 var qdhSpotStateRouter = require('./routes/QdhSpotState'); //千岛湖景点详情 排名情况等
 var qdhSpotDetailRouter = require('./routes/QdhSpotDetail');//千岛湖景点详情 图表使用
 var qdhSpotDetailComparedRouter = require('./routes/QdhSpotDetailCompared'); //千岛湖景点详情下的平台比较
-
 var qdhHotelListRouter = require('./routes/QdhHotelList')// 千岛湖酒店信息获取
 var qdhHotelCommentNumSortRouter = require('./routes/QdhHotelCommentNumSort')// 千岛湖酒店评论数量排序
 var qdhHotelGradeSortRouter = require('./routes/QdhHotelGradeSort')// 千岛湖酒店评分排序
@@ -44,24 +43,39 @@ var QdhHotelTMapCNumRouter = require('./routes/QdhHotelTMapCNumShow') // 千岛�
 var QdhHotelTagWordRouter = require('./routes/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
 var QdhHotelTagSumRouter = require('./routes/QdhHotelComTagSum');
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
-
-
 var RestaurantStatistic = require('./routes/restaurant/RestaurantStatistic');
 var AreaComment = require('./routes/shoparea/AreaComment');
 var AreaScore = require("./routes/shoparea/AreaScore");
 var RestaurantList = require('./routes/restaurant/RestaurantList');
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
-
 var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
+var restaurantRank = require('./routes/HomePage/restaurant/RestaurantRank');  // 餐饮排行
+var qdhSpotCommentTotal = require('./routes/HomePage/QdhCommentTotal'); //千岛湖同环比
 
+
+
+
+
+var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/QdhHotelComScorePie');	// 酒店 评分分布饼图
+var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/hotel/QdhHotelComScoreLimitTen');	// 酒店评分前十名
+var spotRank = require('./routes/HomePage/spot/SpotRank'); //景区排行
+var getDate = require('./routes/GetDate'); //获取当前是第几天
+var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
+var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关键指标
+
+var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景区热度变化图
+
+<<<<<<< HEAD
 var restaurantRank = require('./routes/HomePage/restaurant/RestaurantRank');  // 餐饮排行
 var restaurantPiecharts = require("./routes/HomePage/restaurant/RestaurantPiecharts");  // 餐饮饼图
+=======
+
+>>>>>>> 1cf3c6b6d034109426b14873fae22da43eec081d
 //qdhhoteltmapnumshow
 //日志文件的配置
 var log4js = require('log4js');
 log4js.configure('log4j.json');
-console.log(12345);
 app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'trace' }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -69,17 +83,24 @@ app.set('view engine', 'pug');
 app.use(express.json());
 app.use(bodyParser.json({limit: '1mb'}));
 app.use(express.urlencoded({ extended: true }));
-
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+app.use('/static', express.static('public'));
 //设置跨域访问
 app.use(cors());
 //设置除了login接口 其余接口都需进行校验
 app.use(expressJwt({
     secret: "secret"//加密密钥，可换
 }).unless({
-    path: ["/api/login"]//添加不需要token的接口
+    path: ["/api/login","/static/"]//添加不需要token的接口
 }));
+app.use(express.static(pathToSwaggerUi));
 // 未携带token请求接口会出错，触发这个
 app.use(function(err, req, res, next) {
     if (err.name === "UnauthorizedError") {
@@ -90,6 +111,7 @@ app.use(function(err, req, res, next) {
        })
     }
 });
+app.use('/static/', express.static('public'));
 //注册路由
 app.use('/api/login',loginRouter);
 app.use('/api/spotlist',spotListRouter);
@@ -119,33 +141,38 @@ app.use('/api/spotstate',spotStateRouter);
 app.use('/api/qdhspotstate',qdhSpotStateRouter);
 app.use('/api/qdhspotdetail',qdhSpotDetailRouter);
 app.use('/api/qdhspotdetailcompard',qdhSpotDetailComparedRouter);
-
 app.use('/api/testapi',testApiRouter);
 app.use('/api/myshow', myShowRouter);
-
 app.use('/api/restaurant/statistic', RestaurantStatistic);
 app.use('/api/restaurants', RestaurantList);
 app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
+app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
+app.use('/api/homepage/spotrank', spotRank);  // 景区排行
+app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 景区排行
+app.use('/api/homepage/piecharts/hotel', QdhHotelComScorePieRouter);    //  获得一个方面好评差评的的个数,
+app.use('/api/homepage/hotelrank', QdhHotelComScoreLimitTenRouter);    //  获得一个方面好评差评的的个数,
 
-app.use('/api/homepage/restaurantrank', restaurantRank);  // 餐饮排行
-app.use('/api/homepage/restaurantpiecharts', restaurantPiecharts); // 餐饮饼图
-
+app.use('/api/homepage/spotrank', spotRank);  // 景区排行和千岛湖景点排行
+app.use('/api/homepage/qdhspotcommenttotal', qdhSpotCommentTotal);  // 千岛湖同环比分析
+app.use("/api/getdate",getDate);//获取当前是第几天
+app.use("/api/homepage/heatmap",heatMap);//千岛湖热力图
+app.use("/api/homepage/keyindicator",keyIndicator); //千岛湖关键指标
+app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变化图
+// app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 // error handler0
-
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
 module.exports = app;
+
