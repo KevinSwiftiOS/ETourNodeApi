@@ -1,8 +1,8 @@
 const express = require('express');
-const comments = require('../../dbs/restaurant/RSComment');
-const ourScore = require("../../dbs/restaurant/shops")
+const comments = require('../../../dbs/restaurant/RSComment');
+const ourScore = require("../../../dbs/restaurant/shops")
 const router = express.Router();
-const getDay = require('../../commons/common');
+const getDay = require('../../../commons/common');
 
 
 router.post('/', async (req, res) => {

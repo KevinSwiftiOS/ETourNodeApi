@@ -66,12 +66,8 @@ var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关
 
 var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景区热度变化图
 
-<<<<<<< HEAD
 var restaurantRank = require('./routes/HomePage/restaurant/RestaurantRank');  // 餐饮排行
 var restaurantPiecharts = require("./routes/HomePage/restaurant/RestaurantPiecharts");  // 餐饮饼图
-=======
-
->>>>>>> 1cf3c6b6d034109426b14873fae22da43eec081d
 //qdhhoteltmapnumshow
 //日志文件的配置
 var log4js = require('log4js');
