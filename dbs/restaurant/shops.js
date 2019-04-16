@@ -24,6 +24,7 @@ var shopSchema = new Schema(
         crawl_time: Date,
         shop_category_name: String,
         shop_flag: Number,
+        our_score: String,
     },
     { collection: 'restaurant_shop' },
 );

@@ -22,7 +22,7 @@ const NewCommentSchema = new Schma({
         comment_service_score: String,
         comment_env_score: String,
         comment_average_price: Number,
-        our_score: String
+        our_score: Number
 },
 
  { collection: 'restaurant_newest_comment' });
