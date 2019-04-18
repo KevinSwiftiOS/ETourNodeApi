@@ -142,7 +142,7 @@ router.post('/keyindicator', async (req, res) => {
             "code": 0,
 
             // 餐饮关键指标模块（评论数）返回参数
-            "commentKeyIndicatorModel": [{
+            "commentKeyIndicatorModel": {
                 "monthNumCumulant": thisMonthNumber,
                 "yearNumCumulant": thisYearNumber,
                 "monthNumChange": tongMonthNumber,
@@ -151,17 +151,17 @@ router.post('/keyindicator', async (req, res) => {
                 "yearMonthPercent": tongYearPercent,
                 "isMonthNumRise": isMonthNumRise,
                 "isYearNumRise": isYearNumRise
-            }],
+            },
 
             // 餐饮评论数变化趋势 返回参数
-            "commentTrendModel": [{
+            "commentTrendModel": {
                 "timeList": timeList,
-                "valueList": {
+                "valueList": [{
                     "name": "评论数量",
                     "type": 'line',
                     "data": commentValue
-                }
-            }],
+                }]
+            },
 
             "message": ""
         })
@@ -518,7 +518,7 @@ router.post("/keywords", async (req, res) => {
                 {
                     $limit: 200
                 },
-                
+
                 {
                     $project: {
                         "_id": 0,
@@ -526,7 +526,7 @@ router.post("/keywords", async (req, res) => {
                         "taste": 1
                     }
                 },
-                
+
             ])
             break;
         case 'price':
@@ -544,7 +544,7 @@ router.post("/keywords", async (req, res) => {
                 {
                     $limit: 200
                 },
-                
+
                 {
                     $project: {
                         "_id": 0,
@@ -552,7 +552,7 @@ router.post("/keywords", async (req, res) => {
                         "price": 1
                     }
                 },
-                
+
             ])
             break;
         case 'evn':
@@ -570,7 +570,7 @@ router.post("/keywords", async (req, res) => {
                 {
                     $limit: 200
                 },
-                
+
                 {
                     $project: {
                         "_id": 0,
@@ -578,7 +578,7 @@ router.post("/keywords", async (req, res) => {
                         "evn": 1
                     }
                 },
-                
+
             ])
             break;
         case 'server':
@@ -603,7 +603,7 @@ router.post("/keywords", async (req, res) => {
                         "server": 1
                     }
                 },
-                
+
             ])
             break;
     }
