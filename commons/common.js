@@ -1,12 +1,12 @@
 //不足位数进行补齐
 var funcs = {
-    //获取当前天数的前几天 当前的天数和需要减去的天数 传入都是date类型的
-    getDay:function(date,subDay){
-        var newDate = date.setDate(date.getDate() - subDay);
-        newDate = new Date(newDate);
-        return newDate.getFullYear()+ "-" + this.PrefixInteger(newDate.getMonth() + 1,2) + "-"
-        + this.PrefixInteger(newDate.getDate(),2);
-    },
+
+     getDay: function (date, subDay) {
+         var newDate = date.setDate(date.getDate() - subDay);
+         newDate = new Date(newDate);
+         return newDate.getFullYear() + "-" + this.PrefixInteger(newDate.getMonth() + 1, 2) + "-" +
+             this.PrefixInteger(newDate.getDate(), 2);
+     },
     //获取当前第几周
     get_curr_week: function () {
         var time, week, checkDate = new Date(new Date());
