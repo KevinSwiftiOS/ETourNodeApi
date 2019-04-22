@@ -35,7 +35,7 @@ var lastYear = (nowYear - 1).toString() + "-" + "01";
 var thisYear = nowYear.toString() + "-" + "01";
 
 
-// 餐饮关键指标模块（评论数）
+// 餐饮关键指标模块（评论数）、餐饮评论数变化趋势
 router.post('/keyindicator', async (req, res) => {
 
 
