@@ -9,15 +9,15 @@ var logger = require('log4js').getLogger('index');
 //mongoose.Promise = global.Promise;
 // req 请求来的参数
 // res 返回的数据
-router.get('/', async (req, res) => {
+router.post('/', async (req, res) => {
     // const { startTime, endTime, time, selectBusinessCirle } = req.query;
     // req.query 里存储的值都是字符串
     // req.query 里是前端传递的params参数
     // const { type = '全部', site = '全部', page: unParsePage, pageSize: unParsePageSize } = req.query; // 解构赋值
-    const type = req.query.type || '全部'; // type 不存在 默认值为'全部'
-    const site = req.query.site || '全部';
-    const unParsePage = req.query.page;
-    const unParsePageSize = req.query.pageSize;
+    const type = req.body.type || '全部'; // type 不存在 默认值为'全部'
+    const site = req.body.site || '全部';
+    const unParsePage = req.body.page.toString();
+    const unParsePageSize = req.body.pageSize;
 
     let page = 0;
     let pageSize = 20;
