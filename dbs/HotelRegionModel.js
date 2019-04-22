@@ -5,7 +5,11 @@ var mongoose = require('./db');
 var Schema =  mongoose.Schema;
 var hotelregion = new Schema({
         //定义字段
-
+        id:String,
+        address:String,
+        lng:Number,
+        lat:Number,
+        name:String
     },
     { collection: 'hotel_shop' });
 
