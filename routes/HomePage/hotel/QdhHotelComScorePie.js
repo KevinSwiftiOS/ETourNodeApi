@@ -9,13 +9,13 @@ var HotelComment = HotelCommentModel.HotelComment
 function find_in_db(Grade, startDate, endDate) {
     var section = {}
     switch (Grade) {
-        case "差评":
+        case "差":
             section['match'] = {$gt: 0.0, $lte: 3.0};
             break;
-        case "中评":
+        case "一般":
             section['match'] = {$gt: 3.0, $lte: 4.0};
             break;
-        case "好评":
+        case "好":
             section['match'] = {$gt: 4.0, $lte: 4.3};
             break;
         case "较好":
@@ -55,7 +55,7 @@ router.post('/', async function (req, res, next) {
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
     var commentScoreSection = ['(0.0, 3.0]', '(3.0, 4.0]', '(4.0, 4.3]', '(4.3, 4.7]', '(4.7, 5.0]'];
-    var commentGrades = ['差评', '中评', '好评', '较好', '非常棒'];
+    var commentGrades = ['差', '一般', '好', '较好', '非常棒'];
     var hotel_promise = new Promise(function (resolve, reject) {
         var scoreList = [
             {
@@ -84,13 +84,13 @@ router.post('/', async function (req, res, next) {
             var db_promise = find_in_db(grade, startDate, endDate);
             db_promise.then(function (result) {
                 findCount += 1;
-                scoreList[gradeIndex].name = commentScoreSection[gradeIndex];
+                scoreList[gradeIndex].name = commentGrades[gradeIndex];
                 scoreList[gradeIndex].value = result.length;
                 if (findCount == commentGrades.length) {
                     resolve(scoreList);
                 }
             }).catch(function (err) {
-                logger.error('千岛湖酒店单季度评论数量 接口：scorepiecharts 错误：' + err);
+                logger.error('千岛湖酒店单季度评论评分 接口：scorepiecharts 错误：' + err);
                 res.send({
                     "code": 12,
                     "message": "查询发生错误",

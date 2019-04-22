@@ -59,7 +59,10 @@ var spotRank = require('./routes/HomePage/spot/SpotRank'); //景区排行
 var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
 var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关键指标
-var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景区热度变化图
+var qdhHotelCommentTotal = require("./routes/HotelPage/QdhHotelCommentTotal");//千岛湖关键指标
+var QdhHotelHotChange = require("./routes/HotelPage/QdhHotelHotChange");//千岛湖关键指标
+var QdhHotelSameAreaHotel = require("./routes/HotelPage/QdhHotelTradeArea");//千岛湖关键指标
+
 
 //qdhhoteltmapnumshow
 //日志文件的配置
@@ -139,8 +142,11 @@ app.use('/api/homepage/hotelrank', QdhHotelComScoreLimitTenRouter);    //  获�
 app.use("/api/getdate",getDate);//获取当前是第几天
 app.use("/api/homepage/heatmap",heatMap);//千岛湖热力图
 app.use("/api/homepage/keyindicator",keyIndicator); //千岛湖关键指标
-app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变化图
-app.use('./api/homepage/restaurant')
+app.use("/api/hotelpage/qdhhotelcomnumtotal",qdhHotelCommentTotal); //千岛湖 酒店环比同比
+app.use("/api/hotelpage/qdhhotelhotchange",QdhHotelHotChange); //千岛湖 酒店 评论数量变化图（折线）
+app.use("/api/hotelpage/sametradearea",QdhHotelSameAreaHotel); //千岛湖 酒店 评论数量变化图（折线）
+
+// app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

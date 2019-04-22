@@ -5,9 +5,9 @@ var router = express.Router();
 var HotelCommentTrainModel = require('./../dbs/HotelCommentTrain');
 var HotelCommentTrain = HotelCommentTrainModel.HotelCommentTrain
 router.post('/', function (req, res, next) {
-    var tagname = req.body.tagname;
-    var currpage = req.body.currpage;
-    var commentclass = req.body.commentclass;
+    var tagname = req.query.tagname;
+    var currpage = req.query.currpage;
+    var commentclass = req.query.commentclass;
     console.log(currpage, tagname, commentclass, '输出这些参数，为什么怎么回事');
     var searchObj = {}
     var getInfoObj = {}

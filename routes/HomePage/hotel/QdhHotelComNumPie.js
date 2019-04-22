@@ -9,17 +9,17 @@ var HotelComment = HotelCommentModel.HotelComment
 function find_in_db(Grade, startDate, endDate) {
     var section = {}
     switch (Grade) {
-        case "差评":
+        case "较少":
             section['match'] = {$gt: 0.0, $lte: 15.0};
             break;
-        case "中评":
+        case "少":
             section['match'] = {$gt: 15.0, $lte: 40.0};
             break;
-        case "好评":
+        case "一般":
             section['match'] = {$gt: 40.0, $lte: 70.0};
             break;
 
-        case "较好":
+        case "多":
             section['match'] = {$gt: 70.0, $lte: 1000.0};
             break;
     }
@@ -48,8 +48,8 @@ router.post('/', async function (req, res, next) {
     var triDate = currDate.getDate() - 3; // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
-    var commentNumType = ['(0, 20]', '(20, 50]','(50, 0]', '(90, 1000]']
-    var commentGrades = ['差评', '中评', '好评', '较好'];
+    var commentNumType = ['(0, 20]', '(20, 50]','(50, 90]', '(90, 1000]']
+    var commentGrades = ['较少', '少', '一般', '多'];
     var hotel_promise = new Promise(function (resolve, reject) {
         var numberList = [
             {
@@ -74,7 +74,7 @@ router.post('/', async function (req, res, next) {
             var db_promise = find_in_db(grade, startDate, endDate);
             db_promise.then(function (result) {
                 findCount += 1;
-                numberList[gradeIndex].name = commentNumType[gradeIndex];
+                numberList[gradeIndex].name = commentGrades[gradeIndex];
                 numberList[gradeIndex].value = result.length;
                 if (findCount == commentGrades.length) {
                     resolve(numberList);
