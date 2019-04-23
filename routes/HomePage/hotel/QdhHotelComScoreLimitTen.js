@@ -39,6 +39,7 @@ router.post('/', function (req, res, next) {
     var endDate = funcs.getDay(new Date(), 3);
     var startDate = funcs.getDay(new Date(), 93);
     var commentNumLimit = {}
+    var Month = parseInt(endDate.substr(5, 2));
 
     if(Month == 1 || Month == 2 || Month == 12 ) {
         commentNumLimit['limitnum'] = {$gte: 40};

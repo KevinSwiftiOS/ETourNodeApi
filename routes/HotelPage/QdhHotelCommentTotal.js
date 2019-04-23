@@ -19,15 +19,17 @@ router.post('/', async (req, res) => {
     var year = lastThreeDate.substr(0, 4);
     var month = lastThreeDate.substr(5, 2);
     //今年的月份开始日期和年份开始日期
-    var nowStartYearDate = year + "-01-01";
-    //去年的结束和年份开始日期
-    var lastEndDate = (year - 1).toString() + "-" + funcs.PrefixInteger(month, 2) + "-" + lastThreeDate.substr(8, 2);
-    var lastStartYearDate = (year - 1).toString() + "-01-01";
-    var nowStartMonth = (year).toString() + "-" + '01';
+    var nowStartYearDate = (year - 1).toString() + "-" + month.toString().padStart(2, 0) + "-01";    //去年的结束和年份开始日期
+    var lastEndYearDate = (year - 1).toString() + "-" + funcs.PrefixInteger(month, 2) + "-" + lastThreeDate.substr(8, 2);
+    var lastStartYearDate = (year - 2).toString() + "-" + month.toString().padStart(2, 0) + "-01";
+    var nowStartMonth = (year - 1).toString() + "-" + month.toString().padStart(2, 0);
     var nowEndMonth = year.toString() + "-" + month.toString().padStart(2, 0);
-    var lastStartMonth = (year - 1).toString() + "-" + '01';
-    var lastEndMonth = year.toString() + "-" + month.toString().padStart(2, 0);
+    var lastStartMonth = (year - 2).toString() + "-" + month.toString().padStart(2, 0);
+    var lastEndMonth = nowStartMonth;
 
+    console.log(nowStartYearDate, lastThreeDate, lastStartYearDate, lastEndYearDate)
+    console.log(nowStartMonth, nowEndMonth, lastStartMonth, lastEndMonth)
+    console.log(parseInt(month), 'month');
     var nowData = await HotelComment.aggregate([
         {
             $match: {
@@ -49,7 +51,7 @@ router.post('/', async (req, res) => {
             }
         },
 
-        {$sort: {_id: -1}},
+        {$sort: {_id: 1}},
         {
             $project: {
                 _id: 1, commentNumber: 1,
@@ -62,7 +64,7 @@ router.post('/', async (req, res) => {
             $match: {
                 "data_source": "酒店",
                 "data_region": "千岛湖",
-                "comment_time": {$gte: lastStartYearDate, $lte: lastEndDate}
+                "comment_time": {$gte: lastStartYearDate, $lte: lastEndYearDate}
 
             }
         },
@@ -78,41 +80,83 @@ router.post('/', async (req, res) => {
                 "_id": {$gte: lastStartMonth, $lte: lastEndMonth}
             }
         },
-        {$sort: {_id: -1}},
+        {$sort: {_id: 1}},
         {
             $project: {
                 _id: 1, commentNumber: 1,
             }
         }
     ]);
-    var nowMonthCommentNumber = nowData[0].commentNumber;
+    console.log('输出今年的');
+    for (var i = 0; i < nowData.length; i++) {
+        console.log(nowData[i])
+    }
+    console.log('输出去年的');
+    for (var i = 0; i < nowData.length; i++) {
+        console.log(lastData[i])
+    }
+
+
+    var numList = [];
+    var timeList = [];
+    var tongPercentList = [];
+    for (var i = 0; i < nowData.length; i++) {
+        numList.push(nowData[i].commentNumber);
+        timeList.push(nowData[i]._id);
+        tongPercentList.push(tongBiCompare(lastData[i].commentNumber, nowData[i].commentNumber));
+    }
+    console.log(numList, 'numList')
+    console.log(timeList, 'timeList')
+    console.log(tongPercentList, "tongPercentList")
+
+
+    var nowMonthCommentNumber = nowData[nowData.length - 1].commentNumber;
     //去年的评分和评论数量
-    var lastMonthCommentNumber = lastData[0].commentNumber;
+    var lastMonthCommentNumber = lastData[lastData.length - 1].commentNumber;
     //年累积量的评论数量和评分 去年累积量的评论数量和评分
     var nowYearCommentNumber = 0, lastYearCommentNumber = 0;
-    for (var i = 0; i < nowData.length; i++) {
+    for (var i = (nowData.length - parseInt(month)); i < nowData.length; i++) {
         nowYearCommentNumber += nowData[i].commentNumber;
         lastYearCommentNumber += lastData[i].commentNumber;
     }
-    comsummary = {};
+
+    commentKeyIndicatorModel = {};
 
     var monthNumChange = tongBiCompare(lastMonthCommentNumber, nowMonthCommentNumber);
     var yearNumChange = tongBiCompare(lastYearCommentNumber, nowYearCommentNumber);
 
-    comsummary['monthNumCumulant'] = nowMonthCommentNumber;
-    comsummary["yearNumCumulant"] = nowYearCommentNumber;
-    comsummary['monthNumChange'] = monthNumChange.numChange;
-    comsummary["yearNumChange"] = yearNumChange.numChange;
-    comsummary['monthNumPercent'] = monthNumChange.percent;
-    comsummary["yearNumPercent"] = yearNumChange.percent;
-    comsummary['isMonthNumRise'] = monthNumChange.isRise;
-    comsummary["isYearNumRise"] = yearNumChange.isRise;
+    commentKeyIndicatorModel['monthNumCumulant'] = nowMonthCommentNumber;
+    commentKeyIndicatorModel["yearNumCumulant"] = nowYearCommentNumber;
+    commentKeyIndicatorModel['monthNumChange'] = monthNumChange.numChange;
+    commentKeyIndicatorModel["yearNumChange"] = yearNumChange.numChange;
+    commentKeyIndicatorModel['monthNumPercent'] = monthNumChange.percent;
+    commentKeyIndicatorModel["yearNumPercent"] = yearNumChange.percent;
+    commentKeyIndicatorModel['isMonthNumRise'] = monthNumChange.isRise;
+    commentKeyIndicatorModel["isYearNumRise"] = yearNumChange.isRise;
+
+    console.log(commentKeyIndicatorModel, 'commentKeyIndicatorModel')
 
     res.send({
         "code":0,
         "message":"",
         "data":{
-            "comsummary": comsummary
+            "commentKeyIndicatorModel": commentKeyIndicatorModel,
+            "commentTrendModel": {
+                "timeList": timeList,
+                "valueList":[
+                    {
+                        name:'评论数量', //每月的评论数量，柱状图显示（1年）
+                        type:'bar',
+                        data: numList
+                    },
+                    {
+                        name:'同比', //当月的评论数量，折线图显示显示
+                        type:'line',
+                        data:tongPercentList
+                    }
+                ]
+            }
+
         }
     })
 });

@@ -63,9 +63,8 @@ function find_in_db(tradeArea) {
 /*
 * 获取同商圈的酒店个数
 * */
-router.post('/hotelratecount', async (req, res) => {
-    var tradearea = req.query.tradearea;
-    console.log(tradearea, '输出上去');
+router.post('/selectlist', async (req, res) => {
+    var tradearea = req.query.businessArea;
     var hotel_promise = new Promise(function (resolve, reject) {
         var db_promise = find_in_db(tradearea);
         db_promise.then(function (result) {
@@ -91,7 +90,7 @@ router.post('/hotelratecount', async (req, res) => {
             "code": 0,
             "message": "",
             "data": {
-                "hotelrates": result
+                "hotelShopList": result
             }
         })
     })
@@ -99,13 +98,14 @@ router.post('/hotelratecount', async (req, res) => {
 /*
 * 获取酒店列表
 * */
-router.post('/hotelshoplist', function (req, res, next) {
-    var currpage = parseInt(req.body.currpage);
-    var tradearea = req.body.tradearea;
-    var hotelrate = req.body.hotelrate;
+router.post('/shoplist', function (req, res, next) {
+    var currpage = parseInt(req.body.currPage);
+    var tradearea = req.body.businessArea;
+    var hotelrate = req.body.hotelRate;
     var pageSize = parseInt(req.body.pageSize);
-    var sortWay = req.body.sortWay;
-    console.log(currpage, tradearea, hotelrate, pageSize, sortWay)
+    var sortWay = parseInt(req.body.sortWay); // 排序方式 升序 or 降序
+    var commentType = parseInt(req.body.commentType); // 按评分 或 评论数量 展示酒店
+    console.log(currpage, tradearea, hotelrate, pageSize, sortWay, commentType)
     var matchObj = {}
     if (hotelrate != '全部') {
         matchObj['shop_rate'] = hotelrate;
@@ -119,17 +119,20 @@ router.post('/hotelshoplist', function (req, res, next) {
         matchObj['tradearea'] = {$ne: "0"}
     }
 
-    if (sortWay == "commentScore") {
-        matchObj['sortway'] = {$sort: {commentScore: -1}}
-    } else if (sortWay == "commentNum") {
-        matchObj['sortway'] = {$sort: {commentNumber: -1}}
-    } else if (sortWay == "comment_health_grade") {
-        matchObj['sortway'] = {$sort: {comment_health_grade: -1}}
-    } else if (sortWay == "comment_service_grade") {
-        matchObj['sortway'] = {$sort: {comment_location_grade: -1}}
+    if (commentType == 1) {
+        if (sortWay == 1) {
+            matchObj['sortchoice'] = {$sort: {commentScore: -1}}
+        } else {
+            matchObj['sortchoice'] = {$sort: {commentScore: 1}}
+        }
+    } else if (commentType == 2) {
+        if (sortWay == 1) {
+            matchObj['sortchoice'] = {$sort: {commentNumber: -1}}
+        } else {
+            matchObj['sortchoice'] = {$sort: {commentNumber: 1}}
+        }
     }
 
-    console.log(matchObj, '输出match');
     HotelRegion.aggregate([
         {
             $match: {
@@ -138,7 +141,7 @@ router.post('/hotelshoplist', function (req, res, next) {
                 "table_type": "mixed_hotel_shop"
             }
         },
-        matchObj['sortway'],
+        matchObj['sortchoice'],
         {
             $project: {
                 _id: 0,
@@ -164,7 +167,7 @@ router.post('/hotelshoplist', function (req, res, next) {
                 "data": {}
             })
         }
-        console.log(result, '输出结果')
+
         if (result.length == 0) {
             res.send({
                 "code": 0,
@@ -174,66 +177,11 @@ router.post('/hotelshoplist', function (req, res, next) {
                 }
             })
         } else {
-            console.log(result, '输出结果')
             res.send({
                 "code": 0,
                 "message": "",
                 data: {
                     "hotellist": result
-                }
-            })
-        }
-    })
-});
-/*
-* 获取酒店排行榜
-* */
-router.post('/hoteltenlimit', function (req, res, next) {
-    var endDate = funcs.getDay(new Date(), 3);
-    var startDate = funcs.getDay(new Date(), 93);
-    HotelComment.aggregate([
-        {
-            $match: {
-                'comment_time': {$gte: startDate, $lte: endDate},
-                'comment_grade': {$ne: 0}
-            }
-        },
-        {
-            $group: {
-                _id: '$shop_show_name',
-                'commentScore': {$avg: '$comment_weighted_grade'},
-                'commentNumber': {$sum: 1},
-                'shopRate': {$first: '$shop_rate'}
-            }
-        },
-        {$sort: {'commentNumber': -1}},
-        {$limit: 10},
-    ]).exec(function (err, result) {
-        if (err) {
-            logger.error('千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：' + err);
-            res.send({
-                "code": 12,
-                "message": "查询发生错误",
-                "data": {}
-            })
-        }
-        if (result.length == 0) {
-            res.send({
-                "code": 0,
-                "message": "",
-                "data": {
-                    "list": result
-                }
-            })
-        } else {
-            for(var i = 0; i < result.length; i++) {
-                result[i].commentScore = parseFloat((result[i].commentScore).toFixed(2));
-            }
-            res.send({
-                "code": 0,
-                "message": "",
-                data: {
-                    "hotelrank": result
                 }
             })
         }
