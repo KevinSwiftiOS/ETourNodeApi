@@ -4,7 +4,7 @@ const shop = require("../../dbs/restaurant/shops");
 const commentKeywords = require("../../dbs/restaurant/CommentKeywords");
 const router = express.Router();
 const funcs = require('../../commons/common');
-const areaData = require("./areaList");
+const areaData = require("./components/areaList");
 
 // 获取当前的月份和年份
 var date = new Date();
