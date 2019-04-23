@@ -44,10 +44,10 @@ var QdhHotelTMapCNumRouter = require('./routes/QdhHotelTMapCNumShow') // 千岛�
 var QdhHotelTagWordRouter = require('./routes/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
 var QdhHotelTagSumRouter = require('./routes/QdhHotelComTagSum');
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
-var RestaurantStatistic = require('./routes/restaurantDetails/RestaurantStatistic');
+var RestaurantStatistic = require('./routes/restaurantPage/RestaurantStatistic');
 var AreaComment = require('./routes/shoparea/AreaComment');
 var AreaScore = require("./routes/shoparea/AreaScore");
-var RestaurantList = require('./routes/restaurantDetails/RestaurantList');
+var RestaurantList = require('./routes/restaurantPage/RestaurantList');
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
 var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
@@ -70,7 +70,7 @@ var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖�
 
 
 
-var restaurantsDetails = require("./routes/restaurantDetails/restaurantAll");   // 餐饮详情界面
+var restaurantsPage = require("./routes/restaurantPage/restaurantAll");   // 餐饮详情界面
 
 
 //qdhhoteltmapnumshow
@@ -166,7 +166,7 @@ app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变�
 
 
 
-app.use("/api/restaurant", restaurantsDetails);    // 餐饮详情接口
+app.use("/api/restaurantpage", restaurantsPage);    // 餐饮详情接口
 
 // app.use('./api/homepage/restaurant')
 

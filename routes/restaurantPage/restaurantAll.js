@@ -4,6 +4,7 @@ const shop = require("../../dbs/restaurant/shops");
 const commentKeywords = require("../../dbs/restaurant/CommentKeywords");
 const router = express.Router();
 const funcs = require('../../commons/common');
+const areaData = require("./areaList");
 
 // 获取当前的月份和年份
 var date = new Date();
@@ -35,7 +36,7 @@ var lastYear = (nowYear - 1).toString() + "-" + "01";
 var thisYear = nowYear.toString() + "-" + "01";
 
 
-// 餐饮关键指标模块（评论数）
+// 接口一：餐饮关键指标模块（评论数）
 router.post('/keyindicator', async (req, res) => {
 
 
@@ -142,103 +143,67 @@ router.post('/keyindicator', async (req, res) => {
             "code": 0,
 
             // 餐饮关键指标模块（评论数）返回参数
-            "commentKeyIndicatorModel": {
-                "monthNumCumulant": thisMonthNumber,
-                "yearNumCumulant": thisYearNumber,
-                "monthNumChange": tongMonthNumber,
-                "yearNumChange": tongYearNumber,
-                "monthNumPercent": tongMonthPercent,
-                "yearMonthPercent": tongYearPercent,
-                "isMonthNumRise": isMonthNumRise,
-                "isYearNumRise": isYearNumRise
-            },
+            "data": [{
+                    "commentKeyIndicatorModel": {
+                        "monthNumCumulant": thisMonthNumber,
+                        "yearNumCumulant": thisYearNumber,
+                        "monthNumChange": tongMonthNumber,
+                        "yearNumChange": tongYearNumber,
+                        "monthNumPercent": tongMonthPercent,
+                        "yearMonthPercent": tongYearPercent,
+                        "isMonthNumRise": isMonthNumRise,
+                        "isYearNumRise": isYearNumRise
+                    }
+                },
+                // 餐饮评论数变化趋势 返回参数
+                {
+                    "commentTrendModel": {
+                        "timeList": timeList,
+                        "valueList": [{
+                            "name": "评论数量",
+                            "type": 'line',
+                            "data": commentValue
+                        }]
+                    }
+                }
 
-            // 餐饮评论数变化趋势 返回参数
-            "commentTrendModel": {
-                "timeList": timeList,
-                "valueList": [{
-                    "name": "评论数量",
-                    "type": 'line',
-                    "data": commentValue
-                }]
-            },
+            ],
+
 
             "message": ""
         })
     })
 })
 
-//  餐饮选择模块
+//  接口二：商圈选择对饮菜系模块
 router.post("/selectlist", async (req, res) => {
-    var businessCircle = req.query.businessCircle || '全部';
-    var cinsine = req.query.cinsine || '全部';
 
-    var unParsePage = req.query.page;
-    var unParsePageSize = req.query.pageSize;
-
-    var page = 0;
-    var pageSize = 20;
-
-    try {
-        if (unParsePage != null && unParsePage.length > 0) {
-            page = parseInt(unParsePage);
-        }
-        if (unParsePageSize != null && unParsePageSize.length > 0) {
-            pageSize = parseInt(unParsePageSize);
-        }
-    } catch (e) {
-        logger.warn('page/pageSize is not a number', unParsePage, unParsePageSize);
-    }
-
-    var findQuery = {}; // 过滤信息用的对象
-    if (businessCircle != "全部") {
-        findQuery.shop_area = businessCircle;
-    }
-    if (cinsine != "全部") {
-        findQuery.shop_cook_style = cinsine;
-    }
-
-    var totalCount = await shop.find(findQuery).count();
-    var result = [];
-    var pageObj = {
-        page: page,
-        pageSize: pageSize,
-        total: totalCount,
-    }
-    if (page * pageSize < totalCount) {
-        result = await shop.find(findQuery, {
-                _id: 0,
-                shop_name: 1, // 店铺名
-                shop_comment_num: 1, // 评论数
-                shop_address: 1, // 店铺地址
-                our_score: 1, //  店铺评分
-                shop_cook_style: 1, // 店铺类型
-                shop_price: 1, // 人均
-                shop_env: 1, // 环境
-                shop_taste: 1, // 口味
-                shop_service: 1 // 服务
-            }).sort({
-                "our_score": -1
+    var areaCuisine = [];
+    // var businessArea = "阳光路";
+    var businessArea = req.body.businessArea;
+    for (var i = 0; i < areaData.length; i++) {
+        if (areaData[i].area === businessArea) {
+            areaCuisine = areaData[i].cuisine;
+            break;
+        } else {
+            res.send({
+                code: 0,
+                data: [],
+                message: "无此商圈"
             })
-            .skip(page * pageSize) // 跳过多少条数据
-            .limit(pageSize); // 从跳过数据开始数下面20条数据
-        console.log(result);
-        if (page * pageSize + pageSize < totalCount) {
-            pageObj.next = page + 1;
         }
     }
     res.send({
         code: 0,
-        data: [{
-            result: result,
-            page: pageObj
-        }],
+        data: {
+            shopCookList: areaCuisine
+        },
         message: ""
     });
 })
 
 
-// 餐饮排行列表模块
+// 接口三：餐饮排行列表模块
 router.post("/ranklist", async (req, res) => {
     var start_time = funcs.getDay(new Date(), 93);
     var end_time = funcs.getDay(new Date(), 3);
@@ -417,7 +382,8 @@ router.post("/ranklist", async (req, res) => {
     })
 })
 
-// 评论智能分析模块
+
+// 接口四：评论智能分析模块
 router.post("/keywords", async (req, res) => {
     let selectKey = req.body.featureWord;
     let obj = {};
@@ -496,6 +462,39 @@ router.post("/keywords", async (req, res) => {
             }
         }
     ]);
+    var tasteNumber = await commentKeywords.aggregate([{
+        $group: {
+            _id: "$taste",
+            num_tutorial: {
+                $sum: 1
+            }
+        }
+    }])
+    var serverNumber = await commentKeywords.aggregate([{
+        $group: {
+            _id: "$server",
+            num_tutorial: {
+                $sum: 1
+            }
+        }
+    }])
+    var evnNumber = await commentKeywords.aggregate([{
+        $group: {
+            _id: "$evn",
+            num_tutorial: {
+                $sum: 1
+            }
+        }
+    }])
+    var priceNumber = await commentKeywords.aggregate([{
+        $group: {
+            _id: "$price",
+            num_tutorial: {
+                $sum: 1
+            }
+        }
+    }])
+
     taste = obj[0].count;
     server = obj2[0].count;
     evn = obj3[0].count;
@@ -504,8 +503,7 @@ router.post("/keywords", async (req, res) => {
     // console.log(randomNum);
     switch (selectKey) {
         case 'taste':
-            var result = await commentKeywords.aggregate([
-                {
+            var result = await commentKeywords.aggregate([{
                     $match: {
                         "taste": {
                             $ne: "undefined"
@@ -527,11 +525,12 @@ router.post("/keywords", async (req, res) => {
                     }
                 },
 
-            ])
+            ]);
+            var goodNum = tasteNumber[3].num_tutorial;
+            var badNum = tasteNumber[1].num_tutorial;
             break;
         case 'price':
-            var result = await commentKeywords.aggregate([
-                {
+            var result = await commentKeywords.aggregate([{
                     $match: {
                         price: {
                             $ne: "undefined"
@@ -554,10 +553,11 @@ router.post("/keywords", async (req, res) => {
                 },
 
             ])
+            var goodNum = priceNumber[2].num_tutorial;
+            var badNum = priceNumber[0].num_tutorial;
             break;
         case 'evn':
-            var result = await commentKeywords.aggregate([
-                {
+            var result = await commentKeywords.aggregate([{
                     $match: {
                         evn: {
                             $ne: "undefined"
@@ -580,10 +580,11 @@ router.post("/keywords", async (req, res) => {
                 },
 
             ])
+            var goodNum = evnNumber[2].num_tutorial;
+            var badNum = evnNumber[0].num_tutorial;
             break;
         case 'server':
-            var result = await commentKeywords.aggregate([
-                {
+            var result = await commentKeywords.aggregate([{
                     $match: {
                         server: {
                             $ne: "undefined"
@@ -605,14 +606,22 @@ router.post("/keywords", async (req, res) => {
                 },
 
             ])
+            var goodNum = serverNumber[3].num_tutorial;
+            var badNum = serverNumber[0].num_tutorial;
             break;
     }
+    // console.log(priceNumber);
+    // console.log(goodNum);
+    // console.log(badNum);
     // console.log(result);
     res.send({
         code: 0,
         message: "",
-        data: result,
-        resultNum: [taste, server, evn, price],
+        data: [{
+            result: result,
+            resultNum: [taste, server, evn, price],
+            keywordsNum: [goodNum, badNum]
+        }]
     })
 })
 module.exports = router;
