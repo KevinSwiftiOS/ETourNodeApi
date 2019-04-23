@@ -143,6 +143,7 @@ router.post('/keyindicator', async (req, res) => {
             "code": 0,
 
             // 餐饮关键指标模块（评论数）返回参数
+<<<<<<< HEAD:routes/restaurantPage/restaurantAll.js
             "data": [{
                     "commentKeyIndicatorModel": {
                         "monthNumCumulant": thisMonthNumber,
@@ -169,6 +170,28 @@ router.post('/keyindicator', async (req, res) => {
 
             ],
 
+=======
+            "commentKeyIndicatorModel": {
+                "monthNumCumulant": thisMonthNumber,
+                "yearNumCumulant": thisYearNumber,
+                "monthNumChange": tongMonthNumber,
+                "yearNumChange": tongYearNumber,
+                "monthNumPercent": tongMonthPercent,
+                "yearMonthPercent": tongYearPercent,
+                "isMonthNumRise": isMonthNumRise,
+                "isYearNumRise": isYearNumRise
+            },
+
+            // 餐饮评论数变化趋势 返回参数
+            "commentTrendModel": {
+                "timeList": timeList,
+                "valueList": [{
+                    "name": "评论数量",
+                    "type": 'line',
+                    "data": commentValue
+                }]
+            },
+>>>>>>> 28e577257952e78525b969cf1e73524e09581166:routes/restaurantDetails/restaurantAll.js
 
             "message": ""
         })
@@ -525,9 +548,13 @@ router.post("/keywords", async (req, res) => {
                     }
                 },
 
+<<<<<<< HEAD:routes/restaurantPage/restaurantAll.js
             ]);
             var goodNum = tasteNumber[3].num_tutorial;
             var badNum = tasteNumber[1].num_tutorial;
+=======
+            ])
+>>>>>>> 28e577257952e78525b969cf1e73524e09581166:routes/restaurantDetails/restaurantAll.js
             break;
         case 'price':
             var result = await commentKeywords.aggregate([{
