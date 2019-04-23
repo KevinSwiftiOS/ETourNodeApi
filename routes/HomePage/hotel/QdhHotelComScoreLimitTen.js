@@ -36,13 +36,8 @@ function find_limit_hotel(startDate, endDate, sortWay, commentNumLimit) {
 }
 
 router.post('/', function (req, res, next) {
-
-    var currDate = new Date();
-    var Year = currDate.getFullYear();
-    var Month = currDate.getMonth(); // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
-    var triDate = currDate.getDate() - 3; // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
-    var endDate = Year + '' + Month.toString().padStart(2, '0') + '' + triDate.toString().padStart(2, 0);
-    var startDate = funcs.getDay(currDate, 93);
+    var endDate = funcs.getDay(new Date(), 3);
+    var startDate = funcs.getDay(new Date(), 93);
     var commentNumLimit = {}
 
     if(Month == 1 || Month == 2 || Month == 12 ) {

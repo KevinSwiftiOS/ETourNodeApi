@@ -64,12 +64,8 @@ function find_in_db(tradeArea) {
 * 获取同商圈的酒店个数
 * */
 router.post('/hotelratecount', async (req, res) => {
-    // console.log(req.query.tradearea, '输出千岛湖风景区')
     var tradearea = req.query.tradearea;
     console.log(tradearea, '输出上去');
-    // console.log(tradearea, '后台输出这些东西')
-    // var hotelRates = ['五星级', '四星级', '豪华型', '高档型', '三星级', '舒适型', '经济型', '客栈民宿'];
-
     var hotel_promise = new Promise(function (resolve, reject) {
         var db_promise = find_in_db(tradearea);
         db_promise.then(function (result) {
@@ -104,15 +100,13 @@ router.post('/hotelratecount', async (req, res) => {
 * 获取酒店列表
 * */
 router.post('/hotelshoplist', function (req, res, next) {
-    var currpage = parseInt(req.query.currpage);
-    var tradearea = req.query.tradearea;
-    var hotelrate = req.query.hotelrate;
-    var pageSize = parseInt(req.query.pageSize);
-    var sortWay = req.query.sortWay; //'commentNumber'; //req.body.sortway;
-
+    var currpage = parseInt(req.body.currpage);
+    var tradearea = req.body.tradearea;
+    var hotelrate = req.body.hotelrate;
+    var pageSize = parseInt(req.body.pageSize);
+    var sortWay = req.body.sortWay;
     console.log(currpage, tradearea, hotelrate, pageSize, sortWay)
     var matchObj = {}
-
     if (hotelrate != '全部') {
         matchObj['shop_rate'] = hotelrate;
     } else {
@@ -191,131 +185,58 @@ router.post('/hotelshoplist', function (req, res, next) {
         }
     })
 });
-
-// 获取景点 本年评-论数量
-function find_limit_hotel(startDate, endDate, sortWay, commentNumLimit, matchObj) {
-    var sortDict = {}
-    switch (sortWay) {
-        case "前十名":
-            sortDict['sortway'] = {commentScore: -1}
-            break;
-        case "后十名":
-            sortDict['sortway'] = {commentScore: 1}
-            break;
-    }
-    var promise = new Promise(function (resolve, reject) {
-        HotelComment.aggregate([
-            {
-                $match: {
-                    'comment_time': {$gte: startDate, $lte: endDate},
-                    'comment_grade': {$ne: 0},
-                    'shop_rate': matchObj['shop_rate'],
-                    'tradeArea': matchObj['tradearea']
-                }
-            },
-            {
-                $group: {
-                    _id: '$shop_show_name',
-                    'commentScore': {$avg: '$comment_weighted_grade'},
-                    'commentNumber': {$sum: 1},
-                    'shopRate': {$first: '$shop_rate'}
-                }
-            },
-            {$match: {commentNumber: commentNumLimit['limitnum']}},
-            {$sort: sortDict['sortway']},
-            {$limit: 10},
-        ]).exec(function (err, result) {
-            if (err)
-                reject(err);
-            else {
-                resolve(result);
-            }
-        })
-    })
-    return promise;
-}
 /*
 * 获取酒店排行榜
 * */
 router.post('/hoteltenlimit', function (req, res, next) {
-
-    var tradearea = req.query.tradearea;
-    var hotelrate = req.query.hotelrate;
-
-    var currDate = new Date();
-    var Year = currDate.getFullYear();
-    var Month = currDate.getMonth(); // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
-    var triDate = currDate.getDate() - 3; // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
-    var endDate = Year + '' + Month.toString().padStart(2, '0') + '' + triDate.toString().padStart(2, 0);
-    var startDate = funcs.getDay(currDate, 93);
-    var commentNumLimit = {}
-    var matchObj = {}
-
-    if (hotelrate != '全部') {
-        matchObj['shop_rate'] = hotelrate;
-    } else {
-        matchObj['shop_rate'] = {$ne: ""}
-    }
-    if (tradearea != '全部') {
-        matchObj['tradearea'] = tradearea;
-    } else {
-        matchObj['tradearea'] = {$ne: "0"}
-    }
-
-
-    if (Month == 1 || Month == 2 || Month == 12) {
-        commentNumLimit['limitnum'] = {$gte: 40};
-    } else if (Month == 8 || Month == 9 || Month == 10) {
-        commentNumLimit['limitnum'] = {$gte: 80};
-    } else {
-        commentNumLimit['limitnum'] = {$gte: 60};
-    }
-
-    var sortWays = ['前十名', '后十名']
-
-    var hotel_promise = new Promise(function (resolve, reject) {
-        var hotelrank = {};
-        var endSearchFlag = 0;
-
-        sortWays.forEach((sortway) => {
-            var db_promise = find_limit_hotel(startDate, endDate, sortway, commentNumLimit, matchObj);
-            db_promise.then(function (result) {
-                if (result.length == 0) {
-
-                } else {
-                    for (var i = 0; i < result.length; i++) {
-                        result[i].commentScore = parseFloat((result[i].commentScore).toFixed(2));
-                    }
-                    if (sortway == '前十名') {
-                        hotelrank['goodList'] = result;
-                        endSearchFlag++;
-                    } else if (sortway == '后十名') {
-                        hotelrank['badList'] = result.reverse(); // 将排在 后十名 的 颠倒
-                        endSearchFlag++;
-                    }
-
-                    if (endSearchFlag == 2) {
-                        resolve(hotelrank);
-                    }
-                }
-            }).catch(function (err) {
-                logger.error('千岛湖 酒店排行前十 和后十名  接口：api/homepage/hotelrank 错误：' + err);
-                res.send({
-                    "code": 12,
-                    "message": "查询发生错误",
-                    "data": {}
-                })
-            })
-        })
-    })
-    hotel_promise.then(function (hotelrank) {
-        res.send({
-            "code": 0,
-            "message": "",
-            "data": {
-                "hotelrank": hotelrank
+    var endDate = funcs.getDay(new Date(), 3);
+    var startDate = funcs.getDay(new Date(), 93);
+    HotelComment.aggregate([
+        {
+            $match: {
+                'comment_time': {$gte: startDate, $lte: endDate},
+                'comment_grade': {$ne: 0}
             }
-        })
+        },
+        {
+            $group: {
+                _id: '$shop_show_name',
+                'commentScore': {$avg: '$comment_weighted_grade'},
+                'commentNumber': {$sum: 1},
+                'shopRate': {$first: '$shop_rate'}
+            }
+        },
+        {$sort: {'commentNumber': -1}},
+        {$limit: 10},
+    ]).exec(function (err, result) {
+        if (err) {
+            logger.error('千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：' + err);
+            res.send({
+                "code": 12,
+                "message": "查询发生错误",
+                "data": {}
+            })
+        }
+        if (result.length == 0) {
+            res.send({
+                "code": 0,
+                "message": "",
+                "data": {
+                    "list": result
+                }
+            })
+        } else {
+            for(var i = 0; i < result.length; i++) {
+                result[i].commentScore = parseFloat((result[i].commentScore).toFixed(2));
+            }
+            res.send({
+                "code": 0,
+                "message": "",
+                data: {
+                    "hotelrank": result
+                }
+            })
+        }
     })
 });
 module.exports = router;
