@@ -623,4 +623,107 @@ router.post("/keywords", async (req, res) => {
         }]
     })
 })
+router.post('/shoplist', async (req, res) => {
+    //获取参数
+    var businessArea = req.body.businessArea;
+    var shopCook = req.body.shopCook;
+    var pageSize = req.body.pageSize;
+    var sortWay = req.body.sortWay;
+    var commentType = req.body.commentType;
+    var currPag = req.body.currPag;
+    var sortdic = {};
+    if(commentType == 1 && sortWay == 1)
+        sortdic = {our_score:1};
+    else if(commentType == 1 && sortWay == -1)
+        sortdic = {our_score: -1};
+    else if(commentType == 2 && sortWay == 1)
+        sortdic = {shop_comment_num: 1};
+    else
+        sortdic = {shop_comment_num:-1};
+    var shopsitereg = new RegExp(businessArea,'i');
+    var shopcookreg = new RegExp(shopCook,'i');
+    var dic =   {$match:{}};
+    if(businessArea == "全部" && shopCook == "全部") {
+        dic =   {$match:{}};
+    }
+    else if(businessArea == "全部" && shopCook != "全部"){
+        dic = {
+            $match: {
+                "shop_cook_style": {
+                    $regex:shopcookreg
+                },
+            }
+        };
+
+
+    }
+    else if(businessArea != "全部" && shopCook == "全部"){
+        dic = {
+            $match: {
+                "shop_site": {
+                    $regex:shopsitereg
+                },
+
+            }
+        };
+    }
+    else{
+        dic = {
+            $match: {
+                "shop_site": {
+                    $regex:shopsitereg
+                },
+                "shop_cook_style": {
+                    $regex:shopcookreg
+                },
+            }
+        };
+    }
+    var shops = await shop.aggregate([
+        dic,
+        {
+            $sort: sortdic
+        },
+        {
+            $project:{
+                _id:0,
+                shop_name: 1, // 店铺名
+                shop_comment_num: 1, // 评论数
+                shop_address: 1, // 店铺地址
+                our_score: 1, //  店铺评分
+                shop_cook_style: 1, // 店铺类型
+                shop_price: 1, // 人均
+                shop_env: 1, // 环境
+                shop_taste: 1, // 口味
+                shop_service: 1 // 服务
+
+            }
+        }
+    ]);
+
+    var result = []; //表示最终的数组
+    if(currPag * pageSize <= shops.length)
+        var ends = currPag * pageSize;
+    else
+        ends = shops.length;
+    for(var i = (currPag - 1) * pageSize; i < ends;i++)
+        result.push(shops[i]);
+    var totalPage = Math.ceil(shops.length / pageSize);
+    res.send(
+        {
+            data: {
+                restaurantShopList: result
+
+            },
+            "page": {
+                "currPage": currPag,
+                "pageSize": result.length,
+                "totalPage":totalPage,
+                "next": currPag + 1 <= totalPage ? currPag + 1 : ""
+            },
+            code:0,
+            message:""
+        }
+    )
+});
 module.exports = router;

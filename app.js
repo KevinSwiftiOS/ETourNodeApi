@@ -44,10 +44,10 @@ var QdhHotelTMapCNumRouter = require('./routes/QdhHotelTMapCNumShow') // 千岛�
 var QdhHotelTagWordRouter = require('./routes/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
 var QdhHotelTagSumRouter = require('./routes/QdhHotelComTagSum');
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
-var RestaurantStatistic = require('./routes/restaurantDetails/RestaurantStatistic');
+// var RestaurantStatistic = require('./routes/restaurantDetails/RestaurantStatistic');
 var AreaComment = require('./routes/shoparea/AreaComment');
 var AreaScore = require("./routes/shoparea/AreaScore");
-var RestaurantList = require('./routes/restaurantDetails/RestaurantList');
+// var RestaurantList = require('./routes/restaurantDetails/RestaurantList');
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
 var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
@@ -136,8 +136,8 @@ app.use('/api/qdhspotdetail',qdhSpotDetailRouter);
 app.use('/api/qdhspotdetailcompard',qdhSpotDetailComparedRouter);
 app.use('/api/testapi',testApiRouter);
 app.use('/api/myshow', myShowRouter);
-app.use('/api/restaurant/statistic', RestaurantStatistic);
-app.use('/api/restaurants', RestaurantList);
+// app.use('/api/restaurant/statistic', RestaurantStatistic);
+// app.use('/api/restaurants', RestaurantList);
 app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
