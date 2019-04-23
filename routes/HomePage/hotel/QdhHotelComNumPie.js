@@ -49,11 +49,8 @@ router.post('/', async function (req, res, next) {
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
     var commentNumType = ['(0, 20]', '(20, 50]','(50, 90]', '(90, 1000]']
-<<<<<<< HEAD
-    var commentGrades = ['差评', '中评', '好评', '较好'];
-=======
+
     var commentGrades = ['较少', '少', '一般', '多'];
->>>>>>> cxb
     var hotel_promise = new Promise(function (resolve, reject) {
         var numberList = [
             {

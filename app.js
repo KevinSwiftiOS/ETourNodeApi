@@ -60,6 +60,7 @@ var restaurantPiecharts = require("./routes/HomePage/restaurant/RestaurantPiecha
 var spotRank = require('./routes/HomePage/spot/SpotRank'); //景区排行
 var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
+var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景点评论变化图
 var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关键指标
 var qdhHotelCommentTotal = require("./routes/HotelPage/QdhHotelCommentTotal");//千岛湖关键指标
 var QdhHotelHotChange = require("./routes/HotelPage/QdhHotelHotChange");//千岛湖关键指标
