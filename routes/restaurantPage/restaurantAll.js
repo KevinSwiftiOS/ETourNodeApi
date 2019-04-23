@@ -143,31 +143,30 @@ router.post('/keyindicator', async (req, res) => {
             "code": 0,
 
             // 餐饮关键指标模块（评论数）返回参数
-            "data": [{
-                    "commentKeyIndicatorModel": {
-                        "monthNumCumulant": thisMonthNumber,
-                        "yearNumCumulant": thisYearNumber,
-                        "monthNumChange": tongMonthNumber,
-                        "yearNumChange": tongYearNumber,
-                        "monthNumPercent": tongMonthPercent,
-                        "yearMonthPercent": tongYearPercent,
-                        "isMonthNumRise": isMonthNumRise,
-                        "isYearNumRise": isYearNumRise
-                    }
+            "data": {
+                "commentKeyIndicatorModel": {
+                    "monthNumCumulant": thisMonthNumber,
+                    "yearNumCumulant": thisYearNumber,
+                    "monthNumChange": tongMonthNumber,
+                    "yearNumChange": tongYearNumber,
+                    "monthNumPercent": tongMonthPercent,
+                    "yearMonthPercent": tongYearPercent,
+                    "isMonthNumRise": isMonthNumRise,
+                    "isYearNumRise": isYearNumRise
                 },
                 // 餐饮评论数变化趋势 返回参数
-                {
-                    "commentTrendModel": {
-                        "timeList": timeList,
-                        "valueList": [{
-                            "name": "评论数量",
-                            "type": 'line',
-                            "data": commentValue
-                        }]
-                    }
+
+                "commentTrendModel": {
+                    "timeList": timeList,
+                    "valueList": [{
+                        "name": "评论数量",
+                        "type": 'line',
+                        "data": commentValue
+                    }]
                 }
 
-            ],
+
+            },
 
 
             "message": ""
