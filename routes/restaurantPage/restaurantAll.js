@@ -182,15 +182,19 @@ router.post("/selectlist", async (req, res) => {
     var businessArea = req.body.businessArea;
     for (var i = 0; i < areaData.length; i++) {
         if (areaData[i].area === businessArea) {
+            console.log()
             areaCuisine = areaData[i].cuisine;
             break;
-        } else {
+        }
+    }
+    if(i == areaData.length) {
+
             res.send({
                 code: 0,
                 data: [],
                 message: "无此商圈"
             })
-        }
+
     }
     res.send({
         code: 0,

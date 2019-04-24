@@ -113,12 +113,11 @@ const AreaData = [
             },
             {
                 id: "其他美食",
-                number: 698
+                number: 56
             }
         ]
 
     },
-
     {
         area: "阳光路",
         cuisine: [{
