@@ -1,6 +1,137 @@
-const AreaData = [{
+const AreaData = [
+    {
+        area: "全部",
+        cuisine: [
+            {
+                id: "全部",
+                number: 1056
+            },
+            {
+            id: "水果生鲜",
+            number: 50
+        },
+            {
+                id: "酒吧",
+                number: 6
+            },
+            {
+                id: "自助餐",
+                number: 4
+            },
+            {
+                id: "西餐",
+                number: 14
+            },
+            {
+                id: "东南亚菜",
+                number: 1
+            },
+            {
+                id: "小吃快餐",
+                number: 334
+            }, {
+                id: "韩国料理",
+                number: 5
+            }, {
+                id: "火锅",
+                number: 19
+            }, {
+                id: "创意菜",
+                number: 6
+            }, {
+                id: "茶馆",
+                number: 25
+            }, {
+                id: "烧烤",
+                number: 28
+            }, {
+                id: "江河湖海鲜",
+                number: 20
+            }, {
+                id: "云贵菜",
+                number: 1
+            }, {
+                id: "西北菜",
+                number: 1
+            }, {
+                id: "湘菜",
+                number: 4
+            }, {
+                id: "食品保健",
+                number: 29
+            }, {
+                id: "私房菜",
+                number: 24
+            }, {
+                id: "农家菜",
+                number: 126
+            }, {
+                id: "家常菜",
+                number: 13
+            }, {
+                id: "东北菜",
+                number: 10
+            },
+            {
+                id: "本帮江浙菜",
+                number: 122
+            },
+            {
+                id: "苏浙菜",
+                number: 1
+            },
+            {
+                id: "面包甜点",
+                number: 51
+            },
+            {
+                id: "日本菜",
+                number: 4
+            },
+            {
+                id: "饮品店",
+                number: 78
+            },
+            {
+                id: "北京菜",
+                number: 2
+            },
+            {
+                id: "小龙虾",
+                number: 9
+            },
+            {
+                id: "面馆",
+                number: 48
+            },
+            {
+                id: "烤鱼",
+                number: 1
+            },
+            {
+                id: "川菜",
+                number: 18
+            },
+            {
+                id: "粤菜",
+                number: 5
+            },
+            {
+                id: "其他美食",
+                number: 56
+            }
+        ]
+
+    },
+    {
         area: "阳光路",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 121
+            },
+
+            {
                 id: "苏浙菜",
                 number: 1
             },
@@ -70,10 +201,13 @@ const AreaData = [{
 
     },
     {
-
-    }, {
         area: "鱼街",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 64
+            },
+            {
             id: "私房菜",
             number: 1
         }, {
@@ -133,7 +267,12 @@ const AreaData = [{
         }]
     }, {
         area: "千岛湖大排档",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 26
+            },
+            {
             id: "私房菜",
             number: 1
         }, {
@@ -166,7 +305,12 @@ const AreaData = [{
         }]
     }, {
         area: "千岛湖绿城度假公寓",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 57
+            },
+            {
             id: "水果生鲜",
             number: 3
         }, {
@@ -220,7 +364,12 @@ const AreaData = [{
         }]
     }, {
         area: "千岛湖十字街",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 92
+            },
+            {
             id: "水果生鲜",
             number: 6
         }, {
@@ -280,7 +429,13 @@ const AreaData = [{
         }]
     }, {
         area: "千岛湖广场",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 119
+            },
+
+            {
             id: "小龙虾",
             number: 1
         }, {
@@ -343,7 +498,12 @@ const AreaData = [{
         }]
     }, {
         area: "千岛湖森林氧吧",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 17
+            },
+            {
             id: "茶馆",
             number: 1
         }, {
@@ -364,7 +524,12 @@ const AreaData = [{
         }]
     }, {
         area: "江滨公园",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 53
+            },
+            {
             id: "水果生鲜",
             number: 2
         }, {
@@ -403,7 +568,12 @@ const AreaData = [{
         }]
     }, {
         area: "湖滨公园",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 54
+            },
+            {
             id: "水果生鲜",
             number: 1
         }, {
@@ -442,7 +612,12 @@ const AreaData = [{
         }]
     }, {
         area: "明珠花园",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 198
+            },
+            {
             id: "水果生鲜",
             number: 10
         }, {
@@ -508,7 +683,12 @@ const AreaData = [{
         }]
     }, {
         area: "开发区",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 199
+            },
+            {
             id: "水果生鲜",
             number: 15
         }, {
@@ -574,7 +754,13 @@ const AreaData = [{
         }]
     }, {
         area: "千岛湖风景区",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 56
+            },
+
+            {
             id: "酒吧",
             number: 1
         }, {

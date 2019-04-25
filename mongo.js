@@ -2,7 +2,7 @@
 // var url = "mongodb://lab421:lab421_1@localhost:27517/"
 // conn = new Mongo(url);//ip:port是你需要连接的mongodb数据库的ip和端口号
 // db = conn.getDB("dspider2");//database是集合名
-//执行语句  ./mongo localhost:27517/dspider2 -u"lab421" -p"lab421_1" --authenticationDatabase "admin" /home/lab421/storage/ckq/mongo.js 
+//执行语句  ./mongo localhost:27517/dspider2 -u"lab421" -p"lab421_1" --authenticationDatabase "admin" /home/lab421/storage/ckq/mongo.js
 function PrefixInteger(num, length) {
     return (Array(length).join('0') + num).slice(-length);
 }
@@ -17,11 +17,11 @@ function commentMonth(comment_time){
 function commentSeason(comment_time){
     time = comment_time.split('-');
     month = parseInt(time[1]);
-    
+
     seasons = ['01','02','03','04'];
-    if(month % 3 == 0) 
+    if(month % 3 == 0)
   return(time[0] + '-' +  seasons[month / 3 - 1]);
-    
+
 
     else {
           index = parseInt(Math.floor(month / 3));
@@ -77,6 +77,12 @@ function shop_name_search_key(data_region_search_key,shop_name){
     return '';
 }
 
+function update_shop_env(shop_env){
+    if(shop_env == "")
+        return "暂无评分"
+    else
+        return shop_env
+}
 
 
 
@@ -84,9 +90,8 @@ function shop_name_search_key(data_region_search_key,shop_name){
 
 
 
-
-db.comment.find().forEach(
+db.restaurant_shop.find().forEach(
     function(item){
-        db.comment.update({"_id":item._id},{"$set":{'shop_name_search_key':shop_name_search_key(item.data_region_search_key,item.shop_name)}})
+        db.restaurant_shop.update({"_id":item._id},{"$set":{'shop_env':update_shop_env(item.shop_env)}})
     }
 )
