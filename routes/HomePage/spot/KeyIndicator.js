@@ -9,7 +9,7 @@ var Comment = CommentModels.Comment;
 function tongBiCompare(lastNum,nowNum,isScore){
 
     var res = {};
-    res["percent"] =  nowNum >= lastNum? "+" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" : "-" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" ;
+    res["percent"] =  nowNum >= lastNum ? "+" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" : "-" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" ;
     res["isRise"] = nowNum - lastNum > 0 ? 1 : 0;
     if(!isScore)
     res["numChange"] =  nowNum >= lastNum ? "+" +  Math.abs(nowNum - lastNum) : "-" +  Math.abs(nowNum - lastNum) ;
@@ -101,10 +101,7 @@ router.post('/', async (req, res) => {
         var yearNumChange = tongBiCompare(lastYearCommentNumber, nowYearCommentNumber,false);
         var monthScoreChange = tongBiCompare(lastMonthCommentScore, nowMonthCommentScore,true);
         var yearScoreChange = tongBiCompare(lastYearCommentScore, nowYearCommentScore,true);
-console.log(monthNumChange);
-console.log(monthScoreChange);
-console.log(yearNumChange);
-console.log(yearScoreChange);
+
 
 
 
