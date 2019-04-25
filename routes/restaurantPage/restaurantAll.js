@@ -390,7 +390,7 @@ router.post("/ranklist", async (req, res) => {
 router.post("/keywords", async (req, res) => {
     // 分页功能变量
     var pageSize = req.body.pageSize;
-    var currPag = req.body.currPag;
+    var currPag = req.body.currPage;
 
     let selectKey = req.body.featureWord;
     let obj = {};
@@ -620,7 +620,7 @@ router.post("/keywords", async (req, res) => {
             break;
     }
 
-    if(currPag * pageSize.length){
+    if(currPag * pageSize <= currArray.length){
         var ends = currPag * pageSize;
     }else{
         ends = currArray.length;
@@ -640,13 +640,14 @@ router.post("/keywords", async (req, res) => {
         data: {
             result: result,
             resultNum: [taste, server, evn, price],
-            keywordsNum: [goodNum, badNum]
-        },
-        "page" : {
-            "currPage":currPag,
-            "pageSize": result.length,
-            "totalPage": totalPage,
-            "next": currPage + 1 <= totalPage ? currPag + 1 : ""
+            keywordsNum: [goodNum, badNum],
+
+            page: {
+                "currPage": currPag,
+                "pageSize": result.length,
+                "totalPage": totalPage,
+                "next": currPag + 1 <= totalPage ? currPag + 1 : ""
+            }
         }
     })
 })
@@ -660,60 +661,51 @@ router.post('/shoplist', async (req, res) => {
     var pageSize = req.body.pageSize;
     var sortWay = req.body.sortWay;
     var commentType = req.body.commentType;
-    var currPag = req.body.currPag;
+    var currPag = req.body.currPage;
     var sortdic = {};
-    if (commentType == 1 && sortWay == 1)
-        sortdic = {
-            our_score: 1
-        };
-    else if (commentType == 1 && sortWay == -1)
-        sortdic = {
-            our_score: -1
-        };
-    else if (commentType == 2 && sortWay == 1)
-        sortdic = {
-            shop_comment_num: 1
-        };
+    if(commentType == 1 && sortWay == 1)
+        sortdic = {our_score:1};
+    else if(commentType == 1 && sortWay == -1)
+        sortdic = {our_score: -1};
+    else if(commentType == 2 && sortWay == 1)
+        sortdic = {shop_comment_num: 1};
     else
-        sortdic = {
-            shop_comment_num: -1
-        };
-    var shopsitereg = new RegExp(businessArea, 'i');
-    var shopcookreg = new RegExp(shopCook, 'i');
-    var dic = {
-        $match: {}
-    };
-    if (businessArea == "全部" && shopCook == "全部") {
-        dic = {
-            $match: {}
-        };
-    } else if (businessArea == "全部" && shopCook != "全部") {
+        sortdic = {shop_comment_num:-1};
+    var shopsitereg = new RegExp(businessArea,'i');
+    var shopcookreg = new RegExp(shopCook,'i');
+    var dic =   {$match:{}};
+    if(businessArea == "全部" && shopCook == "全部") {
+        dic =   {$match:{}};
+    }
+    else if(businessArea == "全部" && shopCook != "全部"){
         dic = {
             $match: {
                 "shop_cook_style": {
-                    $regex: shopcookreg
+                    $regex:shopcookreg
                 },
             }
         };
 
 
-    } else if (businessArea != "全部" && shopCook == "全部") {
+    }
+    else if(businessArea != "全部" && shopCook == "全部"){
         dic = {
             $match: {
                 "shop_site": {
-                    $regex: shopsitereg
+                    $regex:shopsitereg
                 },
 
             }
         };
-    } else {
+    }
+    else{
         dic = {
             $match: {
                 "shop_site": {
-                    $regex: shopsitereg
+                    $regex:shopsitereg
                 },
                 "shop_cook_style": {
-                    $regex: shopcookreg
+                    $regex:shopcookreg
                 },
             }
         };
@@ -724,8 +716,8 @@ router.post('/shoplist', async (req, res) => {
             $sort: sortdic
         },
         {
-            $project: {
-                _id: 0,
+            $project:{
+                _id:0,
                 shop_name: 1, // 店铺名
                 shop_comment_num: 1, // 评论数
                 shop_address: 1, // 店铺地址
@@ -734,33 +726,37 @@ router.post('/shoplist', async (req, res) => {
                 shop_price: 1, // 人均
                 shop_env: 1, // 环境
                 shop_taste: 1, // 口味
-                shop_servce: 1 // 服务
+                shop_service: 1 // 服务
 
             }
         }
     ]);
 
     var result = []; //表示最终的数组
-    if (currPag * pageSize.length)
+    if(currPag * pageSize <= shops.length)
         var ends = currPag * pageSize;
     else
         ends = shops.length;
-    for (var i = (currPag - 1) * pageSize; i < ends; i++)
-        result.push(shops[i]);
-    var totalPage = Math.ceil(shops.length / pageSize);
-    res.send({
-        data: {
-            restaurantShopList: result
 
-        },
-        "page": {
-            "currPage": currPag,
-            "pageSize": result.length,
-            "totalPage": totalPage,
-            "next": currPag + 1 <= totalPage ? currPag + 1 : ""
-        },
-        code: 0,
-        message: ""
-    })
+    for(var i = (currPag - 1) * pageSize; i < ends;i++)
+        result.push(shops[i]);
+
+    var totalPage = Math.ceil(shops.length / pageSize);
+    res.send(
+        {
+            data: {
+                restaurantShopList: result
+
+            },
+            "page": {
+                "currPage": currPag,
+                "pageSize": result.length,
+                "totalPage":totalPage,
+                "next": currPag + 1 <= totalPage ? currPag + 1 : ""
+            },
+            code:0,
+            message:""
+        }
+    )
 });
 module.exports = router;
