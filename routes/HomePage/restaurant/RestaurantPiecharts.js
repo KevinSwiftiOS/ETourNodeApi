@@ -7,19 +7,19 @@ const funcs = require('../../../commons/common');
 function find_score_in_db(score, startTime, endTime) {
     var section = {}
     switch (score) {
-        case "差评":
+        case "差":
             section['match'] = {
                 $gt: 0.0,
                 $lte: 3.0
             }
             break;
-        case "中评":
+        case "较差":
             section['match'] = {
                 $gt: 3.0,
                 $lte: 4.0
             };
             break;
-        case "好评":
+        case "良":
             section['match'] = {
                 $gt: 4.0,
                 $lte: 4.3
@@ -31,7 +31,7 @@ function find_score_in_db(score, startTime, endTime) {
                 $lte: 4.7
             };
             break;
-        case "非常棒":
+        case "好":
             section['match'] = {
                 $gt: 4.7,
                 $lte: 5.0
@@ -144,26 +144,26 @@ router.post('/score', async function (req, res, next) {
 function find_num_in_db(Grade, startDate, endDate) {
     var section = {}
     switch (Grade) {
-        case "差评":
+        case "较少":
             section['match'] = {
                 $gt: 0.0,
                 $lte: 15.0
             };
             break;
-        case "中评":
+        case "少":
             section['match'] = {
                 $gt: 15.0,
                 $lte: 40.0
             };
             break;
-        case "好评":
+        case "一般":
             section['match'] = {
                 $gt: 40.0,
                 $lte: 70.0
             };
             break;
 
-        case "较好":
+        case "多":
             section['match'] = {
                 $gt: 70.0,
                 $lte: 1000.0
@@ -214,7 +214,7 @@ router.post('/num', async function (req, res, next) {
     var triDate = currDate.getDate() - 3; // 为了保证 信息的完整新， 都会 获取到当前月份的前一个月
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
-    var commentNumType = ['(0, 20]', '(20, 50]', '(50, 90]', '(90, 1000]']
+    var commentNumType = ['(0, 15]', '(15, 40]', '(40, 70]', '(70, 1000]']
     var commentGrades = ['较少', '少', '一般', '多'];
     var restaurant_promise = new Promise(function (resolve, reject) {
         var numberList = [{
