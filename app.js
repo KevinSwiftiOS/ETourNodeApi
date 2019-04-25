@@ -176,7 +176,8 @@ app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变�
 
 
 
-// 主页接口app.use('/api/homepage/hotel/scorepiecharts', QdhHotelComScorePieRouter);    // 酒店评分饼图   主页接口
+// 主页接口
+app.use('/api/homepage/hotel/scorepiecharts', QdhHotelComScorePieRouter);    // 酒店评分饼图   主页接口
 app.use('/api/homepage/hotel/numpiecharts', QdhHotelComNumPieRouter);   // 酒店评论饼图
 app.use('/api/homepage/hotelrank', QdhHotelComScoreLimitTenRouter);    // 获得酒店前10名
 app.use('/api/homepage/restaurantrank', restaurantRank);  // 餐饮排行
