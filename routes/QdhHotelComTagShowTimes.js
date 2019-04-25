@@ -8,7 +8,7 @@ router.post('/', function (req, res, next) {
     var tagname = req.query.tagname;
     var currpage = req.query.currpage;
     var commentclass = req.query.commentclass;
-    console.log(currpage, tagname, commentclass, '输出这些参数，为什么怎么回事');
+    //console.log(currpage, tagname, commentclass, '输出这些参数，为什么怎么回事');
     var searchObj = {}
     var getInfoObj = {}
     switch (tagname) {
@@ -51,7 +51,7 @@ router.post('/', function (req, res, next) {
                 "data": {}
             });
         }else{
-            console.log(result, '韦森么没有输出那')
+            //console.log(result, '韦森么没有输出那')
             res.send({
                 "code":0,
                 "message":"",
