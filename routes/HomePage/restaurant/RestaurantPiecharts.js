@@ -88,7 +88,7 @@ router.post('/score', async function (req, res, next) {
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
     var commentScoreSection = ['(0.0, 3.0]', '(3.0, 4.0]', '(4.0, 4.3]', '(4.3, 4.7]', '(4.7, 5.0]'];
-    var commentGrades = ['差评', '中评', '好评', '较好', '非常棒'];
+    var commentGrades = ['差', '较差', '良', '较好', '好'];
     var restaurant_promise = new Promise(function (resolve, reject) {
         var scoreList = [{
                 "name": "",
@@ -215,7 +215,7 @@ router.post('/num', async function (req, res, next) {
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
     var commentNumType = ['(0, 20]', '(20, 50]', '(50, 90]', '(90, 1000]']
-    var commentGrades = ['差评', '中评', '好评', '较好'];
+    var commentGrades = ['较少', '少', '一般', '多'];
     var restaurant_promise = new Promise(function (resolve, reject) {
         var numberList = [{
                 "name": "",
