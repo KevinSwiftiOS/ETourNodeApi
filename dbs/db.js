@@ -12,7 +12,7 @@ mongoose.Promise = global.Promise;
 //         pass:';lab421_1'
 // }
 // mongoose.connect("mongodb://lab421:lab421_1@120.55.59.187:28117/dspider2?authSource=admin");
-mongoose.connect("mongodb://lab421:lab421_1@120.55.59.187:28117/dspider2?authSource=admin");
+mongoose.connect("mongodb://120.55.59.187:27017/dspider2");
 //mongoose.connect("mongodb://caobourne:CaoBourne@111.231.71.167:27017/dspider2?authSource=admin");
 // mongoose.connect("mongodb://lab421:lab421_1@10.1.17.25:27517/dspider2?authSource=admin");
 
