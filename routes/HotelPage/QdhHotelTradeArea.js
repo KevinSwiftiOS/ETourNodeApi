@@ -113,7 +113,7 @@ router.post('/shoplist', function (req, res, next) {
     var pageSize = parseInt(req.body.pageSize);
     var sortWay = parseInt(req.body.sortWay); // 排序方式 升序 or 降序
     var commentType = parseInt(req.body.commentType); // 按评分 或 评论数量 展示酒店
-    console.log(currpage, tradearea, hotelrate, pageSize, sortWay, commentType)
+    //console.log(currpage, tradearea, hotelrate, pageSize, sortWay, commentType)
     var matchObj = {}
     if (hotelrate != '全部') {
         matchObj['shop_rate'] = hotelrate;

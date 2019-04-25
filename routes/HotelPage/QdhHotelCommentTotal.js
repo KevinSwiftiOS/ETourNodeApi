@@ -6,13 +6,21 @@ var HotelCommentModel = require('../../dbs/HotelCommentModel');
 var funcs = require('../../commons/common');
 var HotelComment = HotelCommentModel.HotelComment
 
-function tongBiCompare(lastNum,nowNum){
+function tongBiCompare(lastNum, nowNum) {
     var res = {};
-    res["percent"] = ((nowNum - lastNum) / lastNum * 100).toFixed(2) + "%";
+    var percentNum = ((nowNum - lastNum) / lastNum * 100).toFixed(2);
+    var numChange = (nowNum - lastNum);
     res["isRise"] = nowNum - lastNum > 0 ? 1 : 0;
-    res["numChange"] = Math.abs(nowNum - lastNum);
+    if (res["isRise"] == 1) {
+        res["percent"] = '+' + percentNum + "%";
+        res["numChange"] = '+' + numChange;
+    }else{
+        res["percent"] = percentNum + "%";
+        res["numChange"] = '' + numChange;
+    }
     return res;
 }
+
 //登录接口
 router.post('/', async (req, res) => {
     var lastThreeDate = funcs.getDay(new Date(), 3);
@@ -27,9 +35,9 @@ router.post('/', async (req, res) => {
     var lastStartMonth = (year - 2).toString() + "-" + month.toString().padStart(2, 0);
     var lastEndMonth = nowStartMonth;
 
-    console.log(nowStartYearDate, lastThreeDate, lastStartYearDate, lastEndYearDate)
+/*    console.log(nowStartYearDate, lastThreeDate, lastStartYearDate, lastEndYearDate)
     console.log(nowStartMonth, nowEndMonth, lastStartMonth, lastEndMonth)
-    console.log(parseInt(month), 'month');
+    console.log(parseInt(month), 'month');*/
     var nowData = await HotelComment.aggregate([
         {
             $match: {
@@ -87,28 +95,14 @@ router.post('/', async (req, res) => {
             }
         }
     ]);
-    console.log('输出今年的');
-    for (var i = 0; i < nowData.length; i++) {
-        console.log(nowData[i])
-    }
-    console.log('输出去年的');
-    for (var i = 0; i < nowData.length; i++) {
-        console.log(lastData[i])
-    }
-
-
     var numList = [];
     var timeList = [];
-    var tongPercentList = [];
     for (var i = 0; i < nowData.length; i++) {
         numList.push(nowData[i].commentNumber);
         timeList.push(nowData[i]._id);
-        tongPercentList.push(tongBiCompare(lastData[i].commentNumber, nowData[i].commentNumber));
     }
-    console.log(numList, 'numList')
-    console.log(timeList, 'timeList')
-    console.log(tongPercentList, "tongPercentList")
-
+/*    console.log(numList, 'numList')
+    console.log(timeList, 'timeList')*/
 
     var nowMonthCommentNumber = nowData[nowData.length - 1].commentNumber;
     //去年的评分和评论数量
@@ -120,11 +114,9 @@ router.post('/', async (req, res) => {
         lastYearCommentNumber += lastData[i].commentNumber;
     }
 
-    commentKeyIndicatorModel = {};
-
     var monthNumChange = tongBiCompare(lastMonthCommentNumber, nowMonthCommentNumber);
     var yearNumChange = tongBiCompare(lastYearCommentNumber, nowYearCommentNumber);
-
+    var commentKeyIndicatorModel = {};
     commentKeyIndicatorModel['monthNumCumulant'] = nowMonthCommentNumber;
     commentKeyIndicatorModel["yearNumCumulant"] = nowYearCommentNumber;
     commentKeyIndicatorModel['monthNumChange'] = monthNumChange.numChange;
@@ -134,25 +126,20 @@ router.post('/', async (req, res) => {
     commentKeyIndicatorModel['isMonthNumRise'] = monthNumChange.isRise;
     commentKeyIndicatorModel["isYearNumRise"] = yearNumChange.isRise;
 
-    console.log(commentKeyIndicatorModel, 'commentKeyIndicatorModel')
+    //console.log(commentKeyIndicatorModel, 'commentKeyIndicatorModel')
 
     res.send({
-        "code":0,
-        "message":"",
-        "data":{
+        "code": 0,
+        "message": "",
+        "data": {
             "commentKeyIndicatorModel": commentKeyIndicatorModel,
             "commentTrendModel": {
                 "timeList": timeList,
-                "valueList":[
+                "valueList": [
                     {
-                        name:'评论数量', //每月的评论数量，柱状图显示（1年）
-                        type:'bar',
+                        name: '评论数量', //每月的评论数量，柱状图显示（1年）
+                        type: 'bar',
                         data: numList
-                    },
-                    {
-                        name:'同比', //当月的评论数量，折线图显示显示
-                        type:'line',
-                        data:tongPercentList
                     }
                 ]
             }
