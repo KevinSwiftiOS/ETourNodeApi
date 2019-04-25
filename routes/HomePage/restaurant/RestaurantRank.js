@@ -1,15 +1,13 @@
 const express = require('express');
 const comments = require('../../../dbs/restaurant/RSComment');
-const ourScore = require("../../../dbs/restaurant/shops")
 const router = express.Router();
-const getDay = require('../../../commons/common');
-
+const funcs = require('../../../commons/common');
 
 router.post('/', async (req, res) => {
     // 查询数据库，返回前TOP10的评分最高和最低的餐饮
+    var start_time = funcs.getDay(new Date(), 93);
+    var end_time = funcs.getDay(new Date(), 3);
 
-    var start_time = getDay(new Date(), 93);
-    var end_time = getDay(new Date(), 3);
 
     var goodList = await comments.aggregate([
         {
@@ -23,37 +21,99 @@ router.post('/', async (req, res) => {
         {
             $group: {
                 "_id": "$shop_name",
-                totalNumber: {
-                    $sum: 1
+                "commentNumber":{"$sum": 1},
+                "commentScore": {
+                    "$avg": "$our_score"
+                },
+            }
+        },
+        {
+            $match:{
+                commentNumber : {
+                    $gte: 100
                 }
             }
         },
         {
-            $project: {
-                "_id": "$_id",
-                commentScore:"$our_score",
-                commentNumber: "$totalNumber"
-            }
-        },
-        {
-            $sort: {
-                commentScore: -1
-            }
+            $sort:{commentScore: -1},
         },
         {
             $limit: 10
         },
+        {$project:{
+                _id:1,
+                commentScore: {
+                    $divide: [
+                        {
+                            $subtract: [
+                                {$multiply: ['$commentScore', 100]},
+                                {$mod: [{$multiply: ['$commentScore', 100]}, 1]}
+                            ]
+                        },
+                        100]
+                },
+                commentNumber:"$commentNumber"}}
+
     ]);
-    console.log(goodList);
+    var badList = await comments.aggregate([{
+        $match: {
+            comment_time: {
+                $gte: start_time,
+                $lte: end_time
+            }
+        }
+    },
+        {
+            $group: {
+                "_id": "$shop_name",
+                "commentNumber": {
+                    "$sum": 1
+                },
+                "commentScore": {
+                    "$avg": "$our_score"
+                },
+            }
+        },
+        {
+            $match: {
+                commentNumber: {
+                    $gte: 100
+                }
+            }
+        },
+        {
+            $sort: {
+                commentScore: 1
+            },
+        },
+        {
+            $limit: 10
+        },
+        {
+            $project: {
+                _id: 1,
+                commentNumber: "$commentNumber",
+                commentScore: {
+                    $divide: [
+                        {
+                            $subtract: [
+                                {$multiply: ['$commentScore', 100]},
+                                {$mod: [{$multiply: ['$commentScore', 100]}, 1]}
+                            ]
+                        },
+                        100]
+                }
+            }
+        }
+
+    ]);
     res.send({
         code: 0,
         message: "",
-        data: {
+        data:{
             goodList,
-            badList:[]
+            badList
         }
     })
 })
-
-
 module.exports = router;

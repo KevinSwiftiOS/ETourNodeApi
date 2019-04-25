@@ -116,7 +116,7 @@ router.post('/score', async function (req, res, next) {
             var db_promise = find_score_in_db(grade, startDate, endDate);
             db_promise.then(function (result) {
                 findCount += 1;
-                scoreList[gradeIndex].name = commentScoreSection[gradeIndex];
+                scoreList[gradeIndex].name = commentGrades[gradeIndex];
                 scoreList[gradeIndex].value = result.length;
                 if (findCount == commentGrades.length) {
                     resolve(scoreList);
@@ -144,13 +144,13 @@ router.post('/score', async function (req, res, next) {
 function find_num_in_db(Grade, startDate, endDate) {
     var section = {}
     switch (Grade) {
-        case "较少":
+        case "少":
             section['match'] = {
                 $gt: 0.0,
                 $lte: 15.0
             };
             break;
-        case "少":
+        case "较少":
             section['match'] = {
                 $gt: 15.0,
                 $lte: 40.0
@@ -215,7 +215,7 @@ router.post('/num', async function (req, res, next) {
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
     var commentNumType = ['(0, 15]', '(15, 40]', '(40, 70]', '(70, 1000]']
-    var commentGrades = ['较少', '少', '一般', '多'];
+    var commentGrades = ['少', '较少', '一般', '多'];
     var restaurant_promise = new Promise(function (resolve, reject) {
         var numberList = [{
                 "name": "",
@@ -239,7 +239,7 @@ router.post('/num', async function (req, res, next) {
             var db_promise = find_num_in_db(grade, startDate, endDate);
             db_promise.then(function (result) {
                 findCount += 1;
-                numberList[gradeIndex].name = commentNumType[gradeIndex];
+                numberList[gradeIndex].name = commentGrades[gradeIndex];
                 numberList[gradeIndex].value = result.length;
                 if (findCount == commentGrades.length) {
                     resolve(numberList);

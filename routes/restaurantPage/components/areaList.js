@@ -1,7 +1,12 @@
 const AreaData = [
     {
         area: "全部",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 1056
+            },
+            {
             id: "水果生鲜",
             number: 50
         },
@@ -120,7 +125,13 @@ const AreaData = [
     },
     {
         area: "阳光路",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 121
+            },
+
+            {
                 id: "苏浙菜",
                 number: 1
             },
@@ -191,7 +202,12 @@ const AreaData = [
     },
     {
         area: "鱼街",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 64
+            },
+            {
             id: "私房菜",
             number: 1
         }, {
@@ -251,7 +267,12 @@ const AreaData = [
         }]
     }, {
         area: "千岛湖大排档",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 26
+            },
+            {
             id: "私房菜",
             number: 1
         }, {
@@ -284,7 +305,12 @@ const AreaData = [
         }]
     }, {
         area: "千岛湖绿城度假公寓",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 57
+            },
+            {
             id: "水果生鲜",
             number: 3
         }, {
@@ -338,7 +364,12 @@ const AreaData = [
         }]
     }, {
         area: "千岛湖十字街",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 92
+            },
+            {
             id: "水果生鲜",
             number: 6
         }, {
@@ -398,7 +429,13 @@ const AreaData = [
         }]
     }, {
         area: "千岛湖广场",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 119
+            },
+
+            {
             id: "小龙虾",
             number: 1
         }, {
@@ -461,7 +498,12 @@ const AreaData = [
         }]
     }, {
         area: "千岛湖森林氧吧",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 17
+            },
+            {
             id: "茶馆",
             number: 1
         }, {
@@ -482,7 +524,12 @@ const AreaData = [
         }]
     }, {
         area: "江滨公园",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 53
+            },
+            {
             id: "水果生鲜",
             number: 2
         }, {
@@ -521,7 +568,12 @@ const AreaData = [
         }]
     }, {
         area: "湖滨公园",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 54
+            },
+            {
             id: "水果生鲜",
             number: 1
         }, {
@@ -560,7 +612,12 @@ const AreaData = [
         }]
     }, {
         area: "明珠花园",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 198
+            },
+            {
             id: "水果生鲜",
             number: 10
         }, {
@@ -626,7 +683,12 @@ const AreaData = [
         }]
     }, {
         area: "开发区",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 199
+            },
+            {
             id: "水果生鲜",
             number: 15
         }, {
@@ -692,7 +754,13 @@ const AreaData = [
         }]
     }, {
         area: "千岛湖风景区",
-        cuisine: [{
+        cuisine: [
+            {
+                id: "全部",
+                number: 56
+            },
+
+            {
             id: "酒吧",
             number: 1
         }, {

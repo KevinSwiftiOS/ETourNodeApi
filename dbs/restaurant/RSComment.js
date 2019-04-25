@@ -23,9 +23,8 @@ const NewCommentSchema = new Schma({
         comment_env_score: String,
         comment_average_price: Number,
         our_score: Number
-},
+    },
 
- { collection: 'restaurant_newest_comment' });
+    { collection: 'restaurant_newest_comment' });
 
 module.exports = mongoose.model("newComment", NewCommentSchema);
-

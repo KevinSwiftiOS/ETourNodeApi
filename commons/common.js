@@ -1,5 +1,6 @@
 //不足位数进行补齐
 var funcs = {
+
      getDay: function (date, subDay) {
          var newDate = date.setDate(date.getDate() - subDay);
          newDate = new Date(newDate);

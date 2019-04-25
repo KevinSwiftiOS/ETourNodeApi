@@ -68,7 +68,6 @@ router.post('/', async (req, res) => {
     //去年的结束和年份开始日期
     var lastEndDate = (year-1).toString() + "-" + funcs.PrefixInteger(month,2) + "-" +  lastThreeDate.substr(8,2);
     var lastStartYearDate =  (year-1).toString() + "-01-01";
-    console.log(lastEndDate);
     try {
         var nowData = await getYearData(nowStartYearDate, lastThreeDate);
         var lastData = await getYearData(lastStartYearDate, lastEndDate);
