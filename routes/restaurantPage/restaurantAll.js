@@ -122,11 +122,13 @@ router.post('/keyindicator', async (req, res) => {
             isYearNumRise = 1;
         }
 
-        var tongMonthNumber = Math.abs(thisMonthNumber - lastMonthNumber);
-        var tongYearNumber = Math.abs(thisYearNumber - lastYearNumber);
+        var tongMonthNumber =(thisMonthNumber >= lastMonthNumber) ? "+" + (thisMonthNumber - lastMonthNumber) :
+        thisMonthNumber - lastMonthNumber
+        ;
+        var tongYearNumber =(thisYearNumber >= lastYearNumber) ? "+" + (thisYearNumber - lastYearNumber) : thisYearNumber - lastYearNumber;
 
-        var tongMonthPercent = (((tongMonthNumber / lastMonthNumber) * 100).toFixed(2)).toString() + "%";
-        var tongYearPercent = (((tongYearNumber / lastYearNumber) * 100).toFixed(2)).toString() + "%";
+        var tongMonthPercent =  thisMonthNumber >= lastMonthNumber ? "+" + (((thisMonthNumber - lastMonthNumber) / lastMonthNumber) * 100).toFixed(2) + "%" : (((thisMonthNumber - lastMonthNumber) / lastMonthNumber) * 100).toFixed(2) + "%";
+        var tongYearPercent =  thisYearNumber >= lastYearNumber ? "+" + (((thisYearNumber - lastYearNumber) / lastYearNumber) * 100).toFixed(2) + "%" :  (((thisYearNumber - lastYearNumber) / lastYearNumber) * 100).toFixed(2) + "%" ;
 
         //  餐饮评论数变化趋势
         var timeList = [];
