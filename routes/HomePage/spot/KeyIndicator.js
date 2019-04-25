@@ -6,12 +6,15 @@ var CommentModels = require('../../../dbs/CommentModels');
 var funcs = require('../../../commons/common');
 var Comment = CommentModels.Comment;
 //同比的比较函数，返回是否上升，和上升的百分比
-function tongBiCompare(lastNum,nowNum){
+function tongBiCompare(lastNum,nowNum,isScore){
 
     var res = {};
-    res["percent"] = (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%";
+    res["percent"] =  nowNum >= lastNum? "+" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" : "-" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" ;
     res["isRise"] = nowNum - lastNum > 0 ? 1 : 0;
-    res["numChange"] = Math.abs(nowNum - lastNum);
+    if(!isScore)
+    res["numChange"] =  nowNum >= lastNum ? "+" +  Math.abs(nowNum - lastNum) : "-" +  Math.abs(nowNum - lastNum) ;
+    else
+        res["numChange"] =  nowNum >= lastNum ? "+" +  Math.abs(nowNum - lastNum).toFixed(2) : "-" +  Math.abs(nowNum - lastNum).toFixed(2) ;
     return res;
 }
 const getYearData = async(startDate,endDate) => {
@@ -68,7 +71,7 @@ router.post('/', async (req, res) => {
     //去年的结束和年份开始日期
     var lastEndDate = (year-1).toString() + "-" + funcs.PrefixInteger(month,2) + "-" +  lastThreeDate.substr(8,2);
     var lastStartYearDate =  (year-1).toString() + "-01-01";
-    console.log(lastEndDate);
+
     try {
         var nowData = await getYearData(nowStartYearDate, lastThreeDate);
         var lastData = await getYearData(lastStartYearDate, lastEndDate);
@@ -94,10 +97,18 @@ router.post('/', async (req, res) => {
         var lastYearCommentScore = (lastYearCommentScore / (lastData.length)).toFixed(2);
         var data = {};
 
-        var monthNumChange = tongBiCompare(lastMonthCommentNumber, nowMonthCommentNumber);
-        var yearNumChange = tongBiCompare(lastYearCommentNumber, nowYearCommentNumber);
-        var monthScoreChange = tongBiCompare(lastMonthCommentScore, nowMonthCommentScore);
-        var yearScoreChange = tongBiCompare(lastYearCommentScore, nowYearCommentScore);
+        var monthNumChange = tongBiCompare(lastMonthCommentNumber, nowMonthCommentNumber,false);
+        var yearNumChange = tongBiCompare(lastYearCommentNumber, nowYearCommentNumber,false);
+        var monthScoreChange = tongBiCompare(lastMonthCommentScore, nowMonthCommentScore,true);
+        var yearScoreChange = tongBiCompare(lastYearCommentScore, nowYearCommentScore,true);
+console.log(monthNumChange);
+console.log(monthScoreChange);
+console.log(yearNumChange);
+console.log(yearScoreChange);
+
+
+
+
 
         data['monthNumCumulant'] = nowMonthCommentNumber;
         data["yearNumCumulant"] = nowYearCommentNumber;
@@ -110,8 +121,8 @@ router.post('/', async (req, res) => {
 
         data['monthScoreCumulant'] = nowMonthCommentScore;
         data["yearScoreCumulant"] = nowYearCommentScore;
-        data['monthScoreChange'] = monthScoreChange.numChange.toFixed(2);
-        data["yearScoreChange"] = yearScoreChange.numChange.toFixed(2);
+        data['monthScoreChange'] = monthScoreChange.numChange;
+        data["yearScoreChange"] = yearScoreChange.numChange;
         data['monthScorePercent'] = monthScoreChange.percent;
         data["yearScorePercent"] = yearScoreChange.percent;
         data['isMonthScoreRise'] = monthScoreChange.isRise;

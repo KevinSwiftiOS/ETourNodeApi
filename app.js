@@ -56,8 +56,8 @@ var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
 var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关键指标
 var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景区热度变化图
-var restaurantRank = require('./routes/HomePage/restaurant/RestaurantRank');  // 餐饮排行
-var restaurantPiecharts = require("./routes/HomePage/restaurant/RestaurantPiecharts");  // 餐饮饼图
+//var restaurantRank = require('./routes/HomePage/restaurant/RestaurantRank');  // 餐饮排行
+//var restaurantPiecharts = require("./routes/HomePage/restaurant/RestaurantPiecharts");  // 餐饮饼图
 
 //qdhhoteltmapnumshow
 //日志文件的配置
@@ -129,8 +129,8 @@ app.use('/api/restaurants', RestaurantList);
 app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
-
-app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
+//
+// app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
 app.use('/api/homepage/spotrank', spotRank);  // 景区排行和千岛湖景点排行
 
 app.use("/api/getdate",getDate);//获取当前是第几天
@@ -140,8 +140,8 @@ app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变�
 
 // app.use('./api/homepage/restaurant')
 
-app.use('/api/homepage/restaurantrank', restaurantRank);  // 餐饮排行
-app.use('/api/homepage/restaurantpiecharts', restaurantPiecharts); // 餐饮饼图
+//app.use('/api/homepage/restaurantrank', restaurantRank);  // 餐饮排行
+// app.use('/api/homepage/restaurantpiecharts', restaurantPiecharts); // 餐饮饼图
 
 
 // catch 404 and forward to error handler
