@@ -12,16 +12,16 @@ function find_in_db(Grade, startDate, endDate) {
         case "差":
             section['match'] = {$gt: 0.0, $lte: 3.0};
             break;
-        case "一般":
+        case "较差":
             section['match'] = {$gt: 3.0, $lte: 4.0};
             break;
-        case "好":
+        case "良":
             section['match'] = {$gt: 4.0, $lte: 4.3};
             break;
         case "较好":
             section['match'] = {$gt: 4.3, $lte: 4.7};
             break;
-        case "非常棒":
+        case "好":
             section['match'] = {$gt: 4.7, $lte: 5.0};
             break;
     }
@@ -55,7 +55,7 @@ router.post('/', async function (req, res, next) {
     var endDate = Year + '-' + Month.toString().padStart(2, '0') + '-' + triDate.toString().padStart(2, 0);
     var startDate = funcs.getDay(currDate, 93);
     var commentScoreSection = ['(0.0, 3.0]', '(3.0, 4.0]', '(4.0, 4.3]', '(4.3, 4.7]', '(4.7, 5.0]'];
-    var commentGrades = ['差', '一般', '好', '较好', '非常棒'];
+    var commentGrades = ['差', '较差', '良', '较好', '好'];
     var hotel_promise = new Promise(function (resolve, reject) {
         var scoreList = [
             {
