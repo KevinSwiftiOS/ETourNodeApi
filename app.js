@@ -164,7 +164,6 @@ app.use("/api/restaurantpage", restaurantsDetails);    // 餐饮详情接口
 // app.use('./api/homepage/restaurant')
 app.use("/api/hotelpage/keyindicator",qdhHotelCommentTotal); //千岛湖 当月和今年数量 统计 以及 评论数量折线图
 app.use("/api/hotelpage/ranklist",QdhHotelRankShowRouter); //千岛湖热度前十名， 以及好评和差评前十名
-app.use("/api/hotelpage",QdhHotelSameAreaHotel); //千岛湖 酒店 评论数量变化图（折线）
 
 // app.use('./api/homepage/restaurant')
 // catch 404 and forward to error handler
