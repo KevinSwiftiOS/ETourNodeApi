@@ -1,4 +1,6 @@
 .idea
-log
-log/access-log
+log/access-log/access.log
 node_modules
+log/
+*.log
+/log/
