@@ -187,13 +187,13 @@ router.post("/selectlist", async (req, res) => {
             break;
         }
     }
-    if(i == areaData.length) {
+    if (i == areaData.length) {
 
-            res.send({
-                code: 0,
-                data: [],
-                message: "无此商圈"
-            })
+        res.send({
+            code: 0,
+            data: [],
+            message: "无此商圈"
+        })
 
     }
     res.send({
@@ -388,6 +388,10 @@ router.post("/ranklist", async (req, res) => {
 
 // 接口四：评论智能分析模块
 router.post("/keywords", async (req, res) => {
+    // 分页功能变量
+    var pageSize = req.body.pageSize;
+    var currPag = req.body.currPag;
+
     let selectKey = req.body.featureWord;
     let obj = {};
     let obj2 = {};
@@ -502,11 +506,13 @@ router.post("/keywords", async (req, res) => {
     server = obj2[0].count;
     evn = obj3[0].count;
     price = obj4[0].count;
+
     var randomNum = parseInt(Math.random() * (10000), 10);
+    var result = [];
     // console.log(randomNum);
     switch (selectKey) {
         case 'taste':
-            var result = await commentKeywords.aggregate([{
+            var currArray = await commentKeywords.aggregate([{
                     $match: {
                         "taste": {
                             $ne: "undefined"
@@ -533,7 +539,7 @@ router.post("/keywords", async (req, res) => {
             var badNum = tasteNumber[1].num_tutorial;
             break;
         case 'price':
-            var result = await commentKeywords.aggregate([{
+            var currArray = await commentKeywords.aggregate([{
                     $match: {
                         price: {
                             $ne: "undefined"
@@ -560,7 +566,7 @@ router.post("/keywords", async (req, res) => {
             var badNum = priceNumber[0].num_tutorial;
             break;
         case 'evn':
-            var result = await commentKeywords.aggregate([{
+            var currArray = await commentKeywords.aggregate([{
                     $match: {
                         evn: {
                             $ne: "undefined"
@@ -587,7 +593,7 @@ router.post("/keywords", async (req, res) => {
             var badNum = evnNumber[0].num_tutorial;
             break;
         case 'server':
-            var result = await commentKeywords.aggregate([{
+            var currArray = await commentKeywords.aggregate([{
                     $match: {
                         server: {
                             $ne: "undefined"
@@ -613,6 +619,17 @@ router.post("/keywords", async (req, res) => {
             var badNum = serverNumber[0].num_tutorial;
             break;
     }
+
+    if(currPag * pageSize.length){
+        var ends = currPag * pageSize;
+    }else{
+        ends = currArray.length;
+    }
+    for(var i=(currPag - 1) * pageSize; i<ends; i++){
+        result.push(currArray[i])
+    }
+    var totalPage = Math.ceil(currArray.length / pageSize);
+
     // console.log(priceNumber);
     // console.log(goodNum);
     // console.log(badNum);
@@ -624,9 +641,18 @@ router.post("/keywords", async (req, res) => {
             result: result,
             resultNum: [taste, server, evn, price],
             keywordsNum: [goodNum, badNum]
+        },
+        "page" : {
+            "currPage":currPag,
+            "pageSize": result.length,
+            "totalPage": totalPage,
+            "next": currPage + 1 <= totalPage ? currPag + 1 : ""
         }
     })
 })
+
+
+// 接口五：餐饮列表显示模块
 router.post('/shoplist', async (req, res) => {
     //获取参数
     var businessArea = req.body.businessArea;
@@ -636,49 +662,58 @@ router.post('/shoplist', async (req, res) => {
     var commentType = req.body.commentType;
     var currPag = req.body.currPag;
     var sortdic = {};
-    if(commentType == 1 && sortWay == 1)
-        sortdic = {our_score:1};
-    else if(commentType == 1 && sortWay == -1)
-        sortdic = {our_score: -1};
-    else if(commentType == 2 && sortWay == 1)
-        sortdic = {shop_comment_num: 1};
+    if (commentType == 1 && sortWay == 1)
+        sortdic = {
+            our_score: 1
+        };
+    else if (commentType == 1 && sortWay == -1)
+        sortdic = {
+            our_score: -1
+        };
+    else if (commentType == 2 && sortWay == 1)
+        sortdic = {
+            shop_comment_num: 1
+        };
     else
-        sortdic = {shop_comment_num:-1};
-    var shopsitereg = new RegExp(businessArea,'i');
-    var shopcookreg = new RegExp(shopCook,'i');
-    var dic =   {$match:{}};
-    if(businessArea == "全部" && shopCook == "全部") {
-        dic =   {$match:{}};
-    }
-    else if(businessArea == "全部" && shopCook != "全部"){
+        sortdic = {
+            shop_comment_num: -1
+        };
+    var shopsitereg = new RegExp(businessArea, 'i');
+    var shopcookreg = new RegExp(shopCook, 'i');
+    var dic = {
+        $match: {}
+    };
+    if (businessArea == "全部" && shopCook == "全部") {
+        dic = {
+            $match: {}
+        };
+    } else if (businessArea == "全部" && shopCook != "全部") {
         dic = {
             $match: {
                 "shop_cook_style": {
-                    $regex:shopcookreg
+                    $regex: shopcookreg
                 },
             }
         };
 
 
-    }
-    else if(businessArea != "全部" && shopCook == "全部"){
+    } else if (businessArea != "全部" && shopCook == "全部") {
         dic = {
             $match: {
                 "shop_site": {
-                    $regex:shopsitereg
+                    $regex: shopsitereg
                 },
 
             }
         };
-    }
-    else{
+    } else {
         dic = {
             $match: {
                 "shop_site": {
-                    $regex:shopsitereg
+                    $regex: shopsitereg
                 },
                 "shop_cook_style": {
-                    $regex:shopcookreg
+                    $regex: shopcookreg
                 },
             }
         };
@@ -689,8 +724,8 @@ router.post('/shoplist', async (req, res) => {
             $sort: sortdic
         },
         {
-            $project:{
-                _id:0,
+            $project: {
+                _id: 0,
                 shop_name: 1, // 店铺名
                 shop_comment_num: 1, // 评论数
                 shop_address: 1, // 店铺地址
@@ -699,35 +734,33 @@ router.post('/shoplist', async (req, res) => {
                 shop_price: 1, // 人均
                 shop_env: 1, // 环境
                 shop_taste: 1, // 口味
-                shop_service: 1 // 服务
+                shop_servce: 1 // 服务
 
             }
         }
     ]);
 
     var result = []; //表示最终的数组
-    if(currPag * pageSize <= shops.length)
+    if (currPag * pageSize.length)
         var ends = currPag * pageSize;
     else
         ends = shops.length;
-    for(var i = (currPag - 1) * pageSize; i < ends;i++)
+    for (var i = (currPag - 1) * pageSize; i < ends; i++)
         result.push(shops[i]);
     var totalPage = Math.ceil(shops.length / pageSize);
-    res.send(
-        {
-            data: {
-                restaurantShopList: result
+    res.send({
+        data: {
+            restaurantShopList: result
 
-            },
-            "page": {
-                "currPage": currPag,
-                "pageSize": result.length,
-                "totalPage":totalPage,
-                "next": currPag + 1 <= totalPage ? currPag + 1 : ""
-            },
-            code:0,
-            message:""
-        }
-    )
+        },
+        "page": {
+            "currPage": currPag,
+            "pageSize": result.length,
+            "totalPage": totalPage,
+            "next": currPag + 1 <= totalPage ? currPag + 1 : ""
+        },
+        code: 0,
+        message: ""
+    })
 });
 module.exports = router;
