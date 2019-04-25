@@ -86,6 +86,14 @@ router.post('/selectlist', async (req, res) => {
             })
         })
     }).then(function (result) {
+        var total = 0;
+        for(var i = 0 ; i < result.length;i++)
+          total += result[i].countNum;
+        var totalDic = {
+            "_id":"全部",
+            "countNum":total
+        };
+        result.unshift(totalDic);
         res.send({
             "code": 0,
             "message": "",

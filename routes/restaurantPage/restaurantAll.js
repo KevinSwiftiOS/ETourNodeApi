@@ -182,7 +182,7 @@ router.post("/selectlist", async (req, res) => {
     var businessArea = req.body.businessArea;
     for (var i = 0; i < areaData.length; i++) {
         if (areaData[i].area === businessArea) {
-            console.log()
+
             areaCuisine = areaData[i].cuisine;
             break;
         }
@@ -710,7 +710,7 @@ router.post('/shoplist', async (req, res) => {
         var ends = currPag * pageSize;
     else
         ends = shops.length;
-    console.log(ends);
+
     for(var i = (currPag - 1) * pageSize; i < ends;i++)
         result.push(shops[i]);
 
