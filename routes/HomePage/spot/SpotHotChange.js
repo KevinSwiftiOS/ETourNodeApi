@@ -8,7 +8,7 @@ var Comment = CommentModels.Comment;
 //同比比较
 function tongBiCompare(lastNum,nowNum){
     //是否有下降的趋势
-   return  (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%";
+   return  ((nowNum - lastNum) / lastNum * 100).toFixed(2) + "%";
 }
 //登录接口
 router.post('/', async(req, res) => {
