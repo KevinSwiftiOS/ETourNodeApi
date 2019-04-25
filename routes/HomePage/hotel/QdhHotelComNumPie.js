@@ -9,16 +9,15 @@ var HotelComment = HotelCommentModel.HotelComment
 function find_in_db(Grade, startDate, endDate) {
     var section = {}
     switch (Grade) {
-        case "较少":
+        case "少":
             section['match'] = {$gt: 0.0, $lte: 15.0};
             break;
-        case "少":
+        case "较少":
             section['match'] = {$gt: 15.0, $lte: 40.0};
             break;
         case "一般":
             section['match'] = {$gt: 40.0, $lte: 70.0};
             break;
-
         case "多":
             section['match'] = {$gt: 70.0, $lte: 1000.0};
             break;
@@ -50,7 +49,7 @@ router.post('/', async function (req, res, next) {
     var startDate = funcs.getDay(currDate, 93);
     var commentNumType = ['(0, 20]', '(20, 50]','(50, 90]', '(90, 1000]']
 
-    var commentGrades = ['较少', '少', '一般', '多'];
+    var commentGrades = ['少', '较少', '一般', '多'];
     var hotel_promise = new Promise(function (resolve, reject) {
         var numberList = [
             {
