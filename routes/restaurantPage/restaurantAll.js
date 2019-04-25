@@ -122,13 +122,13 @@ router.post('/keyindicator', async (req, res) => {
             isYearNumRise = 1;
         }
 
-        var tongMonthNumber =(thisMonthNumber >= lastMonthNumber) ? "+" + (thisMonthNumber - lastMonthNumber) :
-        thisMonthNumber - lastMonthNumber
+        var tongMonthNumber =(thisMonthNumber >= lastMonthNumber) ? "+ " + (thisMonthNumber - lastMonthNumber) :
+        "- " + Math.abs(thisMonthNumber - lastMonthNumber)
         ;
-        var tongYearNumber =(thisYearNumber >= lastYearNumber) ? "+" + (thisYearNumber - lastYearNumber) : thisYearNumber - lastYearNumber;
+        var tongYearNumber =(thisYearNumber >= lastYearNumber) ? "+ " + (thisYearNumber - lastYearNumber) : "- " + Math.abs(thisYearNumber - lastYearNumber);
 
-        var tongMonthPercent =  thisMonthNumber >= lastMonthNumber ? "+" + (((thisMonthNumber - lastMonthNumber) / lastMonthNumber) * 100).toFixed(2) + "%" : (((thisMonthNumber - lastMonthNumber) / lastMonthNumber) * 100).toFixed(2) + "%";
-        var tongYearPercent =  thisYearNumber >= lastYearNumber ? "+" + (((thisYearNumber - lastYearNumber) / lastYearNumber) * 100).toFixed(2) + "%" :  (((thisYearNumber - lastYearNumber) / lastYearNumber) * 100).toFixed(2) + "%" ;
+        var tongMonthPercent =  thisMonthNumber >= lastMonthNumber ? "+ " + (((thisMonthNumber - lastMonthNumber) / lastMonthNumber) * 100).toFixed(2) + "%" :"- " +  ((Math.abs(thisMonthNumber - lastMonthNumber) / lastMonthNumber) * 100).toFixed(2) + "%";
+        var tongYearPercent =  thisYearNumber >= lastYearNumber ? "+ " + (((thisYearNumber - lastYearNumber) / lastYearNumber) * 100).toFixed(2) + "%" :  "- " + ((Math.abs(thisYearNumber - lastYearNumber) / lastYearNumber) * 100).toFixed(2) + "%" ;
 
         //  餐饮评论数变化趋势
         var timeList = [];
