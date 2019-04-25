@@ -8,7 +8,7 @@ var HotelComment = HotelCommentModel.HotelComment
 
 function tongBiCompare(lastNum,nowNum){
     var res = {};
-    res["percent"] = (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%";
+    res["percent"] = ((nowNum - lastNum) / lastNum * 100).toFixed(2) + "%";
     res["isRise"] = nowNum - lastNum > 0 ? 1 : 0;
     res["numChange"] = Math.abs(nowNum - lastNum);
     return res;
