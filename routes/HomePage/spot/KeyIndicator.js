@@ -9,12 +9,12 @@ var Comment = CommentModels.Comment;
 function tongBiCompare(lastNum,nowNum,isScore){
 
     var res = {};
-    res["percent"] =  nowNum >= lastNum ? "+" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" : "-" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" ;
+    res["percent"] =  nowNum >= lastNum ? "+ " + ((Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) ).toString()+ "%" : "- " + ((Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2)).toString() + "%" ;
     res["isRise"] = nowNum - lastNum > 0 ? 1 : 0;
     if(!isScore)
-    res["numChange"] =  nowNum >= lastNum ? "+" +  Math.abs(nowNum - lastNum) : "-" +  Math.abs(nowNum - lastNum) ;
+    res["numChange"] =  nowNum >= lastNum ? "+ " +  Math.abs(nowNum - lastNum) : "- " +  Math.abs(nowNum - lastNum) ;
     else
-        res["numChange"] =  nowNum >= lastNum ? "+" +  Math.abs(nowNum - lastNum).toFixed(2) : "-" +  Math.abs(nowNum - lastNum).toFixed(2) ;
+        res["numChange"] =  nowNum >= lastNum ? "+ " +  Math.abs(nowNum - lastNum).toFixed(2) : "- " +  Math.abs(nowNum - lastNum).toFixed(2) ;
     return res;
 }
 const getYearData = async(startDate,endDate) => {
