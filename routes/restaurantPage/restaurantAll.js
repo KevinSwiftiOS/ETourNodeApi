@@ -187,13 +187,13 @@ router.post("/selectlist", async (req, res) => {
             break;
         }
     }
-    if(i == areaData.length) {
+    if (i == areaData.length) {
 
-            res.send({
-                code: 0,
-                data: [],
-                message: "无此商圈"
-            })
+        res.send({
+            code: 0,
+            data: [],
+            message: "无此商圈"
+        })
 
     }
     res.send({
@@ -653,6 +653,7 @@ router.post("/keywords", async (req, res) => {
 })
 
 
+// 接口五：餐饮列表显示模块
 router.post('/shoplist', async (req, res) => {
     //获取参数
     var businessArea = req.body.businessArea;

@@ -51,6 +51,8 @@ var RestaurantList = require('./routes/restaurantPage/RestaurantList');
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
 var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
+
+
 //主页接口
 var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/QdhHotelComScorePie'); // 酒店 评分分布饼图
 var QdhHotelComNumPieRouter = require('./routes/HomePage/hotel/QdhHotelComNumPie');    // 酒店 评论数量分布饼图
@@ -62,7 +64,9 @@ var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
 var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景点评论变化图
 var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关键指标
+var restaurantPiecharts = require("./routes/HomePage/restaurant/RestaurantPiecharts"); // 餐饮饼图
 
+// 酒店详情
 var qdhHotelCommentTotal = require("./routes/HotelPage/QdhHotelCommentTotal");//千岛湖关键指标
 var QdhHotelRankShowRouter = require("./routes/HotelPage/QdhHotelRankShow");//千岛湖关键指标
 var QdhHotelSameAreaHotel = require("./routes/HotelPage/QdhHotelTradeArea");//千岛湖关键指标
@@ -148,6 +152,8 @@ app.use('/api/myshow', myShowRouter);
 app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
+
+// 主页接口
 app.use('/api/homepage/hotel/scorepiecharts', QdhHotelComScorePieRouter);    // 酒店评分饼图   主页接口
 app.use('/api/homepage/hotel/numpiecharts', QdhHotelComNumPieRouter);   // 酒店评论饼图
 app.use('/api/homepage/hotelrank', QdhHotelComScoreLimitTenRouter);    // 获得酒店前10名
@@ -168,7 +174,7 @@ app.use("/api/hotelpage/keyindicator",qdhHotelCommentTotal); //千岛湖 当月�
 app.use("/api/hotelpage/ranklist",QdhHotelRankShowRouter); //千岛湖热度前十名， 以及好评和差评前十名
 app.use("/api/hotelpage",QdhHotelSameAreaHotel); //千岛湖 酒店 评论数量变化图（折线）
 
-// app.use('./api/homepage/restaurant')
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -183,4 +189,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 module.exports = app;
+console.log(223333);
 
