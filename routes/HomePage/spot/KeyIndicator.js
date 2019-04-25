@@ -9,7 +9,7 @@ var Comment = CommentModels.Comment;
 function tongBiCompare(lastNum,nowNum,isScore){
 
     var res = {};
-    res["percent"] =  nowNum >= lastNum? "+" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" : "-" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" ;
+    res["percent"] =  nowNum >= lastNum ? "+" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" : "-" + (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2) + "%" ;
     res["isRise"] = nowNum - lastNum > 0 ? 1 : 0;
     if(!isScore)
     res["numChange"] =  nowNum >= lastNum ? "+" +  Math.abs(nowNum - lastNum) : "-" +  Math.abs(nowNum - lastNum) ;
@@ -71,6 +71,7 @@ router.post('/', async (req, res) => {
     //去年的结束和年份开始日期
     var lastEndDate = (year-1).toString() + "-" + funcs.PrefixInteger(month,2) + "-" +  lastThreeDate.substr(8,2);
     var lastStartYearDate =  (year-1).toString() + "-01-01";
+
     try {
         var nowData = await getYearData(nowStartYearDate, lastThreeDate);
         var lastData = await getYearData(lastStartYearDate, lastEndDate);
