@@ -532,7 +532,7 @@ router.post("/keywords", async (req, res) => {
                     $project: {
                         "_id": 0,
                         "content": 1,
-                        "taste": 1
+                        "isGood": "$taste"
                     }
                 },
 
@@ -559,7 +559,7 @@ router.post("/keywords", async (req, res) => {
                     $project: {
                         "_id": 0,
                         "content": 1,
-                        "price": 1
+                        "isGood": "$price"
                     }
                 },
 
@@ -586,7 +586,7 @@ router.post("/keywords", async (req, res) => {
                     $project: {
                         "_id": 0,
                         "content": 1,
-                        "evn": 1
+                        "isGood": "$evn"
                     }
                 },
 
@@ -612,7 +612,7 @@ router.post("/keywords", async (req, res) => {
                     $project: {
                         "_id": 0,
                         "content": 1,
-                        "server": 1
+                        "isGood": "$server"
                     }
                 },
 
@@ -723,13 +723,13 @@ router.post('/shoplist', async (req, res) => {
                 shop_name: 1, // 店铺名
                 shop_comment_num: 1, // 评论数
                 shop_address: 1, // 店铺地址
-                our_score: 1, //  店铺评分
+                shop_score: 1, //  店铺评分
                 shop_cook_style: 1, // 店铺类型
                 shop_price: 1, // 人均
                 shop_env: 1, // 环境
                 shop_taste: 1, // 口味
-                shop_service: 1 // 服务
-
+                shop_service: 1, // 服务
+                our_score: 1, // 总分
             }
         }
     ]);
@@ -754,7 +754,8 @@ router.post('/shoplist', async (req, res) => {
                 "currPage": currPag,
                 "pageSize": result.length,
                 "totalPage":totalPage,
-                "next": currPag + 1 <= totalPage ? currPag + 1 : ""
+                "next": currPag + 1 <= totalPage ? currPag + 1 : "",
+                total:shops.length
             },
             code:0,
             message:""
