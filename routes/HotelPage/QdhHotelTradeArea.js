@@ -15,8 +15,7 @@ function find_in_db(tradeArea) {
 
     var promise = new Promise(function (resolve, reject) {
         if (tradeArea == '全部') {
-            HotelRegion.aggregate([
-                {
+            HotelRegion.aggregate([{
                     $match: {
                         "table_type": "mixed_hotel_shop"
                     }
@@ -24,7 +23,9 @@ function find_in_db(tradeArea) {
                 {
                     $group: {
                         _id: "$shop_rate",
-                        "countNum": {"$sum": 1}
+                        "countNum": {
+                            "$sum": 1
+                        }
                     },
                 }
             ]).exec(function (err, result) {
@@ -35,8 +36,7 @@ function find_in_db(tradeArea) {
                 }
             })
         } else {
-            HotelRegion.aggregate([
-                {
+            HotelRegion.aggregate([{
                     $match: {
                         "table_type": "mixed_hotel_shop",
                         "tradeArea": tradeArea
@@ -45,7 +45,9 @@ function find_in_db(tradeArea) {
                 {
                     $group: {
                         _id: "$shop_rate",
-                        "countNum": {"$sum": 1}
+                        "countNum": {
+                            "$sum": 1
+                        }
                     },
                 }
             ]).exec(function (err, result) {
@@ -61,8 +63,8 @@ function find_in_db(tradeArea) {
 }
 
 /*
-* 获取同商圈的酒店个数
-* */
+ * 获取同商圈的酒店个数
+ * */
 router.post('/selectlist', async (req, res) => {
     var tradearea = req.body.businessArea;
     var hotel_promise = new Promise(function (resolve, reject) {
@@ -87,11 +89,11 @@ router.post('/selectlist', async (req, res) => {
         })
     }).then(function (result) {
         var total = 0;
-        for(var i = 0 ; i < result.length;i++)
-          total += result[i].countNum;
+        for (var i = 0; i < result.length; i++)
+            total += result[i].countNum;
         var totalDic = {
-            "_id":"全部",
-            "countNum":total
+            "_id": "全部",
+            "countNum": total
         };
         result.unshift(totalDic);
         res.send({
@@ -104,52 +106,90 @@ router.post('/selectlist', async (req, res) => {
     })
 });
 /*
-* 获取酒店列表
-* */
-router.post('/shoplist', function (req, res, next) {
-    var currpage = parseInt(req.body.currPage);
-    var tradearea = req.body.businessArea;
-    var hotelrate = req.body.hotelRate;
-    var pageSize = parseInt(req.body.pageSize);
-    var sortWay = parseInt(req.body.sortWay); // 排序方式 升序 or 降序
-    var commentType = parseInt(req.body.commentType); // 按评分 或 评论数量 展示酒店
-    //console.log(currpage, tradearea, hotelrate, pageSize, sortWay, commentType)
-    var matchObj = {}
-    if (hotelrate != '全部') {
-        matchObj['shop_rate'] = hotelrate;
+ * 获取酒店列表
+ * */
+router.post('/shoplist', async (req, res) => {
+    // params: {
+    //     businessArea: // 商圈。（默认加载全部 businessArea: ”全部“）
+    //     hotelRate： //酒店等级（默认加载全部 hotelrate: ”全部“）
+    //     pageSize： //每页显示餐馆数量
+    //     sortWay： //排序方式，降序传1，升序传2 默认传1
+    //     commentType: //排序关键字，按照评分传1，按照评论数量传2 默认传1
+    //     currPage： // 当前页面
+    // }
+
+    var tradeArea = req.body.businessArea;
+    var hotelRate = req.body.hotelRate;
+    var pageSize = req.body.pageSize;
+    var sortWay = req.body.sortWay;
+    var commentType = req.body.commentType;
+    var currPage = req.body.currPage;
+    var sortdic = {};
+
+    if (commentType == 1 && sortWay == 1) {
+        sortdic = {
+            commentScore: 1
+        };
+    } else if (commentType == 1 && sortWay == -1) {
+        sortdic = {
+            commentScore: -1
+        };
+    } else if (commentType == 2 && sortWay == 1) {
+        sortdic = {
+            commentNumber: 1
+        };
     } else {
-        matchObj['shop_rate'] = {$ne: ""}
+        sortdic = {
+            commentNumber: -1
+        };
     }
+    var hotelsitereg = new RegExp(tradeArea, 'i');
+    var hoteltrendreg = new RegExp(hotelRate, 'i');
+    var dic = {
+        $match: {}
+    };
 
-    if (tradearea != '全部') {
-        matchObj['tradearea'] = tradearea;
-    } else {
-        matchObj['tradearea'] = {$ne: "0"}
-    }
-
-    if (commentType == 1) {
-        if (sortWay == 1) {
-            matchObj['sortchoice'] = {$sort: {commentScore: -1}}
-        } else {
-            matchObj['sortchoice'] = {$sort: {commentScore: 1}}
-        }
-    } else if (commentType == 2) {
-        if (sortWay == 1) {
-            matchObj['sortchoice'] = {$sort: {commentNumber: -1}}
-        } else {
-            matchObj['sortchoice'] = {$sort: {commentNumber: 1}}
-        }
-    }
-
-    HotelRegion.aggregate([
-        {
+    if (tradeArea == "全部" && hotelRate == "全部") {
+        dic = {
+            $match: {}
+        };
+    } else if (tradeArea == "全部" && hotelRate != "全部") {
+        dic = {
             $match: {
-                'shop_rate': matchObj['shop_rate'],
-                'tradeArea': matchObj['tradearea'],
-                "table_type": "mixed_hotel_shop"
+                "shop_cook_style": {
+                    $regex: hoteltrendreg
+                },
             }
+        };
+
+
+    } else if (tradeArea != "全部" && hotelRate == "全部") {
+        dic = {
+            $match: {
+                "shop_site": {
+                    $regex: hotelsitereg
+                },
+
+            }
+        };
+    } else {
+        dic = {
+            $match: {
+                "shop_site": {
+                    $regex: hotelsitereg
+                },
+                "shop_cook_style": {
+                    $regex: hoteltrendreg
+                },
+            }
+        };
+    }
+
+    var hotel = await HotelRegion.aggregate([
+        dic,
+        {
+            $sort: sortdic
         },
-        matchObj['sortchoice'],
         {
             $project: {
                 _id: 0,
@@ -164,35 +204,30 @@ router.post('/shoplist', function (req, res, next) {
                 comment_facility_grade: 1
             }
         },
-        {$skip: pageSize * (currpage - 1)},
-        {$limit: pageSize}
-    ]).exec(function (err, result) {
-        if (err) {
-            logger.error('千岛湖景区景点查询发生错误 接口：qdhspotlist 错误：' + err);
-            res.send({
-                "code": 12,
-                "message": "查询发生错误",
-                "data": {}
-            })
-        }
+    ])
 
-        if (result.length == 0) {
-            res.send({
-                "code": 0,
-                "message": "",
-                "data": {
-                    "list": result
-                }
-            })
-        } else {
-            res.send({
-                "code": 0,
-                "message": "",
-                data: {
-                    "hotellist": result
-                }
-            })
-        }
+    var result = []; //表示最终的数组
+    if (currPage * pageSize <= hotel.length)
+        var ends = currPage * pageSize;
+    else
+        ends = hotel.length;
+
+    for (var i = (currPage - 1) * pageSize; i < ends; i++)
+        result.push(hotel[i]);
+
+    var totalPage = Math.ceil(hotel.length / pageSize);
+    res.send({
+        data: {
+            hotellist: result
+        },
+        "page": {
+            "currPage": currPage,
+            "pageSize": result.length,
+            "totalPage": totalPage,
+            "next": currPage + 1 <= totalPage ? currPage + 1 : ""
+        },
+        code: 0,
+        message: ""
     })
 });
 module.exports = router;

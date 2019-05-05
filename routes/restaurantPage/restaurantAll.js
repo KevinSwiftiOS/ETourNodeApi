@@ -658,6 +658,12 @@ router.post("/keywords", async (req, res) => {
 // 接口五：餐饮列表显示模块
 router.post('/shoplist', async (req, res) => {
     //获取参数
+    // businessArea: 商圈名字: // 商圈。（默认加载全部 businessArea: ”全部“）
+    // shopCook： //菜系（默认加载全部shopCook: ”全部“）
+    // pageSize： //每页显示餐馆数量
+    // sortWay： //排序方式，降序传-1，升序传1 默认传-1
+    // commentType: //排序关键字，按照评分传1，按照评论数量传2 默认传1
+    //  currPage： // 当前页面
     var businessArea = req.body.businessArea;
     var shopCook = req.body.shopCook;
     var pageSize = req.body.pageSize;

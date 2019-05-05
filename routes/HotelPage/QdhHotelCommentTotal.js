@@ -138,7 +138,7 @@ router.post('/', async (req, res) => {
                 "valueList": [
                     {
                         name: '评论数量', //每月的评论数量，柱状图显示（1年）
-                        type: 'bar',
+                        type: 'line',
                         data: numList
                     }
                 ]
