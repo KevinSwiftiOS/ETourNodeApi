@@ -8,15 +8,15 @@ var HotelComment = HotelCommentModel.HotelComment
 
 function tongBiCompare(lastNum, nowNum) {
     var res = {};
-    var percentNum = ((nowNum - lastNum) / lastNum * 100).toFixed(2);
-    var numChange = (nowNum - lastNum);
+    var percentNum = (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2);
+    var numChange = Math.abs(nowNum - lastNum);
     res["isRise"] = nowNum - lastNum > 0 ? 1 : 0;
     if (res["isRise"] == 1) {
-        res["percent"] = '+' + percentNum + "%";
-        res["numChange"] = '+' + numChange;
+        res["percent"] = '+ ' + percentNum + "%";
+        res["numChange"] = '+ ' + numChange;
     }else{
-        res["percent"] = percentNum + "%";
-        res["numChange"] = '' + numChange;
+        res["percent"] = "- " + percentNum + "%";
+        res["numChange"] = '- ' + numChange;
     }
     return res;
 }

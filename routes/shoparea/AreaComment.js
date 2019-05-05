@@ -20,8 +20,8 @@ router.get('/', async (req, res) => {
     if (selectBusinessCirle != null) {
         selectArray = selectBusinessCirle.split(',');
     }
-    
-    
+
+
 
     if (selectArray.length == 0) {
      return  res.send({
@@ -170,34 +170,38 @@ router.post("/keywords", async (req, res) => {
     switch(selectKey){
         case 'taste':
             var comments = await commentKeywords.aggregate([
+                {$match:{"taste":{$ne:"undefined"}}},
                 {$skip:randomNum},
                 { $limit: 200},
-                {$project:{"_id":0, "content":1, "taste":1}},
-                {$match:{"taste":{$ne:"undefined"}}},
+                {$project:{"_id":0, "content":1, "isGood":"$taste"}},
+
             ])
             break;
         case 'price':
             var comments = await commentKeywords.aggregate([
+                {$match:{price:{$ne:"undefined"}}},
                 {$skip:randomNum},
                 { $limit: 200},
-                {$project:{"_id":0, "content":1, "price":1}},
-                {$match:{price:{$ne:"undefined"}}},
+                {$project:{"_id":0, "content":1, "isGood":"$price"}},
+
             ])
             break;
         case 'evn':
             var comments = await commentKeywords.aggregate([
+                {$match:{evn:{$ne:"undefined"}}},
                 {$skip:randomNum},
                 { $limit: 200},
-                {$project:{"_id":0, "content":1, "evn":1}},
-                {$match:{evn:{$ne:"undefined"}}},
+                {$project:{"_id":0, "content":1, "isGood":"$evn"}},
+
             ])
             break;
         case 'server':
             var comments = await commentKeywords.aggregate([
+                {$match:{server:{$ne:"undefined"}}},
                 {$skip:randomNum},
                 {$limit: 200},
-                {$project:{"_id":0, "content":1, "server":1}},
-                {$match:{server:{$ne:"undefined"}}},
+                {$project:{"_id":0, "content":1, "isGood":"$server"}},
+
             ])
             break;
     }
@@ -207,7 +211,7 @@ router.post("/keywords", async (req, res) => {
         data: comments,
         resultNum: [taste,server,evn,price],
     })
-                    
+
 })
 //将model暴露出来供其他文件使用
 module.exports = router;
