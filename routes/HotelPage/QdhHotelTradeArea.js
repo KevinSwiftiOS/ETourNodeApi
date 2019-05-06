@@ -65,7 +65,6 @@ function find_in_db(tradeArea) {
 * */
 router.post('/selectlist', async (req, res) => {
     var tradearea = req.body.businessArea;
-    //console.log(tradearea, 'shuchutradearea');
     var hotel_promise = new Promise(function (resolve, reject) {
         var db_promise = find_in_db(tradearea);
         db_promise.then(function (result) {
