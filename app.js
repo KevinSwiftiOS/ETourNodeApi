@@ -157,8 +157,7 @@ app.use('/api/restaurants', RestaurantList);
 app.use('/api/shoparea/comment', AreaComment);
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
-//
-// app.use('/api/homepage/restaurantStatistical', restaurantRank);  // 餐饮排行
+
 app.use('/api/homepage/spotrank', spotRank);  // 景区排行和千岛湖景点排行
 
 app.use("/api/getdate",getDate);//获取当前是第几天
@@ -166,10 +165,6 @@ app.use("/api/homepage/heatmap",heatMap);//千岛湖热力图
 app.use("/api/homepage/keyindicator",keyIndicator); //千岛湖关键指标
 app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变化图
 
-// app.use('./api/homepage/restaurant')
-
-//app.use('/api/homepage/restaurantrank', restaurantRank);  // 餐饮排行
-// app.use('/api/homepage/restaurantpiecharts', restaurantPiecharts); // 餐饮饼图
 
 
 
