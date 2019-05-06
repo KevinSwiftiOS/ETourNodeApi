@@ -2,7 +2,7 @@
 var express = require('express');
 var logger = require('log4js').getLogger("index");
 var router = express.Router();
-var HotelCommentTrainModel = require('./../dbs/HotelCommentTrain');
+var HotelCommentTrainModel = require('../../dbs/hotel/HotelCommentTrain');
 var HotelCommentTrain = HotelCommentTrainModel.HotelCommentTrain
 function findTypeCount(tagname) {
     var searchObj = {}

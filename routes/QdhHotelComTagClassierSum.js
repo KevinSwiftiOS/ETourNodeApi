@@ -2,11 +2,13 @@
 var express = require('express');
 var logger = require('log4js').getLogger("index");
 var router = express.Router();
-var HotelCommentTrainModel = require('./../dbs/HotelCommentTrain');
+var HotelCommentTrainModel = require('../dbs/hotel/HotelCommentTrain');
 var HotelCommentTrain = HotelCommentTrainModel.HotelCommentTrain
 
 router.post('/', function (req, res, next) {
+    // 特征分类
     var tagname = req.body.tagname;
+    // 好评还是差评
     var commentclass = req.body.commentclass;
    
     console.log(tagname, '输出这些i你改成好像', commentclass, '好像');
@@ -20,10 +22,10 @@ router.post('/', function (req, res, next) {
         groupObj['groupStr']  = {'_id': '$性价比', count: {$sum: 1}}
     }else if(tagname == '位置'){
         searchObj['matchStr'] = {'位置': commentclass}
-        groupObj['groupStr']  = {'_id': '$性价比', count: {$sum: 1}}
+        groupObj['groupStr']  = {'_id': '$位置', count: {$sum: 1}}
     }else if(tagname == '服务'){
         searchObj['matchStr'] = {'服务': commentclass}
-        groupObj['groupStr']  = {'_id': '$性价比', count: {$sum: 1}}
+        groupObj['groupStr']  = {'_id': '$服务', count: {$sum: 1}}
     }
     console.log(searchObj['matchStr'],groupObj['groupStr'], '可能就是这儿出问题了');
 

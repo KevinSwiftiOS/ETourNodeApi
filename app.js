@@ -42,7 +42,7 @@ var QdhHotelScoreLastestRouter = require('./routes/QdhHotelCommentScoreLastest')
 var qdhHotelWebComparedRouter = require('./routes/QdhHotelWebsiteNumCompared') // 千岛湖当前酒店不同平台数量以及评分的比较
 var QdhHotelTMapCNumRouter = require('./routes/QdhHotelTMapCNumShow') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
 var QdhHotelTagWordRouter = require('./routes/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
-var QdhHotelTagSumRouter = require('./routes/QdhHotelComTagSum');
+var QdhHotelTagSumRouter = require('./routes/HotelPage/QdhHotelComTagSum');
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
 
 var RestaurantStatistic = require('./routes/restaurantPage/RestaurantStatistic');
@@ -144,8 +144,8 @@ app.use('/api/qdhhotelnumlastest', QdhHotelNumLastestRouter);    //  酒店评�
 app.use('/api/qdhhotelscorelastest', QdhHotelScoreLastestRouter);     // 酒店最近几周的评分，会去剃掉 评分为零的 评论
 app.use('/api/qdhhotelwebcompared', qdhHotelWebComparedRouter);    //      酒店最近几周不同平台的评分或评论数量
 app.use('/api/qdhhoteltmapnumshow', QdhHotelTMapCNumRouter);    //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
-app.use('/api/qdhhotelcomfeatureword', QdhHotelTagWordRouter);    //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
-app.use('/api/qdhhotelcomtagsum', QdhHotelTagSumRouter);    // 获得不同方面评价的的个数
+
+
 app.use('/api/count', QdhHotelTagClassRouter);    //  获得一个方面好评差评的的个数,
 app.use('/api/spotstate',spotStateRouter);
 app.use('/api/qdhspotstate',qdhSpotStateRouter);
@@ -189,16 +189,16 @@ app.use("/api/homepage/keyindicator",keyIndicator); //千岛湖关键指标
 app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变化图
 
 
+// 餐饮详情接口
+app.use("/api/restaurantpage", restaurantsPage);    
 
-app.use("/api/restaurantpage", restaurantsPage);    // 餐饮详情接口
-
-// app.use('./api/homepage/restaurant')
+// 酒店详情接口
 app.use("/api/hotelpage/keyindicator",qdhHotelCommentTotal); //千岛湖 当月和今年数量 统计 以及 评论数量折线图
 app.use("/api/hotelpage/ranklist",QdhHotelRankShowRouter); //千岛湖热度前十名， 以及好评和差评前十名
 app.use("/api/hotelpage",QdhHotelSameAreaHotel); //千岛湖 酒店 评论数量变化图（折线）
+app.use('/api/qdhhotelcomtagsum', QdhHotelTagSumRouter); // 获得不同方面评价的的个数
+app.use('/api/qdhhotelcomfeatureword', QdhHotelTagWordRouter); //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
 
-
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });

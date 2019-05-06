@@ -2,7 +2,7 @@ var express = require('express');
 var logger = require('log4js').getLogger("index");
 var jwt = require('jsonwebtoken');
 var router = express.Router();
-var HotelCommentModel = require('../../dbs/HotelCommentModel');
+var HotelCommentModel = require('../../dbs/hotel/HotelCommentModel');
 var funcs = require('../../commons/common');
 var HotelComment = HotelCommentModel.HotelComment
 

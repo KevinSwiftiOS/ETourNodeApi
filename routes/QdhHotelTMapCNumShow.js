@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var logger = require('log4js').getLogger("index");
-var HotelCommentModel = require('./../dbs/HotelCommentModel');
+var HotelCommentModel = require('./../dbs/hotel/HotelCommentModel');
 var HotelComment = HotelCommentModel.HotelComment
 //引进HotelRegionModel表
 

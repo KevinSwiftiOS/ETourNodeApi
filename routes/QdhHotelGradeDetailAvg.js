@@ -5,7 +5,7 @@ var router = express.Router();
 var UserModels = require('./../dbs/UserModels');
 var User = UserModels.User;
 
-var HotelRegionModel = require('./../dbs/HotelRegionModel')
+var HotelRegionModel = require('../dbs/hotel/HotelRegionModel')
 var HotelRegion = HotelRegionModel.HotelRegion
 
 //酒店详细平均评分获取，用于页面雷达图的展示
