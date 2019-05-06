@@ -761,7 +761,7 @@ router.post('/shoplist', async (req, res) => {
                 "pageSize": result.length,
                 "totalPage":totalPage,
                 "next": currPag + 1 <= totalPage ? currPag + 1 : "",
-                total:shops.length
+                "total":shops.length
             },
             code:0,
             message:""

@@ -10,7 +10,6 @@ router.post('/selectlist', async (req, res) => {
     // var tradeArea = "阳光路";
     var result = [];
     if (tradeArea == '全部') {
-        console.log('进入if函数1')
         result = await HotelRegion.aggregate([{
             $match: {
                 "table_type": "mixed_hotel_shop"
@@ -25,7 +24,6 @@ router.post('/selectlist', async (req, res) => {
 
         }])
     } else {
-        console.log('进入if函数2')
         result = await HotelRegion.aggregate([{
                 $match: {
                     "table_type": "mixed_hotel_shop",
@@ -103,6 +101,7 @@ router.post('/shoplist', async (req, res) => {
     } else if (tradeArea == "全部" && hotelRate != "全部") {
         dic = {
             $match: {
+                "table_type": "mixed_hotel_shop",
                 "shop_rate": hotelRate,
                 // "shop_rate": {
                 //     $regex: hoteltrendreg
@@ -112,6 +111,7 @@ router.post('/shoplist', async (req, res) => {
     } else if (tradeArea != "全部" && hotelRate == "全部") {
         dic = {
             $match: {
+                "table_type": "mixed_hotel_shop",
                 "tradeArea": tradeArea,
                 // "tradeArea": {
                 //     $regex: hotelsitereg
@@ -122,6 +122,7 @@ router.post('/shoplist', async (req, res) => {
     } else {
         dic = {
             $match: {
+                "table_type": "mixed_hotel_shop",
                 "tradeArea": tradeArea,
                  "shop_rate": hotelRate,
                 // "tradeArea": {
@@ -164,6 +165,7 @@ router.post('/shoplist', async (req, res) => {
         result.push(hotel[i]);
     }
     var totalPage = Math.ceil(hotel.length / pageSize);
+    console.log(totalPage);
     res.send({
         data: {
             hotellist: result
@@ -172,7 +174,8 @@ router.post('/shoplist', async (req, res) => {
             "currPage": currPage,
             "pageSize": result.length,
             "totalPage": totalPage,
-            "next": currPage + 1 <= totalPage ? currPage + 1 : ""
+            "next": currPage + 1 <= totalPage ? currPage + 1 : "",
+            "total": hotel.length
         },
         code: 0,
         message: ""
