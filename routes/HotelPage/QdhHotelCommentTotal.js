@@ -35,9 +35,6 @@ router.post('/', async (req, res) => {
     var lastStartMonth = (year - 2).toString() + "-" + month.toString().padStart(2, 0);
     var lastEndMonth = nowStartMonth;
 
-/*    console.log(nowStartYearDate, lastThreeDate, lastStartYearDate, lastEndYearDate)
-    console.log(nowStartMonth, nowEndMonth, lastStartMonth, lastEndMonth)
-    console.log(parseInt(month), 'month');*/
     var nowData = await HotelComment.aggregate([
         {
             $match: {

@@ -75,11 +75,8 @@ var QdhHotelRankShowRouter = require("./routes/HotelPage/QdhHotelRankShow");//�
 var QdhHotelSameAreaHotel = require("./routes/HotelPage/QdhHotelTradeArea");//千岛湖关键指标
 
 
-
 var restaurantsPage = require("./routes/restaurantPage/restaurantAll");   // 餐饮详情界面
-
-
-
+var HotelCommentSemantic = require("./routes/HotelPage/HotelCommentSemantic");//千岛湖关键指标
 //qdhhoteltmapnumshow
 //日志文件的配置
 var log4js = require('log4js');
@@ -190,15 +187,16 @@ app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变�
 
 
 // 餐饮详情接口
-app.use("/api/restaurantpage", restaurantsPage);    
+app.use("/api/restaurantpage", restaurantsPage);
 
 // 酒店详情接口
 app.use("/api/hotelpage/keyindicator",qdhHotelCommentTotal); //千岛湖 当月和今年数量 统计 以及 评论数量折线图
 app.use("/api/hotelpage/ranklist",QdhHotelRankShowRouter); //千岛湖热度前十名， 以及好评和差评前十名
+
 app.use("/api/hotelpage",QdhHotelSameAreaHotel); //千岛湖 酒店 评论数量变化图（折线）
 app.use('/api/qdhhotelcomtagsum', QdhHotelTagSumRouter); // 获得不同方面评价的的个数
 app.use('/api/qdhhotelcomfeatureword', QdhHotelTagWordRouter); //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
-
+app.use("/api/hotelpage/keywords",HotelCommentSemantic); //
 app.use(function(req, res, next) {
   next(createError(404));
 });
