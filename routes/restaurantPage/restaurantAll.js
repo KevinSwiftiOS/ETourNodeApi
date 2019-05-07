@@ -369,71 +369,91 @@ router.post("/ranklist", async (req, res) => {
     })
 })
 
-
+function findTypeCount(tagname) {
+    var searchObj = {}
+    var groupObj = {}
+    var projectObj = {}
+    switch (tagname) {
+        case "服务":
+            searchObj["matchobj"] = {$or: [{'服务': 1}, {'服务': -1}]}
+            groupObj['group'] = {'_id': '$服务', count: {'$sum': 1}}
+            break;
+        case "价格":
+            searchObj["matchobj"] = {$or: [{'价格': 1}, {'价格': -1}]}
+            groupObj['group'] = {'_id': '$价格', count: {'$sum': 1}}
+            break;
+        case "环境":
+            searchObj["matchobj"] = {$or: [{'环境': 1}, {'环境': -1}]}
+            groupObj['group'] = {'_id': '$环境', count: {'$sum': 1}}
+            break;
+        case "味道":
+            searchObj["matchobj"] = {$or: [{'味道': 1}, {'味道': -1}]}
+            groupObj['group'] = {'_id': '$味道', count: {'$sum': 1}}
+            break;
+    }
+    var promise = new Promise(function (resolve, reject) {
+        commentKeyword.aggregate([
+            {
+                $match: searchObj["matchobj"]
+            },
+            {
+                $group: groupObj['group']
+            }
+        ]).exec(function (err, result) {
+            if (err)
+                reject(err);
+            else {
+                resolve(result);
+            }
+        })
+    })
+    return promise;
+}
 
 // 接口四：评论智能分析模块
 router.post("/keywordcount", async (req, res) => {
-    // 分页功能变量
-    var tagname = req.body.featureWord;
-    var currpage = req.body.currPage;
-    var commentclass = req.body.commentClass;
-    var searchObj = {}
-    switch (tagname) {
-        case "口味":
-            if (commentclass == 1) {
-                searchObj["matchobj"] = {'味道': 1}
-            } else {
-                searchObj["matchobj"] = {'味道': -1}
-            }
-            break;
-        case "环境":
-            if (commentclass == 1) {
-                searchObj["matchobj"] = {'环境': 1}
-            } else {
-                searchObj["matchobj"] = {'环境': -1}
-            }
-            break;
-        case "服务":
-            if (commentclass == 1) {
-                searchObj["matchobj"] = {'服务': 1}
-            } else {
-                searchObj["matchobj"] = {'服务': -1}
-            }
-            break;
-        case "性价比":
-            if (commentclass == 1) {
-                searchObj["matchobj"] = {'价格': 1}
-            } else {
-                searchObj["matchobj"] = {'价格': -1}
-            }
-            break;
-    }
-    console.log(tagname, searchObj, currpage, commentclass, '评论数量')
-    commentKeyword.aggregate([
-        {$match: searchObj["matchobj"]},
-        {$project: {'_id': 0, "content": "$评论"}},
-        {$skip: (currpage-1)*6},
-        {$limit: 6},
-    ]).exec(function (err, result) {
-        if (err) {
-            logger.error('查询有特征词的评论失败' + err);
-            res.send({
-                "code": 12,
-                "message": "查询失败",
-                "data": {}
-            });
-        }else{
-            //console.log(result, '韦森么没有输出那')
-            res.send({
-                "code":0,
-                "message":"",
-                data:{
-                    "commentList":result
-                }
-            })
-        }
-    })
+    var tagnames = ['味道', '环境', '服务', '价格'];  //  卫生设施   设施
 
+    var infoList = []
+    var replacetag = ['口味', '环境', '服务', '性价比'];  //  卫生设施   设施
+    var getPromose = new Promise(function (resolve, reject) {
+        tagnames.forEach((tagname, tagIndex) => {
+            var db_promise = findTypeCount(tagname);
+            db_promise.then(function (result) {
+                if (result.length == 0) {
+
+                } else {
+                    var everySum = {
+                        name: '',
+                        count: []
+                    };
+                    everySum['name'] = replacetag[tagIndex];
+                    for(var i = 0; i < result.length; i++) {
+                        everySum['count'].push( result[i]['count']);
+                    }
+                    infoList.push(everySum);
+                    if(infoList.length == tagnames.length){
+                        resolve(infoList);
+                    }
+                }
+            }).catch(function (err) {
+                logger.error('评论分析  接口：comment_analyze 错误：' + err);
+                res.send({
+                    "code": 12,
+                    "message": "查询发生错误",
+                    "data": {}
+                });
+            })
+        })
+    }).then(function (infoList) {
+        var data = {}
+        data['infoList'] = infoList;
+        res.send({
+            "code": 0,
+            "message": "",
+            "data": data
+        })
+    })
 })
 
 // 接口五：评论智能分析模块
