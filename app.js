@@ -41,7 +41,7 @@ var QdhHotelNumLastestRouter = require('./routes/QdhHotelCommentNumLastest') // 
 var QdhHotelScoreLastestRouter = require('./routes/QdhHotelCommentScoreLastest') // 千岛湖当当前酒店最近几周的评分
 var qdhHotelWebComparedRouter = require('./routes/QdhHotelWebsiteNumCompared') // 千岛湖当前酒店不同平台数量以及评分的比较
 var QdhHotelTMapCNumRouter = require('./routes/QdhHotelTMapCNumShow') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
-var QdhHotelTagWordRouter = require('./routes/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
+var QdhHotelTagWordRouter = require('./routes/HotelPage/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
 var QdhHotelTagSumRouter = require('./routes/HotelPage/QdhHotelComTagSum');
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
 

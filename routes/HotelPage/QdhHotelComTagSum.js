@@ -9,15 +9,15 @@ function findTypeCount(tagname) {
     var groupObj = {}
     switch (tagname) {
         case "服务":
-            searchObj["matchobj"] = {$or: [{'服务': 1}, {'服务': 0}]}
+            searchObj["matchobj"] = {$or: [{'服务': 1}, {'服务': -1}]}
             groupObj['group'] = {'_id': '$服务', count: {'$sum': 1}}
             break;
         case "位置":
-            searchObj["matchobj"] = {$or: [{'位置': 1}, {'位置': 0}]}
+            searchObj["matchobj"] = {$or: [{'位置': 1}, {'位置': -1}]}
             groupObj['group'] = {'_id': '$位置', count: {'$sum': 1}}
             break;
         case "性价比":
-            searchObj["matchobj"] = {$or: [{'性价比': 1}, {'性价比': 0}]}
+            searchObj["matchobj"] = {$or: [{'性价比': 1}, {'性价比': -1}]}
             groupObj['group'] = {'_id': '$性价比', count: {'$sum': 1}}
             break;
     }

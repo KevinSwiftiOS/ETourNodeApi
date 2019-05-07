@@ -8,5 +8,5 @@ var hotelcommentfeature = new Schema({
         data_region:String,
         data_source:String,
     },
-    { collection: 'hotel_comment_second' });
+    { collection: 'hotel_comment3' });
 exports.HotelCommentTrain = mongoose.model("HotelCommentTrain", hotelcommentfeature);
