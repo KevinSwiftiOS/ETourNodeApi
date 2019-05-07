@@ -1,179 +1,161 @@
 const express = require('express');
 const comments = require('../../dbs/restaurant/RSComment');
 const shop = require("../../dbs/restaurant/shops");
-const commentKeywords = require("../../dbs/restaurant/CommentKeywords");
+const commentKeyword = require("../../dbs/restaurant/Comment3");
 const router = express.Router();
 const funcs = require('../../commons/common');
 const areaData = require("./components/areaList");
 
-// 获取当前的月份和年份
-var date = new Date();
-var nowYear = date.getFullYear();
-var nowMonth = date.getMonth() + 1;
-var lastYear = nowYear;
-var lastMonth = nowMonth;
-
-//如果是1月份
-if (nowMonth == 1) {
-    nowYear -= 1;
-    nowMonth = 12;
-    lastYear = nowYear;
-    lastMonth = 11;
-} else {
-    nowMonth -= 1;
-    lastMonth = nowMonth;
-    if (nowMonth == 1) {
-        lastYear -= 1;
-        lastMonth = 12;
-    } else {
-        lastMonth -= 1;
-    }
+function tongBiCompareYear(lastNum,nowNum){ // 一年中每个月的同比增长率
+    //是否有下降的趋势
+    return  ((nowNum - lastNum) / lastNum * 100).toFixed(2) + "%";
 }
 
-var nowDate = nowYear.toString() + "-" + (funcs.PrefixInteger(nowMonth, 2)).toString();
-var lastYearDate = (nowYear - 1).toString() + "-" + (funcs.PrefixInteger(nowMonth, 2)).toString();
-var lastYear = (nowYear - 1).toString() + "-" + "01";
-var thisYear = nowYear.toString() + "-" + "01";
 
+function tongBiCompare(lastNum, nowNum) {
+    var res = {};
+    var percentNum = (Math.abs(nowNum - lastNum) / lastNum * 100).toFixed(2);
+    var numChange = Math.abs(nowNum - lastNum);
+    res["isRise"] = nowNum - lastNum > 0 ? 1 : 0;
+    if (res["isRise"] == 1) {
+        res["percent"] = '+ ' + percentNum + "%";
+        res["numChange"] = '+ ' + numChange;
+    }else{
+        res["percent"] = "- " + percentNum + "%";
+        res["numChange"] = '- ' + numChange;
+    }
+    return res;
+}
 
 // 接口一：餐饮关键指标模块（评论数）
 router.post('/keyindicator', async (req, res) => {
+    var lastThreeDate = funcs.getDay(new Date(), 3);
+    var year = lastThreeDate.substr(0, 4);
+    var month = lastThreeDate.substr(5, 2);
+    //今年的月份开始日期和年份开始日期
+    var nowStartYearDate = (year - 1).toString() + "-" + month.toString().padStart(2, 0) + "-01";    //去年的结束和年份开始日期
+    var lastEndYearDate = (year - 1).toString() + "-" + funcs.PrefixInteger(month, 2) + "-" + lastThreeDate.substr(8, 2);
+    var lastStartYearDate = (year - 2).toString() + "-" + month.toString().padStart(2, 0) + "-01";
+    var nowStartMonth = (year - 1).toString() + "-" + month.toString().padStart(2, 0);
+    var nowEndMonth = year.toString() + "-" + month.toString().padStart(2, 0);
+    var lastStartMonth = (year - 2).toString() + "-" + month.toString().padStart(2, 0);
+    var lastEndMonth = nowStartMonth;
 
-
-    await comments.aggregate([{
+    console.log(lastThreeDate, '最新的数据' )
+    var nowData = await comments.aggregate([
+        {
             $match: {
-                "comment_content": {
-                    $ne: null
-                },
-                "comment_month": {
-                    $gte: lastYear,
-                    $lte: nowDate
-                },
+                "data_source": "餐饮",
+                "data_region": "千岛湖",
+                "comment_time": {$gte: nowStartYearDate, $lte: lastThreeDate}
             }
         },
         {
             $group: {
                 _id: "$comment_month",
-                "commentNumber": {
-                    $sum: 1
-                }
+                "commentNumber": {"$sum": 1}
+            },
+        },
+        {
+            $match: {
+                "_id": {$gte: nowStartMonth, $lte: nowEndMonth}
+            }
+        },
+
+        {$sort: {_id: 1}},
+        {
+            $project: {
+                _id: 1, commentNumber: 1,
+            }
+        }
+    ]);
+
+    var lastData = await comments.aggregate([
+        {
+            $match: {
+                "data_source": "餐饮",
+                "data_region": "千岛湖",
+                "comment_time": {$gte: lastStartYearDate, $lte: lastEndYearDate}
             }
         },
         {
-            $sort: {
-                _id: 1
-            }
-        }, {
-            $project: {
-                _id: 1,
-                commentNumber: 1,
-            }
-        }
-    ]).exec((err, result) => {
-        if (err) {
-            logger.error('同环比接口发生错误 接口：qdhcommenttoal错误：' + err);
-            res.send({
-                "code": 12,
-                "message": "查询发生错误",
-                "data": {}
-            })
-
-        }
-        var isMonthNumRise = 0;
-        var isYearNumRise = 0;
-
-        // 本月累计量
-        var thisMonthNumber = result[result.length - 1].commentNumber;
-        // 去年同时期月份累计量
-        var lastMonthNumber = result[result.length - 2].commentNumber;
-
-        // 是否上升
-        if (thisMonthNumber > lastMonthNumber) {
-            isMonthNumRise = 0
-        } else {
-            isMonthNumRise = 1;
-        }
-
-        var thisYearArray = result.filter((item, index, array) => {
-            if (item._id >= thisYear) {
-                return item.commentNumber;
-            }
-        })
-        var lastYearArray = result.filter((item, index, array) => {
-            if (item._id >= lastYear && item._id <= lastYearDate) {
-                return item.commentNumber;
-            }
-        })
-
-        // 本年累计量
-        var thisYearNumber = 0;
-        for (var i = 0; i < thisYearArray.length; i++) {
-            thisYearNumber += thisYearArray[i].commentNumber;
-        }
-        // 去年同时期累计量
-        var lastYearNumber = 0;
-        for (var i = 0; i < lastYearArray.length; i++) {
-            lastYearNumber += lastYearArray[i].commentNumber;
-        }
-        // 是否上升
-        if (thisYearNumber > lastYearNumber) {
-            isYearNumRise = 0
-        } else {
-            isYearNumRise = 1;
-        }
-
-        var tongMonthNumber =(thisMonthNumber >= lastMonthNumber) ? "+ " + (thisMonthNumber - lastMonthNumber) :
-        "- " + Math.abs(thisMonthNumber - lastMonthNumber)
-        ;
-        var tongYearNumber =(thisYearNumber >= lastYearNumber) ? "+ " + (thisYearNumber - lastYearNumber) : "- " + Math.abs(thisYearNumber - lastYearNumber);
-
-        var tongMonthPercent =  thisMonthNumber >= lastMonthNumber ? "+ " + (((thisMonthNumber - lastMonthNumber) / lastMonthNumber) * 100).toFixed(2) + "%" :"- " +  ((Math.abs(thisMonthNumber - lastMonthNumber) / lastMonthNumber) * 100).toFixed(2) + "%";
-        var tongYearPercent =  thisYearNumber >= lastYearNumber ? "+ " + (((thisYearNumber - lastYearNumber) / lastYearNumber) * 100).toFixed(2) + "%" :  "- " + ((Math.abs(thisYearNumber - lastYearNumber) / lastYearNumber) * 100).toFixed(2) + "%" ;
-
-        //  餐饮评论数变化趋势
-        var timeList = [];
-        var commentValue = [];
-        var value = result.filter((item, index, arry) => {
-            if (item._id >= lastYearDate) {
-                timeList.push(item._id);
-                commentValue.push(item.commentNumber)
-                return commentValue, timeList;
-            }
-        })
-
-        res.send({
-            "code": 0,
-
-            // 餐饮关键指标模块（评论数）返回参数
-            "data": {
-                "commentKeyIndicatorModel": {
-                    "monthNumCumulant": thisMonthNumber,
-                    "yearNumCumulant": thisYearNumber,
-                    "monthNumChange": tongMonthNumber,
-                    "yearNumChange": tongYearNumber,
-                    "monthNumPercent": tongMonthPercent,
-                    "yearMonthPercent": tongYearPercent,
-                    "isMonthNumRise": isMonthNumRise,
-                    "isYearNumRise": isYearNumRise
-                },
-                // 餐饮评论数变化趋势 返回参数
-
-                "commentTrendModel": {
-                    "timeList": timeList,
-                    "valueList": [{
-                        "name": "评论数量",
-                        "type": 'line',
-                        "data": commentValue
-                    }]
-                }
-
-
+            $group: {
+                _id: "$comment_month",
+                "commentNumber": {"$sum": 1}
             },
 
+        },
+        {
+            $match: {
+                "_id": {$gte: lastStartMonth, $lte: lastEndMonth}
+            }
+        },
+        {$sort: {_id: 1}},
+        {
+            $project: {
+                _id: 1, commentNumber: 1,
+            }
+        }
+    ]);
+    var numList = [];
+    var timeList = [];
+    var tongPercentList = [];
 
-            "message": ""
-        })
+    console.log(nowData, lastData);
+    for (var i = 0; i < nowData.length; i++) { // 最好以 nowData.length 作为 结束值
+        numList.push(nowData[i].commentNumber);
+        tongPercentList.push(tongBiCompareYear(lastData[i].commentNumber, nowData[i].commentNumber));
+        timeList.push(nowData[i]._id);
+    }
+
+    var nowMonthCommentNumber = nowData[nowData.length - 1].commentNumber;
+    //去年的评分和评论数量
+    var lastMonthCommentNumber = lastData[lastData.length - 1].commentNumber;
+    //年累积量的评论数量和评分 去年累积量的评论数量和评分
+    var nowYearCommentNumber = 0, lastYearCommentNumber = 0;
+    for (var i = (nowData.length - parseInt(month)); i < nowData.length; i++) {
+        nowYearCommentNumber += nowData[i].commentNumber;
+        lastYearCommentNumber += lastData[i].commentNumber;
+    }
+
+    var monthNumChange = tongBiCompare(lastMonthCommentNumber, nowMonthCommentNumber);
+    var yearNumChange = tongBiCompare(lastYearCommentNumber, nowYearCommentNumber);
+    var commentKeyIndicatorModel = {};
+    commentKeyIndicatorModel['monthNumCumulant'] = nowMonthCommentNumber;
+    commentKeyIndicatorModel["yearNumCumulant"] = nowYearCommentNumber;
+    commentKeyIndicatorModel['monthNumChange'] = monthNumChange.numChange;
+    commentKeyIndicatorModel["yearNumChange"] = yearNumChange.numChange;
+    commentKeyIndicatorModel['monthNumPercent'] = monthNumChange.percent;
+    commentKeyIndicatorModel["yearNumPercent"] = yearNumChange.percent;
+    commentKeyIndicatorModel['isMonthNumRise'] = monthNumChange.isRise;
+    commentKeyIndicatorModel["isYearNumRise"] = yearNumChange.isRise;
+
+    //console.log(commentKeyIndicatorModel, 'commentKeyIndicatorModel')
+
+    res.send({
+        "code": 0,
+        "message": "",
+        "data": {
+            "commentKeyIndicatorModel": commentKeyIndicatorModel,
+            "commentTrendModel": {
+                "timeList": timeList,
+                "valueList": [
+                    {
+                        name: '评论数量', //每月的评论数量，柱状图显示（1年）
+                        type: 'bar',
+                        data: numList
+                    },
+                    {
+                        name: '同比', //当月的评论数量，折线图显示显示
+                        type: 'line',
+                        data: tongPercentList
+                    },
+                ]
+            }
+
+        }
     })
+
 })
 
 //  接口二：商圈选择对饮菜系模块
@@ -388,274 +370,140 @@ router.post("/ranklist", async (req, res) => {
 })
 
 
+
 // 接口四：评论智能分析模块
-router.post("/keywords", async (req, res) => {
+router.post("/keywordcount", async (req, res) => {
     // 分页功能变量
-    var pageSize = req.body.pageSize;
-    var currPag = req.body.currPage;
-
-    let selectKey = req.body.featureWord;
-    let obj = {};
-    let obj2 = {};
-    let obj3 = {};
-    let obj4 = {};
-    let taste = 0;
-    let price = 0;
-    let server = 0;
-    let evn = 0;
-
-    obj = await commentKeywords.aggregate([{
-            $match: {
-                taste: {
-                    $ne: "undefined"
-                }
+    var tagname = req.body.featureWord;
+    var currpage = req.body.currPage;
+    var commentclass = req.body.commentClass;
+    var searchObj = {}
+    switch (tagname) {
+        case "口味":
+            if (commentclass == 1) {
+                searchObj["matchobj"] = {'味道': 1}
+            } else {
+                searchObj["matchobj"] = {'味道': -1}
             }
-        },
-        {
-            $group: {
-                _id: "taste",
-                count: {
-                    $sum: 1
-                }
-            }
-        }
-    ]);
-
-    obj2 = await commentKeywords.aggregate([{
-            $match: {
-                server: {
-                    $ne: "undefined"
-                }
-            }
-        },
-        {
-            $group: {
-                _id: "server",
-                count: {
-                    $sum: 1
-                }
-            }
-        }
-    ]);
-
-    obj3 = await commentKeywords.aggregate([{
-            $match: {
-                evn: {
-                    $ne: "undefined"
-                }
-            }
-        },
-        {
-            $group: {
-                _id: "evn",
-                count: {
-                    $sum: 1
-                }
-            }
-        }
-    ]);
-
-    obj4 = await commentKeywords.aggregate([{
-            $match: {
-                price: {
-                    $ne: "undefined"
-                }
-            }
-        },
-        {
-            $group: {
-                _id: "price",
-                count: {
-                    $sum: 1
-                }
-            }
-        }
-    ]);
-    var tasteNumber = await commentKeywords.aggregate([{
-        $group: {
-            _id: "$taste",
-            num_tutorial: {
-                $sum: 1
-            }
-        }
-    }])
-    var serverNumber = await commentKeywords.aggregate([{
-        $group: {
-            _id: "$server",
-            num_tutorial: {
-                $sum: 1
-            }
-        }
-    }])
-    var evnNumber = await commentKeywords.aggregate([{
-        $group: {
-            _id: "$evn",
-            num_tutorial: {
-                $sum: 1
-            }
-        }
-    }])
-    var priceNumber = await commentKeywords.aggregate([{
-        $group: {
-            _id: "$price",
-            num_tutorial: {
-                $sum: 1
-            }
-        }
-    }])
-
-    taste = obj[0].count;
-    server = obj2[0].count;
-    evn = obj3[0].count;
-    price = obj4[0].count;
-
-    var randomNum = parseInt(Math.random() * (10000), 10);
-    var result = [];
-    // console.log(randomNum);
-    switch (selectKey) {
-        case 'taste':
-            var currArray = await commentKeywords.aggregate([{
-                    $match: {
-                        "taste": {
-                            $ne: "undefined"
-                        }
-                    }
-                },
-                {
-                    $skip: randomNum
-                },
-                {
-                    $limit: 200
-                },
-
-                {
-                    $project: {
-                        "_id": 0,
-                        "content": 1,
-                        "isGood": "$taste"
-                    }
-                },
-
-            ]);
-            var goodNum = tasteNumber[3].num_tutorial;
-            var badNum = tasteNumber[1].num_tutorial;
             break;
-        case 'price':
-            var currArray = await commentKeywords.aggregate([{
-                    $match: {
-                        price: {
-                            $ne: "undefined"
-                        }
-                    }
-                },
-                {
-                    $skip: randomNum
-                },
-                {
-                    $limit: 200
-                },
-
-                {
-                    $project: {
-                        "_id": 0,
-                        "content": 1,
-                        "isGood": "$price"
-                    }
-                },
-
-            ])
-            var goodNum = priceNumber[2].num_tutorial;
-            var badNum = priceNumber[0].num_tutorial;
+        case "环境":
+            if (commentclass == 1) {
+                searchObj["matchobj"] = {'环境': 1}
+            } else {
+                searchObj["matchobj"] = {'环境': -1}
+            }
             break;
-        case 'evn':
-            var currArray = await commentKeywords.aggregate([{
-                    $match: {
-                        evn: {
-                            $ne: "undefined"
-                        }
-                    }
-                },
-                {
-                    $skip: randomNum
-                },
-                {
-                    $limit: 200
-                },
-
-                {
-                    $project: {
-                        "_id": 0,
-                        "content": 1,
-                        "isGood": "$evn"
-                    }
-                },
-
-            ])
-            var goodNum = evnNumber[2].num_tutorial;
-            var badNum = evnNumber[0].num_tutorial;
+        case "服务":
+            if (commentclass == 1) {
+                searchObj["matchobj"] = {'服务': 1}
+            } else {
+                searchObj["matchobj"] = {'服务': -1}
+            }
             break;
-        case 'server':
-            var currArray = await commentKeywords.aggregate([{
-                    $match: {
-                        server: {
-                            $ne: "undefined"
-                        }
-                    }
-                },
-                {
-                    $skip: randomNum
-                },
-                {
-                    $limit: 200
-                },
-                {
-                    $project: {
-                        "_id": 0,
-                        "content": 1,
-                        "isGood": "$server"
-                    }
-                },
-
-            ])
-            var goodNum = serverNumber[3].num_tutorial;
-            var badNum = serverNumber[0].num_tutorial;
+        case "性价比":
+            if (commentclass == 1) {
+                searchObj["matchobj"] = {'价格': 1}
+            } else {
+                searchObj["matchobj"] = {'价格': -1}
+            }
             break;
     }
-
-    if (currPag * pageSize <= currArray.length) {
-        var ends = currPag * pageSize;
-    } else {
-        ends = currArray.length;
-    }
-    for (var i = (currPag - 1) * pageSize; i < ends; i++) {
-        result.push(currArray[i])
-    }
-    var totalPage = Math.ceil(currArray.length / pageSize);
-
-    // console.log(priceNumber);
-    // console.log(goodNum);
-    // console.log(badNum);
-    // console.log(result);
-    res.send({
-        code: 0,
-        message: "",
-        data: {
-            result: result,
-            resultNum: [taste, server, evn, price],
-            keywordsNum: [goodNum, badNum],
-
-            page: {
-                "currPage": currPag,
-                "pageSize": result.length,
-                "totalPage": totalPage,
-                "next": currPag + 1 <= totalPage ? currPag + 1 : ""
-            }
+    console.log(tagname, searchObj, currpage, commentclass, '评论数量')
+    commentKeyword.aggregate([
+        {$match: searchObj["matchobj"]},
+        {$project: {'_id': 0, "content": "$评论"}},
+        {$skip: (currpage-1)*6},
+        {$limit: 6},
+    ]).exec(function (err, result) {
+        if (err) {
+            logger.error('查询有特征词的评论失败' + err);
+            res.send({
+                "code": 12,
+                "message": "查询失败",
+                "data": {}
+            });
+        }else{
+            //console.log(result, '韦森么没有输出那')
+            res.send({
+                "code":0,
+                "message":"",
+                data:{
+                    "commentList":result
+                }
+            })
         }
     })
+
 })
 
+// 接口五：评论智能分析模块
+router.post("/keywords", async (req, res) => {
+    // 分页功能变量
+    var tagname = req.body.featureWord;
+    var currpage = req.body.currPage;
+    var commentclass = req.body.commentClass;
+    var searchObj = {}
+    switch (tagname) {
+        case "口味":
+            if (commentclass == 1) {
+                searchObj["matchobj"] = {'味道': 1}
+            } else {
+                searchObj["matchobj"] = {'味道': -1}
+            }
+            break;
+        case "环境":
+            if (commentclass == 1) {
+                searchObj["matchobj"] = {'环境': 1}
+            } else {
+                searchObj["matchobj"] = {'环境': -1}
+            }
+            break;
+        case "服务":
+            if (commentclass == 1) {
+                searchObj["matchobj"] = {'服务': 1}
+            } else {
+                searchObj["matchobj"] = {'服务': -1}
+            }
+            break;
+        case "性价比":
+            if (commentclass == 1) {
+                searchObj["matchobj"] = {'价格': 1}
+            } else {
+                searchObj["matchobj"] = {'价格': -1}
+            }
+            break;
+    }
+    console.log(tagname, searchObj, currpage, commentclass, '评论数量')
+    commentKeyword.aggregate([
+        {$match: searchObj["matchobj"]},
+        {$project: {'_id': 0, "content": "$评论"}},
+        {$skip: (currpage-1)*6},
+        {$limit: 6},
+    ]).exec(function (err, result) {
+        if (err) {
+            logger.error('查询有特征词的评论失败' + err);
+            res.send({
+                "code": 12,
+                "message": "查询失败",
+                "data": {}
+            });
+        }else{
+            //console.log(result, '韦森么没有输出那')
+            res.send({
+                "code":0,
+                "message":"",
+                data:{
+                    "commentList":result
+                }
+            })
+        }
+    })
 
-// 接口五：餐饮列表显示模块
+});
+
+
+
+// 接口六：餐饮列表显示模块
 router.post('/shoplist', async (req, res) => {
     //获取参数
     // businessArea: 商圈名字: // 商圈。（默认加载全部 businessArea: ”全部“）

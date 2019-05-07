@@ -21,6 +21,11 @@ function tongBiCompare(lastNum, nowNum) {
     return res;
 }
 
+function tongBiCompareYear(lastNum,nowNum){ // 一年中每个月的同比增长率
+    //是否有下降的趋势
+    return  ((nowNum - lastNum) / lastNum * 100).toFixed(2) + "%";
+}
+
 //登录接口
 router.post('/', async (req, res) => {
     var lastThreeDate = funcs.getDay(new Date(), 3);
@@ -94,12 +99,14 @@ router.post('/', async (req, res) => {
     ]);
     var numList = [];
     var timeList = [];
+    var tongPercentList = [];
+
+
     for (var i = 0; i < nowData.length; i++) {
         numList.push(nowData[i].commentNumber);
+        tongPercentList.push(tongBiCompareYear(lastData[i].commentNumber, nowData[i].commentNumber));
         timeList.push(nowData[i]._id);
     }
-/*    console.log(numList, 'numList')
-    console.log(timeList, 'timeList')*/
 
     var nowMonthCommentNumber = nowData[nowData.length - 1].commentNumber;
     //去年的评分和评论数量
@@ -135,9 +142,14 @@ router.post('/', async (req, res) => {
                 "valueList": [
                     {
                         name: '评论数量', //每月的评论数量，柱状图显示（1年）
-                        type: 'line',
+                        type: 'bar',
                         data: numList
-                    }
+                    },
+                    {
+                        name: '同比', //当月的评论数量，折线图显示显示
+                        type: 'line',
+                        data: tongPercentList
+                    },
                 ]
             }
 
