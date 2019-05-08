@@ -462,6 +462,7 @@ router.post("/keywords", async (req, res) => {
     var tagname = req.body.featureWord;
     var currpage = req.body.currPage;
     var commentclass = req.body.commentClass;
+    var pageSize = req.body.pageSize;
     var searchObj = {}
     switch (tagname) {
         case "口味":
@@ -498,7 +499,7 @@ router.post("/keywords", async (req, res) => {
         {$match: searchObj["matchobj"]},
         {$project: {'_id': 0, "content": "$评论"}},
         {$skip: (currpage-1)*6},
-        {$limit: 6},
+        {$limit: pageSize},
     ]).exec(function (err, result) {
         if (err) {
             logger.error('查询有特征词的评论失败' + err);
