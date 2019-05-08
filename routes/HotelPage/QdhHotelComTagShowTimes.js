@@ -7,7 +7,6 @@ var HotelCommentTrain = HotelCommentTrainModel.HotelCommentTrain
 router.post('/', function (req, res, next) {
     var tagname = req.body.featureWord;
     var currpage = req.body.currPage;
-    var pageSize = req.body.pageSize;
     var commentclass = req.body.commentClass;
     var searchObj = {}
     var getInfoObj = {}
@@ -38,7 +37,7 @@ router.post('/', function (req, res, next) {
         {$match: searchObj["matchobj"]},
         {$project: {'_id': 0, "content": "$评论"}},
         {$skip: (currpage-1)*6},
-        {$limit: pageSize},
+        {$limit: 6},
         ]).exec(function (err, result) {
         if (err) {
             logger.error('查询有特征词的评论失败' + err);

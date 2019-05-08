@@ -461,7 +461,6 @@ router.post("/keywords", async (req, res) => {
     // 分页功能变量
     var tagname = req.body.featureWord;
     var currpage = req.body.currPage;
-    var pageSize = req.body.pageSize;
     var commentclass = req.body.commentClass;
     var searchObj = {}
     switch (tagname) {
@@ -499,7 +498,7 @@ router.post("/keywords", async (req, res) => {
         {$match: searchObj["matchobj"]},
         {$project: {'_id': 0, "content": "$评论"}},
         {$skip: (currpage-1)*6},
-        {$limit: pageSize},
+        {$limit: 6},
     ]).exec(function (err, result) {
         if (err) {
             logger.error('查询有特征词的评论失败' + err);
