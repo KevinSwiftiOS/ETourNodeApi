@@ -107,7 +107,9 @@ router.post('/shoplist', async (req, res) => {
 
     if (tradeArea == "全部" && hotelRate == "全部") {
         dic = {
-            $match: {}
+            $match: {
+                "table_type": "mixed_hotel_shop",
+            }
         };
     } else if (tradeArea == "全部" && hotelRate != "全部") {
         dic = {
