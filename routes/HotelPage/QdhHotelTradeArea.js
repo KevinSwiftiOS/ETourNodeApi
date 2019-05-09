@@ -28,7 +28,7 @@ router.post('/selectlist', async (req, res) => {
         console.log(111);
         console.log(tradeArea);
 
-        console.log(await HotelRegion.aggregate([{
+        var result = (await HotelRegion.aggregate([{
                 $match: {
                     "table_type": "mixed_hotel_shop",
                     "tradeArea": tradeArea
