@@ -74,6 +74,14 @@ function find_in_db(hotelname, start_time, end_time, time_search_key) {
     })
     return promise;
 }
+function getStartWeek(year, currWeek, beforeWeek) {
+    var startWeek = currWeek - beforeWeek;
+    if(startWeek < 0){
+        startWeek = startWeek + 52;
+        year -= 1;
+    }
+    return year.toString() + "-" +startWeek.toString().padStart(2, '0');
+}
 
 function getStartWeek(year, currWeek, beforeWeek) {
     var startWeek = currWeek - beforeWeek;

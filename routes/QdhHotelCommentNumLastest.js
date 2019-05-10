@@ -66,7 +66,6 @@ function find_in_db(hotelname, start_time, end_time, time_search_key) {
     })
     return promise;
 }
-
 function getStartWeek(year, currWeek, beforeWeek) {
     var startWeek = currWeek - beforeWeek;
     if(startWeek < 0){
@@ -75,7 +74,6 @@ function getStartWeek(year, currWeek, beforeWeek) {
     }
     return year.toString() + "-" +startWeek.toString().padStart(2, '0');
 }
-
 router.post('/', function (req, res, next) {
     var hotels = [];
     hotels = req.body.hotelname;
@@ -104,7 +102,6 @@ router.post('/', function (req, res, next) {
         start_date = getStartWeek(year, currWeek, 12);
         time_search_key = '周';
         time_list = funcs.get_time_list(start_date, now_date, time_search_key);
-        console.log(currWeek, now_date, start_date, time_list)
     }
     var data = {};
     var num_axis = [];
