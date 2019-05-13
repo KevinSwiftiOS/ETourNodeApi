@@ -5,7 +5,7 @@ const CommentThirdSchema = new Schema(
     {
 
     },
-    { collection: 'restaurant_comment3' },
+    { collection: 'restaurant_comment' },
 );
 
 module.exports = mongoose.model('CommentThird', CommentThirdSchema);

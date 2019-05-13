@@ -2,7 +2,7 @@ var express = require('express');
 var logger = require('log4js').getLogger("index");
 var jwt = require('jsonwebtoken');
 var router = express.Router();
-var CommentModels = require('../../../dbs/CommentModels');
+var CommentModels = require('../../../dbs/spot/CommentModels');
 var funcs = require('../../../commons/common');
 var Comment = CommentModels.Comment;
 //同比的比较函数，返回是否上升，和上升的百分比
