@@ -77,21 +77,24 @@ function shop_name_search_key(data_region_search_key,shop_name){
     return '';
 }
 
-function update_shop_env(shop_env){
-    if(shop_env == "")
-        return "暂无评分"
-    else
-        return shop_env
+function update_our_score(shop_score,shop_taste,shop_service,shop_env){
+  var score = (shop_taste / 2) * 0.4 + (shop_env / 2) * 0.3 + (shop_service / 2) * 0.3;
+  return (shop_score * 0.4 + score * 0.6).toFixed(2) ;
 }
 
 
 
 
+var url = "mongodb://localhost:27017/dspider2";
 
+var db = connect(url);
 
+function set_our_score(our_score){
+    return  Number(our_score)
+}
 
 db.restaurant_shop.find().forEach(
     function(item){
-        db.restaurant_shop.update({"_id":item._id},{"$set":{'shop_env':update_shop_env(item.shop_env)}})
+        db.restaurant_shop.update({"_id":item._id},{"$set":{'our_score':set_our_score(item.our_score)}})
     }
 )
