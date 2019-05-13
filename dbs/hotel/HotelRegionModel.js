@@ -21,5 +21,5 @@ const hotelRegionSchema = new Schema({
     },
     { collection: 'hotel_shop' });
 
-exports.HotelRegion = mongoose.model("HotelRegion", hotelRegionSchema);
-//module.exports = mongoose.model('HotelRegion', hotelRegionSchema);
+// exports.HotelRegion = mongoose.model("HotelRegion", hotelRegionSchema);
+module.exports = mongoose.model('HotelRegion', hotelRegionSchema);
