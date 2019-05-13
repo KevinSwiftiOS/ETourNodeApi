@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var logger = require('log4js').getLogger("index");
 var funcs = require('./../commons/common');
-var CommentModels = require('./../dbs/CommentModels');
+var CommentModels = require('./../dbs/spot/CommentModels');
 var Comment = CommentModels.Comment;
 //千岛湖动态接口
 router.post('/', function (req, res, next) {

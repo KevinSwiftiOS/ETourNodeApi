@@ -5,7 +5,7 @@ var router = express.Router();
 var logger = require('log4js').getLogger("index");
 var RegionInfoModels = require('./../dbs/RegionInfoModels');
 var RegionInfo = RegionInfoModels.Regioninfo;
-var CommentModels = require('./../dbs/CommentModels');
+var CommentModels = require('./../dbs/spot/CommentModels');
 var Comment = CommentModels.Comment;
 function find_with_time(search_key,website,source,comment_time,res){
     Comment.find({

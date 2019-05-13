@@ -3,7 +3,7 @@ var router = express.Router();
 var funcs = require('./../commons/common');
 var logger = require('log4js').getLogger("index");
 //引进comment表
-var CommentModels = require('./../dbs/CommentModels');
+var CommentModels = require('./../dbs/spot/CommentModels');
 var Comment = CommentModels.Comment;
 
 //数据库查询操作

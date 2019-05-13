@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var logger = require('log4js').getLogger("index");
-var CommentModels = require('./../dbs/CommentModels');
+var CommentModels = require('./../dbs/spot/CommentModels');
 var Comment = CommentModels.Comment;
 var funcs = require('./../commons/common');
 

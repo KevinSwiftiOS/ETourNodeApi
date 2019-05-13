@@ -45,11 +45,11 @@ var QdhHotelTagWordRouter = require('./routes/HotelPage/QdhHotelComTagShowTimes'
 var QdhHotelTagSumRouter = require('./routes/HotelPage/QdhHotelComTagSum');
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
 
-var RestaurantStatistic = require('./routes/restaurantPage/RestaurantStatistic');
 
-var AreaComment = require('./routes/shoparea/AreaComment');
+
+
 var AreaScore = require("./routes/shoparea/AreaScore");
-var RestaurantList = require('./routes/restaurantPage/RestaurantList');
+
 var shoplocation = require('./routes/shoplocation'); //餐饮地图
 var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
@@ -151,10 +151,10 @@ app.use('/api/qdhspotdetailcompard',qdhSpotDetailComparedRouter);
 app.use('/api/testapi',testApiRouter);
 app.use('/api/myshow', myShowRouter);
 
-app.use('/api/restaurant/statistic', RestaurantStatistic);
-app.use('/api/restaurants', RestaurantList);
 
-app.use('/api/shoparea/comment', AreaComment);
+
+
+
 app.use('/api/shoparea/score', AreaScore);
 app.use('/api/shoplocation', shoplocation);
 

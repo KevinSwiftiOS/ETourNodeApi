@@ -5,7 +5,7 @@ var router = express.Router();
 var funcs = require('./../commons/common');
 
 var RegionInfoModels = require('./../dbs/RegionInfoModels');
-var CommentModels = require('./../dbs/CommentModels');
+var CommentModels = require('./../dbs/spot/CommentModels');
 
 var RegionInfo = RegionInfoModels.Regioninfo;
 var Comment = CommentModels.Comment;

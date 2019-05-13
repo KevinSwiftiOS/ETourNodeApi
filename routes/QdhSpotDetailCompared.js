@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var logger = require('log4js').getLogger("index");
 //引进comment表
-var CommentModels = require('./../dbs/CommentModels');
+var CommentModels = require('./../dbs/spot/CommentModels');
 var RegionInfoModels = require('./../dbs/RegionInfoModels');
 //引入regionInfo
 var Comment = CommentModels.Comment;

@@ -2,7 +2,7 @@ var express = require('express');
 
 router = express.Router();
 //引进comment表
-var CommentModels = require('./../dbs/CommentModels');
+var CommentModels = require('./../dbs/spot/CommentModels');
 var RegionInfoModels = require('./../dbs/RegionInfoModels');
 //引入regionInfo
 var Comment = CommentModels.Comment;
