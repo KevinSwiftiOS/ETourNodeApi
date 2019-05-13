@@ -29,19 +29,20 @@ function tongBiCompare(lastNum, nowNum) {
 
 // 接口一：餐饮关键指标模块（评论数）
 router.post('/keyindicator', async (req, res) => {
+    
     var lastThreeDate = funcs.getDay(new Date(), 3);
     var year = lastThreeDate.substr(0, 4);
     var month = lastThreeDate.substr(5, 2);
     //今年的月份开始日期和年份开始日期
-    var nowStartYearDate = (year - 1).toString() + "-" + month.toString().padStart(2, 0) + "-01";    //去年的结束和年份开始日期
+    var nowStartYearDate = (year - 1).toString() + "-" + month.toString().padStart(2, 0) + "-" + lastThreeDate.substr(8, 2); //去年的结束和年份开始日期
+    // var nowStartYearDate = (year - 1).toString() + "-" + month.toString().padStart(2, 0) + "-01";    //去年的结束和年份开始日期
     var lastEndYearDate = (year - 1).toString() + "-" + funcs.PrefixInteger(month, 2) + "-" + lastThreeDate.substr(8, 2);
-    var lastStartYearDate = (year - 2).toString() + "-" + month.toString().padStart(2, 0) + "-01";
+    var lastStartYearDate = (year - 2).toString() + "-" + month.toString().padStart(2, 0) + "-" + lastThreeDate.substr(8, 2);
     var nowStartMonth = (year - 1).toString() + "-" + month.toString().padStart(2, 0);
     var nowEndMonth = year.toString() + "-" + month.toString().padStart(2, 0);
     var lastStartMonth = (year - 2).toString() + "-" + month.toString().padStart(2, 0);
     var lastEndMonth = nowStartMonth;
 
-    console.log(lastThreeDate, '最新的数据' )
     var nowData = await comments.aggregate([
         {
             $match: {

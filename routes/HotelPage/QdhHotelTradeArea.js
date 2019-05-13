@@ -7,6 +7,7 @@ var HotelRegion = require('../../dbs/hotel/HotelRegionModel');
  * */
 router.post('/selectlist', async (req, res) => {
     var tradeArea = req.body.businessArea;
+    console.log(tradeArea);
     // var tradeArea = "阳光路";
     var result = [];
     if (tradeArea == '全部') {
@@ -24,7 +25,7 @@ router.post('/selectlist', async (req, res) => {
 
         }])
     } else {
-        result = await HotelRegion.aggregate([{
+        result = (await HotelRegion.aggregate([{
                 $match: {
                     "table_type": "mixed_hotel_shop",
                     "tradeArea": tradeArea
@@ -36,11 +37,21 @@ router.post('/selectlist', async (req, res) => {
                     "countNum": {
                         "$sum": 1
                     }
-                },
+                }
             }
-        ])
+        ]));
     }
-
+    var totalNum = 0;
+    for(var i = 0; i<result.length;i++){
+        totalNum += result[i].countNum;
+    }
+    var obj = {
+        _id: "全部",
+        countNum: totalNum
+    }
+    var count = result.unshift(obj)
+    console.log(tradeArea);
+    console.log(result);
     res.send({
         "code": 0,
         "message": "",
@@ -96,7 +107,9 @@ router.post('/shoplist', async (req, res) => {
 
     if (tradeArea == "全部" && hotelRate == "全部") {
         dic = {
-            $match: {}
+            $match: {
+                "table_type": "mixed_hotel_shop",
+            }
         };
     } else if (tradeArea == "全部" && hotelRate != "全部") {
         dic = {

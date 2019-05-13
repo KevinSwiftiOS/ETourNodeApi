@@ -16,7 +16,8 @@ const hotelRegionSchema = new Schema({
         comment_service_grade: Number,
             comment_health_grade: Number,
             comment_location_grade: Number,
-            comment_facility_grade: Number
+            comment_facility_grade: Number,
+            shop_rate:String
     },
     { collection: 'hotel_shop' });
 
