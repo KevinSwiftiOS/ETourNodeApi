@@ -24,7 +24,7 @@ var qdhStateRouter = require('./routes/QdhState') //千岛湖动态
 var spotDetailRouter = require('./routes/SpotDetail'); //景区详情
 var spotDetailComparedRouter = require('./routes/SpotDetailCompared');//景区详情下的平台比较
 var spidersRouter = require('./routes/Spiders');//爬虫列表
-var qdhSpotListRouter = require('./routes/QdhSpotList'); //千岛湖景点详情
+var qdhSpotListRouter = require('./routes/SpotPage/QdhSpotList'); //千岛湖景点详情地图
 var spotStateRouter = require('./routes/SpotSdate'); //景区详情 排名情况等
 var qdhSpotStateRouter = require('./routes/QdhSpotState'); //千岛湖景点详情 排名情况等
 var qdhSpotDetailRouter = require('./routes/QdhSpotDetail');//千岛湖景点详情 图表使用
@@ -41,8 +41,7 @@ var QdhHotelNumLastestRouter = require('./routes/QdhHotelCommentNumLastest') // 
 var QdhHotelScoreLastestRouter = require('./routes/QdhHotelCommentScoreLastest') // 千岛湖当当前酒店最近几周的评分
 var qdhHotelWebComparedRouter = require('./routes/QdhHotelWebsiteNumCompared') // 千岛湖当前酒店不同平台数量以及评分的比较
 var QdhHotelTMapCNumRouter = require('./routes/QdhHotelTMapCNumShow') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
-var QdhHotelTagWordRouter = require('./routes/HotelPage/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
-var QdhHotelTagSumRouter = require('./routes/HotelPage/QdhHotelComTagSum');
+
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
 
 
@@ -73,11 +72,12 @@ var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关
 var qdhHotelCommentTotal = require("./routes/HotelPage/QdhHotelCommentTotal");//千岛湖关键指标
 var QdhHotelRankShowRouter = require("./routes/HotelPage/QdhHotelRankShow");//千岛湖关键指标
 var QdhHotelSameAreaHotel = require("./routes/HotelPage/QdhHotelTradeArea");//千岛湖关键指标
+var QdhHotelTagWordRouter = require('./routes/HotelPage/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
+var QdhHotelTagSumRouter = require('./routes/HotelPage/QdhHotelComTagSum');
 
-
+// 餐饮详情
 var restaurantsPage = require("./routes/restaurantPage/restaurantAll");   // 餐饮详情界面
-var HotelCommentSemantic = require("./routes/HotelPage/HotelCommentSemantic");//千岛湖关键指标
-//qdhhoteltmapnumshow
+
 //日志文件的配置
 var log4js = require('log4js');
 log4js.configure('log4j.json');
@@ -128,7 +128,7 @@ app.use('/api/qdhstate',qdhStateRouter);
 app.use('/api/spotdetail',spotDetailRouter);
 app.use('/api/spotdetailcompared',spotDetailComparedRouter);
 app.use('/api/spider',spidersRouter);
-app.use('/api/qdhspotlist',qdhSpotListRouter);
+
 app.use('/api/qdhhotellist', qdhHotelListRouter); // 千岛湖酒店列表（不同等级）
 app.use('/api/qdhhotelcommentnumsort', qdhHotelCommentNumSortRouter);   // 酒店评论数量排名
 app.use('/api/qdhhotelgradesort', qdhHotelGradeSortRouter);         // 酒店评分排名
@@ -187,11 +187,15 @@ app.use("/api/restaurantpage", restaurantsPage);
 // 酒店详情接口
 app.use("/api/hotelpage/keyindicator",qdhHotelCommentTotal); //千岛湖 当月和今年数量 统计 以及 评论数量折线图
 app.use("/api/hotelpage/ranklist",QdhHotelRankShowRouter); //千岛湖热度前十名， 以及好评和差评前十名
-
 app.use("/api/hotelpage",QdhHotelSameAreaHotel); //千岛湖 酒店 评论数量变化图（折线）
 app.use('/api/qdhhotelcomtagsum', QdhHotelTagSumRouter); // 获得不同方面评价的的个数
 app.use('/api/qdhhotelcomfeatureword', QdhHotelTagWordRouter); //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
-app.use("/api/hotelpage/keywords",HotelCommentSemantic); //
+// app.use("/api/hotelpage/keywords",HotelCommentSemantic); //
+
+// 景点详情接口
+app.use('/api/qdhspotlist', qdhSpotListRouter);
+
+
 app.use(function(req, res, next) {
   next(createError(404));
 });
