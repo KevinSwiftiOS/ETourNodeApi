@@ -2,10 +2,10 @@ var express = require('express');
 var logger = require('log4js').getLogger("index");
 var jwt = require('jsonwebtoken');
 var router = express.Router();
-var CommentModels = require('../../../dbs/spot/CommentModels');
+var Comment = require('../../../dbs/spot/CommentModels');
 var funcs = require('../../../commons/common');
 var qdh_spot_infos_dic = require("../../../commons/QdhSpotInfosDic");
-var Comment = CommentModels.Comment;
+// var Comment = CommentModels.Comment;
 
 //登录接口
 router.post('/', async(req, res) => {
@@ -64,7 +64,7 @@ router.post('/', async(req, res) => {
     }
     catch (error) {
 
-        logger.error('千岛湖热力图（POST) 近3个月的统计出错：heatmap 错误：' + err);
+        logger.error('千岛湖热力图（POST) 近3个月的统计出错：heatmap 错误：');
         res.send({
             "code": 12,
             "message": "查询发生错误",

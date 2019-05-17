@@ -2,9 +2,9 @@ var express = require('express');
 var logger = require('log4js').getLogger("index");
 var jwt = require('jsonwebtoken');
 var router = express.Router();
-var CommentModels = require('../../../dbs/spot/CommentModels');
+var Comment = require('../../../dbs/spot/CommentModels');
 var funcs = require('../../../commons/common');
-var Comment = CommentModels.Comment;
+// var Comment = CommentModels.Comment;
 //同比比较
 function tongBiCompare(lastNum,nowNum){
     //是否有下降的趋势

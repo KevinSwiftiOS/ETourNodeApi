@@ -35,7 +35,6 @@ router.post('/keyindicator', async (req, res) => {
     var month = lastThreeDate.substr(5, 2);
     //今年的月份开始日期和年份开始日期
     var nowStartYearDate = (year - 1).toString() + "-" + month.toString().padStart(2, 0) + "-" + lastThreeDate.substr(8, 2); //去年的结束和年份开始日期
-    // var nowStartYearDate = (year - 1).toString() + "-" + month.toString().padStart(2, 0) + "-01";    //去年的结束和年份开始日期
     var lastEndYearDate = (year - 1).toString() + "-" + funcs.PrefixInteger(month, 2) + "-" + lastThreeDate.substr(8, 2);
     var lastStartYearDate = (year - 2).toString() + "-" + month.toString().padStart(2, 0) + "-" + lastThreeDate.substr(8, 2);
     var nowStartMonth = (year - 1).toString() + "-" + month.toString().padStart(2, 0);

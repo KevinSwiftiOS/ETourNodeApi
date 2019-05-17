@@ -4,7 +4,7 @@ var logger = require('log4js').getLogger("index");
 var router = express.Router();
 var funcs = require('./../commons/common');
 
-var RegionInfoModels = require('./../dbs/RegionInfoModels');
+var RegionInfoModels = require('./../dbs/spot/RegionInfoModels');
 var CommentModels = require('./../dbs/spot/CommentModels');
 
 var RegionInfo = RegionInfoModels.Regioninfo;

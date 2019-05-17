@@ -2,8 +2,8 @@
 var express = require('express');
 var logger = require('log4js').getLogger("index");
 var router = express.Router();
-var funcs = require('./../../commons/common');
-var HotelCommentModel = require('./../../dbs/hotel/HotelCommentModel');
+var funcs = require('../../commons/common');
+var HotelCommentModel = require('../../dbs/hotel/HotelCommentModel');
 var HotelComment = HotelCommentModel.HotelComment;
 
 // 获取景点 本年评-论数量

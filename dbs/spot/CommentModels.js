@@ -1,9 +1,9 @@
 /**
  * Created by hcnucai on 2016/11/19.
  */
-var mongoose = require('../db');
-var Schema =  mongoose.Schema;
-var comment = new Schema({
+const mongoose = require('../db');
+const Schema =  mongoose.Schema;
+const spotsSchema = new Schema({
         //定义字段
         data_website:String,
         data_region:String,
@@ -17,5 +17,5 @@ var comment = new Schema({
 
     },
     { collection: 'spot_comment' });
-
-exports.Comment = mongoose.model("Comment", comment);
+module.exports = mongoose.model('Spots', spotsSchema)
+// exports.Spots = mongoose.model("Spots", spotsSchema);

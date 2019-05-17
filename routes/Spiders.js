@@ -3,7 +3,7 @@ var express = require('express');
 
 var router = express.Router();
 var logger = require('log4js').getLogger("index");
-var RegionInfoModels = require('./../dbs/RegionInfoModels');
+var RegionInfoModels = require('./../dbs/spot/RegionInfoModels');
 var RegionInfo = RegionInfoModels.Regioninfo;
 var CommentModels = require('./../dbs/spot/CommentModels');
 var Comment = CommentModels.Comment;

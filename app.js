@@ -16,15 +16,14 @@ process.env.TZ = 'Asia/Shanghai';
 
 //加载路由
 var loginRouter = require('./routes/Login'); //登录
-var spotListRouter = require('./routes/SpotList'); //景区列表
-var spotComparedRouter = require('./routes/SpotCompared');//景区之间比较
+
+
 var getUserRouter = require('./routes/GetUser');//获取用户信息
 var testApiRouter = require('./routes/testAPI');//测试接口
 var qdhStateRouter = require('./routes/QdhState') //千岛湖动态
-var spotDetailRouter = require('./routes/SpotDetail'); //景区详情
-var spotDetailComparedRouter = require('./routes/SpotDetailCompared');//景区详情下的平台比较
+
 var spidersRouter = require('./routes/Spiders');//爬虫列表
-var qdhSpotListRouter = require('./routes/SpotPage/QdhSpotList'); //千岛湖景点详情地图
+
 var spotStateRouter = require('./routes/SpotSdate'); //景区详情 排名情况等
 var qdhSpotStateRouter = require('./routes/QdhSpotState'); //千岛湖景点详情 排名情况等
 var qdhSpotDetailRouter = require('./routes/QdhSpotDetail');//千岛湖景点详情 图表使用
@@ -41,9 +40,9 @@ var QdhHotelNumLastestRouter = require('./routes/QdhHotelCommentNumLastest') // 
 var QdhHotelScoreLastestRouter = require('./routes/QdhHotelCommentScoreLastest') // 千岛湖当当前酒店最近几周的评分
 var qdhHotelWebComparedRouter = require('./routes/QdhHotelWebsiteNumCompared') // 千岛湖当前酒店不同平台数量以及评分的比较
 var QdhHotelTMapCNumRouter = require('./routes/QdhHotelTMapCNumShow') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
-
+var qdhSpotListRouter = require('./routes/QdhSpotList'); //千岛湖景点详情地图
 var QdhHotelTagClassRouter = require('./routes/QdhHotelComTagClassierSum');
-
+var spotDetailComparedRouter = require('./routes/SpotDetailCompared'); //景区详情下的平台比较
 
 
 
@@ -54,29 +53,35 @@ var myShowRouter = require('./routes/myShow');   // 万能路由
 var app = express();
 
 
-//主页接口
-var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/QdhHotelComScorePie'); // 酒店 评分分布饼图
-var QdhHotelComNumPieRouter = require('./routes/HomePage/hotel/QdhHotelComNumPie');    // 酒店 评论数量分布饼图
-var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/hotel/QdhHotelComScoreLimitTen');  // 酒店评分前十名
-var restaurantRank = require('./routes/HomePage/restaurant/RestaurantRank');  // 餐饮排行
-var restaurantPiecharts = require("./routes/HomePage/restaurant/RestaurantPiecharts");  // 餐饮饼图
-
+// 主页大屏
+var QdhHotelComScorePieRouter = require('./routes/HomePage/hotel/ComScorePie'); // 酒店 评分分布饼图
+var QdhHotelComNumPieRouter = require('./routes/HomePage/hotel/ComNumPie');    // 酒店 评论数量分布饼图
+var QdhHotelComScoreLimitTenRouter = require('./routes/HomePage/hotel/ComScoreLimitTen');  // 酒店评分前十名
+var restaurantRank = require('./routes/HomePage/restaurant/RestRank');  // 餐饮排行
+var restaurantPiecharts = require("./routes/HomePage/restaurant/Piecharts");  // 餐饮饼图
 var spotRank = require('./routes/HomePage/spot/SpotRank'); //景区排行
 var getDate = require('./routes/GetDate'); //获取当前是第几天
 var heatMap = require("./routes/HomePage/spot/HeatMap"); //千岛湖热力图
 var spotHotChange = require("./routes/HomePage/spot/SpotHotChange");//千岛湖景点评论变化图
 var keyIndicator = require("./routes/HomePage/spot/KeyIndicator");//千岛湖关键指标
 
-
 // 酒店详情
-var qdhHotelCommentTotal = require("./routes/HotelPage/QdhHotelCommentTotal");//千岛湖关键指标
-var QdhHotelRankShowRouter = require("./routes/HotelPage/QdhHotelRankShow");//千岛湖关键指标
-var QdhHotelSameAreaHotel = require("./routes/HotelPage/QdhHotelTradeArea");//千岛湖关键指标
-var QdhHotelTagWordRouter = require('./routes/HotelPage/QdhHotelComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
-var QdhHotelTagSumRouter = require('./routes/HotelPage/QdhHotelComTagSum');
+var qdhHotelCommentTotal = require("./routes/HotelPage/CommentTotal");//千岛湖关键指标
+var QdhHotelRankShowRouter = require("./routes/HotelPage/RankShow");//千岛湖关键指标
+var QdhHotelSameAreaHotel = require("./routes/HotelPage/TradeArea");//千岛湖关键指标
+var QdhHotelTagWordRouter = require('./routes/HotelPage/ComTagShowTimes') // 千岛湖酒店全部评论在不同平台上的分布，用于 treemap展示
+var QdhHotelTagSumRouter = require('./routes/HotelPage/ComTagSum');
 
 // 餐饮详情
 var restaurantsPage = require("./routes/restaurantPage/restaurantAll");   // 餐饮详情界面
+
+// 景区详情
+var spotComparedTimeSelect = require('./routes/SpotPage/TimeSelector'); // 景区数据集接口一：时间选择器
+// var spotComparedTagsSelect = require('./routes/SpotPage/TagsSelector'); // 景区数据集接口二：标签选择器
+var spotKeyIndicator = require('./routes/SpotPage/KeyIndicator'); // 景区详情数据
+var spotRegionalMap = require('./routes/SpotPage/RegionalMap'); // 景区列表地图
+var spotPieCharts = require('./routes/SpotPage/PieCharts'); // 景区饼图模块
+var spotBarCharts = require('./routes/SpotPage/BarCharts'); // 景区柱状图模块
 
 //日志文件的配置
 var log4js = require('log4js');
@@ -121,11 +126,11 @@ app.use(function(err, req, res, next) {
 app.use('/static/', express.static('public'));
 //注册路由
 app.use('/api/login',loginRouter);
-app.use('/api/spotlist',spotListRouter);
-app.use('/api/spotcompared',spotComparedRouter);
+
+
 app.use('/api/getuser',getUserRouter);
 app.use('/api/qdhstate',qdhStateRouter);
-app.use('/api/spotdetail',spotDetailRouter);
+
 app.use('/api/spotdetailcompared',spotDetailComparedRouter);
 app.use('/api/spider',spidersRouter);
 
@@ -179,7 +184,7 @@ app.use("/api/getdate",getDate);//获取当前是第几天
 app.use("/api/homepage/heatmap",heatMap);//千岛湖热力图
 app.use("/api/homepage/keyindicator",keyIndicator); //千岛湖关键指标
 app.use("/api/homepage/spothotchange",spotHotChange);//千岛湖景区热度变化图
-
+app.use('/api/qdhspotlist', qdhSpotListRouter);
 
 // 餐饮详情接口
 app.use("/api/restaurantpage", restaurantsPage);
@@ -188,13 +193,16 @@ app.use("/api/restaurantpage", restaurantsPage);
 app.use("/api/hotelpage/keyindicator",qdhHotelCommentTotal); //千岛湖 当月和今年数量 统计 以及 评论数量折线图
 app.use("/api/hotelpage/ranklist",QdhHotelRankShowRouter); //千岛湖热度前十名， 以及好评和差评前十名
 app.use("/api/hotelpage",QdhHotelSameAreaHotel); //千岛湖 酒店 评论数量变化图（折线）
-app.use('/api/qdhhotelcomtagsum', QdhHotelTagSumRouter); // 获得不同方面评价的的个数
-app.use('/api/qdhhotelcomfeatureword', QdhHotelTagWordRouter); //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
-// app.use("/api/hotelpage/keywords",HotelCommentSemantic); //
+app.use('/api/hotelpage/comtagsum', QdhHotelTagSumRouter); // 获得不同方面评价的的个数
+app.use('/api/hotelpage/comfeatureword', QdhHotelTagWordRouter); //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
 
-// 景点详情接口
-app.use('/api/qdhspotlist', qdhSpotListRouter);
-
+// 景区详情接口  
+app.use('/api/spotspage/comparedgraphchart', spotComparedTimeSelect); // 景区数据集接口一：时间选择器
+// app.use('/api/spotspage/comparedgraphchart/tagselect', spotComparedTagsSelect); // 景区数据集接口二：标签选择器
+app.use('/api/spotspage/keyindicator', spotKeyIndicator);  // 不同景区关键指标
+app.use('/api/spotspage/regionalmap', spotRegionalMap);  // 浙江省地图
+app.use('/api/spotspage/piecharts', spotPieCharts); // 景区饼图
+app.use('/api/spotspage/barcharts', spotBarCharts); // 景区柱状图
 
 app.use(function(req, res, next) {
   next(createError(404));
