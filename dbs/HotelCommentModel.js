@@ -12,9 +12,10 @@ var hotelcomment = new Schema({
         comment_time:String,
         shop_name:String,
         comment_content:String,
-        comment_score:Number,
+        comment_grade:Number,
         crawl_time:String,
+
     },
     { collection: 'hotel_comment' });
 
-exports.HotelComment = mongoose.model("HotelComment", hotelcomment);
+module.exports = mongoose.model("hotelComment", hotelcomment);
