@@ -4,10 +4,10 @@ var express = require('express');
 var router = express.Router();
 var logger = require('log4js').getLogger("index");
 
-var  CommentsModels = require('./../../dbs/spot/CommentModels');
+var  SpotsComments = require('../../dbs/spot/CommentModels');
 const RSComments = require('./../../dbs/restaurant/RSComment');
-var HotelComments = require("./../../dbs/hotel/HotelCommentModel");
-var SpotsComments = CommentsModels.Comment;
+var HotelCommentModel = require('./../../dbs/hotel/HotelCommentModel');
+var HotelComments = HotelCommentModel.HotelComment
 function find_with_time(search_key,source,comment_time,res){
     SpotsComments.find({
             'data_region_search_key': search_key,
