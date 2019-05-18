@@ -76,7 +76,7 @@ var QdhHotelTagSumRouter = require('./routes/HotelPage/ComTagSum');
 var restaurantsPage = require("./routes/restaurantPage/restaurantAll");   // 餐饮详情界面
 
 // 景区详情
-var spotComparedTimeSelect = require('./routes/SpotPage/TimeSelector'); // 景区数据集接口一：时间选择器
+var spotCompared = require('./routes/SpotPage/GraphCharts'); // 景区数据集接口一：时间选择器
 // var spotComparedTagsSelect = require('./routes/SpotPage/TagsSelector'); // 景区数据集接口二：标签选择器
 var spotKeyIndicator = require('./routes/SpotPage/KeyIndicator'); // 景区详情数据
 var spotRegionalMap = require('./routes/SpotPage/RegionalMap'); // 景区列表地图
@@ -197,7 +197,7 @@ app.use('/api/hotelpage/comtagsum', QdhHotelTagSumRouter); // 获得不同方面
 app.use('/api/hotelpage/comfeatureword', QdhHotelTagWordRouter); //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
 
 // 景区详情接口  
-app.use('/api/spotspage/comparedgraphchart', spotComparedTimeSelect); // 景区数据集接口一：时间选择器
+app.use('/api/spotspage/comparedgraphchart', spotCompared); // 景区数据集接口一：时间选择器
 // app.use('/api/spotspage/comparedgraphchart/tagselect', spotComparedTagsSelect); // 景区数据集接口二：标签选择器
 app.use('/api/spotspage/keyindicator', spotKeyIndicator);  // 不同景区关键指标
 app.use('/api/spotspage/regionalmap', spotRegionalMap);  // 浙江省地图

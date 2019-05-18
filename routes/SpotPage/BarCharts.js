@@ -51,7 +51,7 @@ router.post('/number', async function (req, res, next) {
             }
         }
     ]);
-    console.log(nowData)
+    
     var numList = [];
     var timeList = [];
     for (var i = 0; i < nowData.length; i++) { // 最好以 nowData.length 作为 结束值

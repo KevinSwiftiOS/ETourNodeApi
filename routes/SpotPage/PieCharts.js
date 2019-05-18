@@ -6,14 +6,12 @@ const funcs = require('../../commons/common');
 
 router.post('/score', async (req, res) => {
     var currSpot = req.body.currSpot;
-    console.log(currSpot)
     var endDay = funcs.getDay(new Date(), 3);
     var year = endDay.substr(0, 5);
     var month = endDay.substr(5, 2);
     var Day = endDay.substr(7, 3)
     var startDay = year + "0"+(month - 3).toString() + Day;
-    console.log(startDay)
-    console.log(endDay)
+
     var result = await Spots.aggregate([{
         $match: {
             crawl_time: {
@@ -38,7 +36,6 @@ router.post('/score', async (req, res) => {
         }
     }])
 
-    console.log(result);
     var scoreList = [{
         name: "一般",
         value: result[1].comment_content + result[3].comment_content
@@ -53,7 +50,6 @@ router.post('/score', async (req, res) => {
         value: result[2].comment_content
     }];
 
-    console.log(scoreList)
     res.send({
         "code": 0,
         "message": "",

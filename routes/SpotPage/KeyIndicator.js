@@ -69,13 +69,11 @@ router.post('/', async (req, res) => {
             }
         },
     ])
-    console.log(result.length)
     var commentNumber = [];
     for(var i = 0; i< result.length; i++){
         commentNumber[i] = result[i];
     }
-    console.log(commentNumber.length)
-    console.log(result.length)
+
     var commentNumberSort = commentNumber.sort(compared('commentNumber'));
 
     res.send({
@@ -89,7 +87,6 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/variation', async (req, res) =>{
-    console.log(req.body.currSpot)
     var currSpot = req.body.currSpot;
     var endTime = funcs.getDay(new Date(), 3);
     var nowMonthYear = endTime.substr(0, 8);
@@ -176,8 +173,6 @@ router.post('/variation', async (req, res) =>{
             }
         }
     }, ]);
-    console.log(thisMonthData)
-    console.log(lastMonthData)
     var numVariation = thisMonthData[0].commentNumber - lastMonthData[0].commentNumber;
     if(numVariation>0){
         numVariation = "+ "+numVariation;

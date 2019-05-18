@@ -119,15 +119,21 @@ router.post("/", async (req, res) => {
     var tags = req.body.tags;
     var timeType = req.body.timeType;
     console.log(startTime)
-    console.log(endTime)
-    console.log(scoreOrNum)
-    console.log(timeType);
-
-    var data = [];
+   console.log(endTime)
+    console.log(granularity)
+    console.log(timeType)
     var xAxis = [];
     var result = [];
     var temp = [];
+    var tagsArray = [];
     var projectObj = {};
+    if (typeof (tags) === "string") {
+        tagsArray.push(tags)
+    } else {
+        for (var i = 0; i < tags.length; i++) {
+            tagsArray.push(tags[i])
+        }
+    }
     if (scoreOrNum === "score") {
         projectObj['project'] = {
             "_id": "$_id",
@@ -153,34 +159,45 @@ router.post("/", async (req, res) => {
             "commentNumber": "$comment_content"
         }
     }
-    for (var i = 0; i < tags.length; i++) {
-        var searchKey = tags[i].value;
+    for (var i = 0; i < tagsArray.length; i++) {
+        var searchKey = tagsArray[i];
+        var data = [];
         var matchObj = selectTimeType(timeType, startTime, endTime, searchKey);
-        var groupObj = selectGranularity(granularity,scoreOrNum);
-
+        var groupObj = selectGranularity(granularity, scoreOrNum);
         temp = await Spots.aggregate([{
-            $match: matchObj['match']
-        }, {
-            $group: groupObj['group']
-        }, {
-            $project: projectObj['project']
-        }, {
-            $sort: {
-                _id: 1
+                $match: matchObj['match']
+            }, {
+                $group: groupObj['group']
+            }, {
+                $project: projectObj['project']
+            },
+            {
+                $sort: {
+                    _id: 1
+                }
             }
-        }])
-        for (var j = 0; j < temp.length; j++) {
-            data.push(temp[j].commentScore)
+        ])
+
+        if (scoreOrNum === "score") {
+            for (var j = 0; j < temp.length; j++) {
+                data.push(temp[j].commentScore)
+            }
+        } else {
+            for (var j = 0; j < temp.length; j++) {
+                data.push(temp[j].commentNumber)
+            }
         }
+
         data.unshift(searchKey);
         result.push(data)
     }
     for (var i = 0; i < temp.length; i++) {
         xAxis.push(temp[i]._id)
     }
-    xAxis.unshift('time')
-    result.unshift(xAxis);
-
+    if (typeof (tags) !== "string") {
+        xAxis.unshift('time')
+        result.unshift(xAxis);
+    }
     console.log(result)
     res.send({
         code: 0,
