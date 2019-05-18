@@ -17,5 +17,6 @@ const spotsSchema = new Schema({
 
     },
     { collection: 'spot_comment' });
-module.exports = mongoose.model('Spots', spotsSchema)
-// exports.Spots = mongoose.model("Spots", spotsSchema);
+
+exports.Comment = mongoose.model("Comment", spotsSchema);
+
