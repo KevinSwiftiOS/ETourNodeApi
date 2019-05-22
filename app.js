@@ -133,7 +133,7 @@ app.use("/api/hotelpage",QdhHotelSameAreaHotel); //千岛湖 酒店 评论数量
 app.use('/api/hotelpage/comtagsum', QdhHotelTagSumRouter); // 获得不同方面评价的的个数
 app.use('/api/hotelpage/comfeatureword', QdhHotelTagWordRouter); //  酒店所有评论在不同平台的数量分布，用于treemap 的展示
 
-// 景区详情接口  
+// 景区详情接口
 app.use('/api/spotspage/comparedgraphchart', spotCompared); // 景区数据集接口一：时间选择器
 app.use('/api/spotspage/keyindicator', spotKeyIndicator);  // 不同景区关键指标
 app.use('/api/spotspage/regionalmap', spotRegionalMap);  // 浙江省地图
@@ -141,7 +141,7 @@ app.use('/api/spotspage/piecharts', spotPieCharts); // 景区饼图
 app.use('/api/spotspage/barcharts', spotBarCharts); // 景区柱状图
 app.use('/api/spotspage/commentanalysis', spotCommentAnalysis); //景区评论分析模块
 
-// 景点详情接口  
+// 景点详情接口
 app.use('/api/sightspotspage/comparedgraphchart', sightSpotCompared); // 景点数据集：时间选择器
 app.use('/api/sightspotspage/keyindicator', sightSpotIndicator); // 不同景点关键指标
 app.use('/api/sightspotspage/regionalmap', sightSpotRegionalMap); // 千岛湖地图
@@ -150,7 +150,7 @@ app.use('/api/sightspotspage/barcharts', sightSpotBarCharts); // 景点柱状图
 app.use('/api/sightspotspage/commentanalysis', sightSpotCommentAnalysis); //景点评论分析模块
 
 // 爬虫详情
-app.use("/api/spiderpage/spider", SpiderRouter); 
+app.use("/api/spiderpage/spider", SpiderRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));
