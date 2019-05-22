@@ -2,13 +2,13 @@ var express = require('express');
 var router = express.Router();
 var logger = require('log4js').getLogger("index");
 //引进comment表
-var CommentModels = require('../dbs/spot/CommentModels');
-var InnerRegioninfoModels = require('../dbs/InnerRegionInfoModels');
+var CommentModels = require('../../../dbs/spot/CommentModels');
+var InnerRegioninfoModels = require('../../../dbs/spot/InnerRegionInfoModels');
 //引入regionInfo
-var funcs = require('../commons/common');
+var funcs = require('../../../commons/common');
 var Comment = CommentModels.Comment;
 var InnerRegioninfo = InnerRegioninfoModels.InnerRegioninfo;
-var qdh_spot_infos = require("../commons/QdhSpotInfos");
+var qdh_spot_infos = require("../../../commons/QdhSpotInfos");
 /* GET users listing. */
 router.post('/', function (req, res, next) {
     var date = new Date();

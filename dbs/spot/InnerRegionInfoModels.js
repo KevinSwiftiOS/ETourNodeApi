@@ -1,7 +1,7 @@
 /**
  * Created by hcnucai on 2016/11/19.
  */
-var mongoose = require('./db');
+var mongoose = require('../db');
 var Schema =  mongoose.Schema;
 var innerregioninfo = new Schema({
         //定义字段

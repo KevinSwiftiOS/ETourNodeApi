@@ -1,8 +1,8 @@
 const express = require('express');
+const router = express.Router();
 const comments = require('../../dbs/restaurant/RSComment');
 const shop = require("../../dbs/restaurant/shops");
 const commentKeyword = require("../../dbs/restaurant/Comment3");
-const router = express.Router();
 const funcs = require('../../commons/common');
 const areaData = require("./components/areaList");
 

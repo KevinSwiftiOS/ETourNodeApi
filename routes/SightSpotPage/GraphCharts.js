@@ -13,7 +13,7 @@ function selectTimeType(timeType, startTime, endTime, searchKey) {
                     $gte: startTime,
                     $lte: endTime
                 },
-                "data_region_search_key": searchKey
+                "shop_name_search_key": searchKey
             };
             break;
         case "按月份":
@@ -22,7 +22,7 @@ function selectTimeType(timeType, startTime, endTime, searchKey) {
                     $gte: startTime,
                     $lte: endTime
                 },
-                "data_region_search_key": searchKey
+                "shop_name_search_key": searchKey
             };
             break;
         case "按季度":
@@ -31,7 +31,7 @@ function selectTimeType(timeType, startTime, endTime, searchKey) {
                     $gte: startTime,
                     $lte: endTime
                 },
-                "data_region_search_key": searchKey
+                "shop_name_search_key": searchKey
             };
             break;
         case "自定义":
@@ -40,7 +40,7 @@ function selectTimeType(timeType, startTime, endTime, searchKey) {
                     $gte: startTime,
                     $lte: endTime
                 },
-                "data_region_search_key": searchKey
+                "shop_name_search_key": searchKey
             };
             break;
     }
