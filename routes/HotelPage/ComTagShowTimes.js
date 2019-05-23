@@ -37,7 +37,7 @@ router.post('/', function (req, res, next) {
     HotelCommentTrain.aggregate([
         {$match: searchObj["matchobj"]},
         {$project: {'_id': 0, "content": "$评论"}},
-        {$skip: (currpage-1)*6},
+        {$skip: (currpage-1)*pageSize},
         {$limit: pageSize},
         ]).exec(function (err, result) {
         if (err) {

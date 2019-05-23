@@ -7,7 +7,7 @@ var HotelRegion = require('../../dbs/hotel/HotelRegionModel');
  * */
 router.post('/selectlist', async (req, res) => {
     var tradeArea = req.body.businessArea;
-    console.log(tradeArea);
+    // console.log(tradeArea);
     // var tradeArea = "阳光路";
     var result = [];
     if (tradeArea == '全部') {
@@ -50,8 +50,8 @@ router.post('/selectlist', async (req, res) => {
         countNum: totalNum
     }
     var count = result.unshift(obj)
-    console.log(tradeArea);
-    console.log(result);
+    // console.log(tradeArea);
+    // console.log(result);
     res.send({
         "code": 0,
         "message": "",
@@ -178,7 +178,7 @@ router.post('/shoplist', async (req, res) => {
         result.push(hotel[i]);
     }
     var totalPage = Math.ceil(hotel.length / pageSize);
-    console.log(totalPage);
+    // console.log(totalPage);
     res.send({
         data: {
             hotellist: result

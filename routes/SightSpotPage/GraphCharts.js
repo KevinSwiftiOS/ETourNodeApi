@@ -169,11 +169,11 @@ router.post("/", async (req, res) => {
     var granularity = req.body.granularity;
     var tags = req.body.tags;
     var timeType = req.body.timeType;
-    console.log(startTime)
-    console.log(endTime)
-    console.log(granularity)
-    console.log(timeType)
-    console.log(scoreOrNum)
+    // console.log(startTime)
+    // console.log(endTime)
+    // console.log(granularity)
+    // console.log(timeType)
+    // console.log(scoreOrNum)
     var xAxis = [];
     var result = [];
     var temp = [];
@@ -208,7 +208,6 @@ router.post("/", async (req, res) => {
         var searchKey = tagsArray[i];
         var data = [];
         var matchObj = selectTimeType(timeType, startTime, endTime, searchKey);
-        console.log(matchObj)
         var groupObj = selectGranularity(granularity, scoreOrNum);
         temp = await Spots.aggregate([{
                 $match: matchObj['match']
@@ -247,7 +246,7 @@ router.post("/", async (req, res) => {
         xAxis.unshift('time')
         result.unshift(xAxis);
     }
-    console.log(result)
+    // console.log(result)
     res.send({
         code: 0,
         message: "",

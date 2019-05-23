@@ -101,7 +101,7 @@ router.post('/keyindicator', async (req, res) => {
     var timeList = [];
     var tongPercentList = [];
 
-    console.log(nowData, lastData);
+    // console.log(nowData, lastData);
     for (var i = 0; i < nowData.length; i++) { // 最好以 nowData.length 作为 结束值
         numList.push(nowData[i].commentNumber);
         tongPercentList.push(tongBiCompareYear(lastData[i].commentNumber, nowData[i].commentNumber));
@@ -494,11 +494,11 @@ router.post("/keywords", async (req, res) => {
             }
             break;
     }
-    console.log(tagname, searchObj, currpage, commentclass, '评论数量')
+    // console.log(tagname, searchObj, currpage, commentclass, '评论数量')
     commentKeyword.aggregate([
         {$match: searchObj["matchobj"]},
         {$project: {'_id': 0, "content": "$评论"}},
-        {$skip: (currpage-1)*6},
+        {$skip: (currpage-1)*pageSize},
         {$limit: pageSize},
     ]).exec(function (err, result) {
         if (err) {
