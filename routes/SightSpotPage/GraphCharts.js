@@ -175,7 +175,9 @@ router.post("/", async (req, res) => {
     // console.log(timeType)
     // console.log(scoreOrNum)
     var xAxis = [];
-    var result = [];
+    var series = [];
+    var legendData = [];
+    var obj={};
     var temp = [];
     var tagsArray = [];
     var projectObj = {};
@@ -232,26 +234,30 @@ router.post("/", async (req, res) => {
                 data.push(temp[j].commentNumber)
             }
         }
-
-        data.unshift(searchKey);
-        result.push(data)
+        obj['data'] = data;
+        obj['type'] = 'line';
+        obj['name'] = searchKey;
+        legendData.push(searchKey);
+        series.push(obj);
+        // data.unshift(searchKey);
+        // result.push(data)
     }
     for (var i = 0; i < temp.length; i++) {
         var x = xTransformation(granularity, temp[i]._id);
-        // console.log(x)
         xAxis.push(x)
-        // xAxis.push(temp[i]._id)
     }
-    if (typeof (tags) !== "string") {
-        xAxis.unshift('time')
-        result.unshift(xAxis);
-    }
+    // if (typeof (tags) !== "string") {
+    //     xAxis.unshift('time')
+    //     result.unshift(xAxis);
+    // }
     // console.log(result)
     res.send({
         code: 0,
         message: "",
         data: {
-            dataset: result
+            legendData:legendData,
+            xAxis:xAxis,
+            seriesData:series
         }
     })
 })

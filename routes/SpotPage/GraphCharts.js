@@ -132,7 +132,7 @@ function xTransformation(granularity, str) {
         var seasonStr = str.substr(5, 2);
         if (seasonStr.substr(0, 1) === "0") {
             season = seasonStr.substr(1, 1);
-        }else{
+        } else {
             season = seasonStr;
         }
         var newStr = year.toString() + '年第' + season.toString() + '季度';
@@ -142,11 +142,11 @@ function xTransformation(granularity, str) {
         var year = str.substr(0, 4);
         var month = "";
         var monthStr = str.substr(5, 2);
-       if (monthStr.substr(0, 1) === '0') {
-           month = monthStr.substr(1, 1);
-       } else {
-           month = monthStr;
-       }
+        if (monthStr.substr(0, 1) === '0') {
+            month = monthStr.substr(1, 1);
+        } else {
+            month = monthStr;
+        }
         var newStr = year.toString() + '年' + month.toString() + '月';
         return newStr;
     }
@@ -174,8 +174,11 @@ router.post("/", async (req, res) => {
     // console.log(granularity)
     // console.log(timeType)
     // console.log(scoreOrNum)
+    console.log(tags)
     var xAxis = [];
-    var result = [];
+    var series = [];
+    var legendData = [];
+    var obj = {};
     var temp = [];
     var tagsArray = [];
     var projectObj = {};
@@ -191,9 +194,14 @@ router.post("/", async (req, res) => {
             "_id": "$_id",
             commentScore: {
                 $divide: [{
-                    $subtract: [
-                        {$multiply: ['$commentScore', 100]},
-                        {$mod: [{$multiply: ['$commentScore', 100]}, 1]}
+                    $subtract: [{
+                            $multiply: ['$commentScore', 100]
+                        },
+                        {
+                            $mod: [{
+                                $multiply: ['$commentScore', 100]
+                            }, 1]
+                        }
                     ]
                 }, 100]
             }
@@ -232,27 +240,34 @@ router.post("/", async (req, res) => {
                 data.push(temp[j].commentNumber)
             }
         }
-
-        data.unshift(searchKey);
-        result.push(data)
+        series.push({
+            data: data,
+            type: 'line',
+            name: searchKey
+        })
+        legendData.push(searchKey);
     }
     for (var i = 0; i < temp.length; i++) {
         var x = xTransformation(granularity, temp[i]._id);
-        // console.log(x)
         xAxis.push(x)
-        // xAxis.push(temp[i]._id)
     }
-    if (typeof (tags) !== "string") {
-        xAxis.unshift('time')
-        result.unshift(xAxis);
+    var data = {
+        legendData: legendData,
+        xAxis: xAxis,
+        seriesData: series
     }
-    // console.log(result)
+    console.log(data)
     res.send({
         code: 0,
         message: "",
         data: {
-            dataset: result
+            legendData: legendData,
+            xAxis: xAxis,
+            seriesData: series
         }
+        // data: {
+        //     dataset: result
+        // }
     })
 })
 module.exports = router;

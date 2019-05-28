@@ -36,18 +36,46 @@ router.post('/score', async (req, res) => {
         }
     }])
 
+    var yibanN1 = 0,
+        yibanN2 = 0,
+        jiaohaoN = 0,
+        goodN = 0,
+        niceN = 0;
+    for(var i=0;i<result.length;i++){
+        if(result[i]._id === 1){
+            yibanN1 = result[i].comment_content;
+            continue;
+        }
+        if (result[i]._id === 2) {
+            yibanN2 = result[i].comment_content;
+            continue;
+        }
+        if (result[i]._id === 3) {
+            jiaohaoN = result[i].comment_content;
+            continue;
+        }
+        if (result[i]._id === 4) {
+            goodN = result[i].comment_content;
+            continue;
+        }
+        if (result[i]._id === 5) {
+            niceN = result[1].comment_content;
+            continue;
+        }
+    }
+    
     var scoreList = [{
         name: "一般",
-        value: result[1].comment_content + result[3].comment_content
+        value: yibanN1 + yibanN2
     }, {
         name: "较好",
-        value: result[0].comment_content + result[4].comment_content
+        value: jiaohaoN
     }, {
         name: "好",
-        value: result[5].comment_content
+        value: goodN
     }, {
         name: "很棒",
-        value: result[2].comment_content
+        value: niceN
     }];
 
     res.send({
