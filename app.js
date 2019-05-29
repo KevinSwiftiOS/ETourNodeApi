@@ -40,7 +40,7 @@ var QdhHotelTagWordRouter = require('./routes/HotelPage/ComTagShowTimes') // 千
 var QdhHotelTagSumRouter = require('./routes/HotelPage/ComTagSum');
 
 // 餐饮详情
-var restaurantsPage = require("./routes/RestaurantPage/restaurantAll");   // 餐饮详情界面
+var restaurantsPage = require("./routes/restaurantPage/restaurantAll");   // 餐饮详情界面
 
 // 景区详情
 var spotCompared = require('./routes/SpotPage/GraphCharts'); // 景区数据集：时间选择器
