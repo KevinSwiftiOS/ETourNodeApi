@@ -169,11 +169,15 @@ router.post("/", async (req, res) => {
     var granularity = req.body.granularity;
     var tags = req.body.tags;
     var timeType = req.body.timeType;
+    // console.log("startTime")
     // console.log(startTime)
+    // console.log("endTime")
     // console.log(endTime)
     // console.log(granularity)
     // console.log(timeType)
     // console.log(scoreOrNum)
+    // console.log("tags")
+    // console.log(tags)
     var xAxis = [];
     var series = [];
     var legendData = [];
@@ -234,23 +238,26 @@ router.post("/", async (req, res) => {
                 data.push(temp[j].commentNumber)
             }
         }
-        obj['data'] = data;
-        obj['type'] = 'line';
-        obj['name'] = searchKey;
         legendData.push(searchKey);
-        series.push(obj);
-        // data.unshift(searchKey);
-        // result.push(data)
+         series.push({
+             data: data,
+             type: 'line',
+             name: searchKey,
+             smooth: true,
+             symbol: 'circle', //折点设定为实心点
+             symbolSize: 8, //设定实心点的大小
+         })
     }
     for (var i = 0; i < temp.length; i++) {
         var x = xTransformation(granularity, temp[i]._id);
         xAxis.push(x)
     }
-    // if (typeof (tags) !== "string") {
-    //     xAxis.unshift('time')
-    //     result.unshift(xAxis);
-    // }
-    // console.log(result)
+    // console.log("legendData")
+    // console.log(legendData)
+    // console.log("xAxis")
+    // console.log(xAxis)
+    // console.log("series")
+    //  console.log(series)
     res.send({
         code: 0,
         message: "",

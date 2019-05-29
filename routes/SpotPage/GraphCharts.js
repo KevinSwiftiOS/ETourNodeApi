@@ -243,7 +243,10 @@ router.post("/", async (req, res) => {
         series.push({
             data: data,
             type: 'line',
-            name: searchKey
+            name: searchKey,
+            smooth: true,
+            symbol: 'circle', //折点设定为实心点
+            symbolSize: 8, //设定实心点的大小
         })
         legendData.push(searchKey);
     }
@@ -265,9 +268,6 @@ router.post("/", async (req, res) => {
             xAxis: xAxis,
             seriesData: series
         }
-        // data: {
-        //     dataset: result
-        // }
     })
 })
 module.exports = router;
