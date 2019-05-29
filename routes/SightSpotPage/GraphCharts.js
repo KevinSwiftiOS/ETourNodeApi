@@ -245,7 +245,7 @@ router.post("/", async (req, res) => {
              name: searchKey,
              smooth: true,
              symbol: 'circle', //折点设定为实心点
-             symbolSize: 8, //设定实心点的大小
+             symbolSize: 7, //设定实心点的大小
          })
     }
     for (var i = 0; i < temp.length; i++) {
@@ -256,8 +256,8 @@ router.post("/", async (req, res) => {
     // console.log(legendData)
     // console.log("xAxis")
     // console.log(xAxis)
-    // console.log("series")
-    //  console.log(series)
+    console.log("series")
+     console.log(series)
     res.send({
         code: 0,
         message: "",
