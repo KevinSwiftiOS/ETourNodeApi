@@ -2,13 +2,21 @@ var express = require('express');
 var router = express.Router();
 var HotelRegion = require('../../dbs/hotel/HotelRegionModel');
 
+function compare(value1, value2){
+    if (value1.sortl < value2.sortl) {
+        return 1;
+    } else if (value1.sortl > value2.sortl) {
+        return -1;
+    }else{
+        return 0;
+    }
+}
+
 /*
  * 获取同商圈的酒店个数
  * */
 router.post('/selectlist', async (req, res) => {
     var tradeArea = req.body.businessArea;
-    // console.log(tradeArea);
-    // var tradeArea = "阳光路";
     var result = [];
     if (tradeArea == '全部') {
         result = await HotelRegion.aggregate([{
@@ -47,11 +55,38 @@ router.post('/selectlist', async (req, res) => {
     }
     var obj = {
         _id: "全部",
-        countNum: totalNum
+        countNum: totalNum,
     }
-    var count = result.unshift(obj)
-    // console.log(tradeArea);
-    // console.log(result);
+    result.unshift(obj);
+ 
+    for(var i = 0; i<result.length; i++){
+        if(result[i]._id === "全部"){
+            result[i].sortl = 6;
+            continue;
+        }
+        if(result[i]._id === "五星级/豪华型"){
+            result[i].sortl = 5;
+            continue;
+        }
+        if (result[i]._id === "四星级/高档型") {
+            result[i].sortl = 4;
+            continue;
+        }
+        if (result[i]._id === "三星级/舒适型") {
+            result[i].sortl = 3;
+            continue;
+        }
+        if (result[i]._id === "经济型") {
+            result[i].sortl = 2;
+            continue;
+        }
+        if (result[i]._id === "客栈民宿") {
+            result[i].sortl = 1;
+            continue;
+        }
+    }
+    result.sort(compare);
+
     res.send({
         "code": 0,
         "message": "",
