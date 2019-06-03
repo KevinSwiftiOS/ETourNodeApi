@@ -259,7 +259,7 @@ router.post("/", async (req, res) => {
         xAxis: xAxis,
         seriesData: series
     }
-    console.log(data)
+    // console.log(data)
     res.send({
         code: 0,
         message: "",

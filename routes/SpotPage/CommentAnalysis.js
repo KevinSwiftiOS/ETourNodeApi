@@ -20,7 +20,7 @@ router.post('/totalnumber', async (req, res) => {
         },
         {
             $group: {
-                _id: "$shop_name_search_key",
+                _id: "$data_region_search_key",
                 comment_content: {
                     "$sum": 1
                 }
@@ -47,7 +47,7 @@ router.post('/totalnumber', async (req, res) => {
         },
         {
             $group: {
-                _id: "$shop_name_search_key",
+                _id: "$data_region_search_key",
                 comment_content: {
                     "$sum": 1
                 }
@@ -60,10 +60,10 @@ router.post('/totalnumber', async (req, res) => {
             }
         }
     ])
-    console.log("goodNumber")
-     console.log(goodNumber)
-    console.log("badNumber")
-    console.log(badNumber)
+    // console.log("goodNumber")
+    //  console.log(goodNumber)
+    // console.log("badNumber")
+    // console.log(badNumber)
     res.send({
         code: 0,
         message: "",
