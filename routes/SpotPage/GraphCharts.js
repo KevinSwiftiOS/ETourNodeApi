@@ -154,7 +154,7 @@ function xTransformation(granularity, str) {
         // console.log(str);
         var year = str.substr(0, 4);
         var week = str.substr(5, 2);
-        var time = year.toString() + '年' + week.toString().padStart(2, 0) + '周';
+        var time = year.toString() + '年' + week.toString().padStart(2, 0) + '周' + '\n';
         var newStr = trans.addDateText(time);
         return newStr;
     }
