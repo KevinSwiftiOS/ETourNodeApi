@@ -20,7 +20,7 @@ function find_limit_hotel(startDate, endDate, sortWay, commentNumLimit) {
     var promise = new Promise(function (resolve, reject) {
         HotelComment.aggregate([
             {$match: {'comment_time': {$gte: startDate, $lte: endDate}, 'comment_grade': {$ne: 0}}},
-            {$group: {_id: '$shop_show_name', 'commentScore': {$avg: '$comment_weighted_grade'}, 'commentNumber': {$sum: 1}, 'shopRate':{$first: '$shop_rate'}}},
+            {$group: {_id: '$shop_show_name', 'commentScore': {$avg: '$comment_grade'}, 'commentNumber': {$sum: 1}, 'shopRate':{$first: '$shop_rate'}}},
             {$match: {commentNumber: commentNumLimit['limitnum']}},
             {$sort: sortDict['sortway']},
             {$limit: 10},
@@ -48,7 +48,7 @@ router.post('/', function (req, res, next) {
     }else{
         commentNumLimit['limitnum'] = {$gte: 60};
     }
-
+    commentNumLimit['limitnum'] = {$gte: 10};
     var sortWays = ['前十名', '后十名']
 
     var hotel_promise = new Promise(function (resolve, reject) {
