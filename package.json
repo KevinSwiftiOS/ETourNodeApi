@@ -11,7 +11,7 @@
     "cors": "^2.8.4",
     "debug": "~2.6.9",
     "express": "~4.16.0",
-    "express-jwt": "^5.3.1",
+    "express-jwt": "^6.0.0",
     "file-stream-rotator": "^0.4.1",
     "http-errors": "^1.6.3",
     "jsonwebtoken": "^8.3.0",
