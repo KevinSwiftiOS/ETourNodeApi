@@ -15,7 +15,7 @@
     "file-stream-rotator": "^0.4.1",
     "http-errors": "^1.6.3",
     "jsonwebtoken": "^8.3.0",
-    "log4js": "^3.0.6",
+    "log4js": "^6.4.0",
     "mongoose": "^5.3.7",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
