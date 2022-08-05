@@ -16,7 +16,7 @@
     "http-errors": "^1.6.3",
     "jsonwebtoken": "^8.3.0",
     "log4js": "^3.0.6",
-    "mongoose": "^5.3.7",
+    "mongoose": "^5.7.5",
     "morgan": "~1.9.0",
     "pug": "2.0.0-beta11",
     "swagger-ui-dist": "^3.22.0"
